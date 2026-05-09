@@ -1,0 +1,1145 @@
+<!-- NomeDoApp = "Idade Gestacional pelo Ballard" -->
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
+<meta content="light only" name="color-scheme"/>
+<title>Estimativa de Idade Gestacional pelo método New Ballard</title>
+<style>
+:root{
+      --surface: #ffffff;
+      --surface-soft: #f8fbff;
+      --primary: #1e4f8a;
+      --primary-strong: #173b66;
+      --border: #cddbea;
+      --radius-xl: 22px;
+
+  --azul:#578ec5;
+  --azul-claro:#dbeafe;
+  --hover:#fff7cc;
+  --fundo:#f4f7fb;
+  --texto:#122033;
+  --card:#ffffff;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--fundo);color:var(--texto);font-family:Arial,Helvetica,sans-serif}
+body{padding:0}
+.app-shell{max-width:1480px;margin:0 auto;padding:12px}
+.app-header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.96);backdrop-filter:blur(6px);border-bottom:1px solid #d8e2ef;padding:12px}
+.app-header-row{max-width:1480px;margin:0 auto;display:flex;gap:12px;align-items:flex-start;justify-content:space-between}
+.app-title{margin:0;color:var(--azul);font-size:1.35rem;line-height:1.2}
+.app-subtitle{margin:4px 0 0 0;font-size:.95rem;color:#4b5b72}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+button.clean-btn{border:1px solid #c8d5e6;background:#fff;border-radius:10px;padding:10px 14px;font-weight:700;color:var(--texto);cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+button.clean-btn:active{transform:translateY(1px)}
+.quick-summary{margin-top:12px;display:grid;grid-template-columns:repeat(4,minmax(120px,1fr));gap:10px}
+.summary-card{background:var(--card);border:1px solid #d8e2ef;border-radius:14px;padding:10px 12px;box-shadow:0 1px 2px rgba(0,0,0,.03)}
+.summary-label{display:block;font-size:.8rem;color:#5c6f87;margin-bottom:4px}
+.summary-value{display:block;font-size:1.15rem;font-weight:700;color:#17436f;min-height:1.3em;line-height:1.25}
+.summary-subvalue{display:block;font-size:.86rem;font-weight:600;color:#4b5b72;line-height:1.25;margin-top:2px}
+.table-scroller{overflow:auto;padding-bottom:8px}
+table{border-collapse:collapse;background:#fff}
+td,th{vertical-align:middle}
+td[id]{cursor:pointer;transition:background-color .15s ease, box-shadow .15s ease;touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-select:none}
+td.is-hover{background:var(--hover)!important}
+td.is-selected{background:var(--azul-claro)!important;box-shadow:inset 0 0 0 2px #3b82f6}
+tr.is-active td{background:var(--azul-claro)!important}
+.small,.smCtr,.tdtext,.tdFont,td,th{font-family:Arial,Helvetica,sans-serif}
+.small{font-size:12px}
+.smCtr{font-size:12px;text-align:center}
+.score{font-weight:700;font-size:22px;color:#17436f;text-align:center;min-width:72px}
+.score > div{display:flex;align-items:center;justify-content:center;min-height:1.35em}
+.note{margin:14px 0 0 0;font-size:.88rem;line-height:1.4;color:#44556d}
+.references{margin:14px 0 24px 0;background:#fff;border:1px solid #d8e2ef;border-radius:12px;padding:12px 14px;font-size:.9rem}
+a{color:#1456a0;touch-action:manipulation}
+a:hover{color:#c62828}
+img{display:block;max-width:100%;height:auto;margin:0 auto}
+@media (max-width: 960px){
+  .app-shell{padding:10px}
+  .quick-summary{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .app-header-row{flex-direction:column;align-items:stretch}
+}
+@media (max-width: 640px){
+  .app-title{font-size:1.15rem}
+  .app-subtitle{font-size:.88rem}
+  .quick-summary{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .summary-value{font-size:1rem}
+  .score{font-size:18px}
+}
+
+
+.disclaimer-mini{
+  margin: 16px 0 24px 0;
+  font-size: 12px;
+  line-height: 1.05;
+  color: #5c6f87;
+  text-align: justify;
+}
+.signature-footer{
+  text-align:center;
+  color:#5c6f87;
+  font-size:14px;
+  line-height:1.4;
+  margin-top:12px;
+}
+.signature-footer .spacer-lines{
+  height:4.2em;
+}
+
+    /* PADRAO_CONVLAB_INICIO */
+
+    .hero {
+      background: var(--surface, #ffffff);
+      border: 1px solid var(--border, #cddbea);
+      border-radius: var(--radius-xl, 22px);
+      box-shadow: var(--shadow, 0 16px 34px rgba(18, 44, 73, 0.10));
+      padding: 20px;
+      background: linear-gradient(135deg, #f8fbff 0%, #edf5ff 100%);
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-size: clamp(1.35rem, 3.5vw, 2.05rem);
+      line-height: 1.05;
+      color: var(--primary-strong, #173b66);
+      text-align: center;
+    }
+
+    .hero p {
+      margin: 10px 0 0;
+      color: var(--muted, #61778f);
+      line-height: 1.55;
+      max-width: 64ch;
+    }
+
+    .espaco-antes-caixa-titulo {
+      height: 1em;
+    }
+
+    .legal-disclaimer {
+      margin: 16px 0 0;
+      font-size: 12px;
+      line-height: 1.2;
+      color: #5c6f87;
+      text-align: justify;
+      word-break: break-word;
+      background: var(--surface, #ffffff);
+      border: 1px solid var(--border, #cddbea);
+      border-radius: var(--radius-xl, 22px);
+      box-shadow: var(--shadow, 0 16px 34px rgba(18, 44, 73, 0.10));
+      padding: 16px;
+    }
+
+    .signature-block {
+      text-align: center;
+      color: #5c6f87;
+      font-size: 14px;
+      line-height: 1.5;
+      margin-top: 12px;
+    }
+
+    .spacer-3lines {
+      height: 4.2em;
+    }
+    /* PADRAO_CONVLAB_FIM */
+  
+
+
+
+.actions-center{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  width:100%;
+  padding-top:12px;
+  padding-bottom:12px;
+  margin-top:0;
+  margin-bottom:0;
+}
+.actions-center .actions{
+  justify-content:center;
+  width:100%;
+}
+.actions-center .clean-btn{
+  margin-top:0;
+  margin-bottom:0;
+}
+
+
+.app-header{
+  padding-top:1em !important;
+}
+
+
+/* Ajuste: o título rola normalmente; apenas controles e resultados ficam fixos ao chegar ao topo */
+.app-header {
+  position: static !important;
+  top: auto !important;
+  z-index: auto !important;
+  background: transparent !important;
+  backdrop-filter: none !important;
+  border-bottom: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.app-results-sticky {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid #d8e2ef;
+  padding: 12px;
+}
+
+.app-results-sticky-inner {
+  max-width: 1480px;
+  margin: 0 auto;
+}
+
+.app-results-sticky .actions-center {
+  padding-top: 0;
+  padding-bottom: 12px;
+}
+
+.app-results-sticky .quick-summary {
+  margin-top: 0;
+}
+
+@media (max-width: 640px) {
+  .app-results-sticky {
+    padding: 10px;
+  }
+}
+
+
+.app-reset-static {
+  max-width: 1480px;
+  margin: 0 auto;
+  padding: 0 12px 12px;
+}
+
+.app-reset-static .actions-center {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.app-results-sticky .quick-summary {
+  margin-top: 0;
+}
+
+</style>
+<script>
+(() => {
+  'use strict';
+
+  // constants
+  const EMPTY = '—';
+  const SELECTED_CLASS = 'is-selected';
+  const HOVER_CLASS = 'is-hover';
+  const SCORE_TOKENS = ['neg1', 0, 1, 2, 3, 4, 5];
+  const INDEX_ROW_RANGE = { start: 0, end: 13 };
+
+  const NEUROMUSCULAR_GROUPS = ['posture', 'square', 'arm', 'pop', 'scarf', 'heel'];
+  const PHYSICAL_GROUPS = ['skin', 'lanugo', 'plantar', 'breast', 'eye'];
+  const SEX_GROUPS = ['male', 'female'];
+  const SCORING_GROUPS = [...NEUROMUSCULAR_GROUPS, ...PHYSICAL_GROUPS, ...SEX_GROUPS];
+  const SCORING_GROUP_SET = new Set(SCORING_GROUPS);
+  const NEGATIVE_LINK_GROUPS = new Set(['plantar', 'eye']);
+
+  // dom refs
+  const DOM = {
+    resetButton: () => document.getElementById('resetBtn')
+  };
+
+  // state
+  const UI_STATE = {
+    selected: Object.fromEntries(SCORING_GROUPS.map((group) => [group, null])),
+    negativeChoice: {
+      plantar: -1,
+      eye: -1
+    }
+  };
+
+  // parsers
+  function parseCellId(id) {
+    const match = String(id || '').match(/^(.*?)(neg1|[0-5])$/);
+    if (!match) {
+      return null;
+    }
+
+    const [, group, token] = match;
+    if (!SCORING_GROUP_SET.has(group)) {
+      return null;
+    }
+
+    return { group, token };
+  }
+
+  function parseCellTokenScore(token) {
+    return token === 'neg1' ? null : Number(token);
+  }
+
+  // validators
+  function isScoringGroup(group) {
+    return SCORING_GROUP_SET.has(group);
+  }
+
+  function isFiniteScore(value) {
+    return Number.isFinite(value);
+  }
+
+  // calculators
+  function round1(value) {
+    return Math.round(value * 10) / 10;
+  }
+
+  function weeksFromTotalScore(totalScore) {
+    if (!isFiniteScore(totalScore)) {
+      return null;
+    }
+
+    return round1(24 + (totalScore * 0.4));
+  }
+
+  function completedWeeksFromTotalScore(totalScore) {
+    const weeks = weeksFromTotalScore(totalScore);
+    if (!isFiniteScore(weeks)) {
+      return null;
+    }
+
+    return Math.floor(weeks + 1e-9);
+  }
+
+  function splitWeeksAndDays(totalScore) {
+    const weeks = weeksFromTotalScore(totalScore);
+    if (!isFiniteScore(weeks)) {
+      return null;
+    }
+
+    const completedWeeks = Math.floor(weeks + 1e-9);
+    const proportionalDays = Math.min(
+      6,
+      Math.floor((((weeks - completedWeeks) + 1e-9) * 7))
+    );
+
+    return {
+      exactWeeks: weeks,
+      completedWeeks,
+      proportionalDays
+    };
+  }
+
+  function sumSelectedScores(groups, scores) {
+    let sum = 0;
+    let count = 0;
+
+    groups.forEach((group) => {
+      if (isFiniteScore(scores[group])) {
+        sum += scores[group];
+        count += 1;
+      }
+    });
+
+    return count > 0 ? sum : null;
+  }
+
+  function getSelectedSexScore(scores) {
+    if (isFiniteScore(scores.male)) return scores.male;
+    if (isFiniteScore(scores.female)) return scores.female;
+    return null;
+  }
+
+  function calculateNeuromuscularPartialScore(scores) {
+    return sumSelectedScores(NEUROMUSCULAR_GROUPS, scores);
+  }
+
+  function calculateNeuromuscularScore(scores) {
+    if (!NEUROMUSCULAR_GROUPS.every((group) => isFiniteScore(scores[group]))) {
+      return null;
+    }
+
+    return sumSelectedScores(NEUROMUSCULAR_GROUPS, scores);
+  }
+
+  function calculatePhysicalPartialScore(scores) {
+    const physicalPartial = sumSelectedScores(PHYSICAL_GROUPS, scores);
+    const sexScore = getSelectedSexScore(scores);
+
+    if (physicalPartial == null && sexScore == null) {
+      return null;
+    }
+
+    return (physicalPartial || 0) + (sexScore || 0);
+  }
+
+  function calculatePhysicalScore(scores) {
+    const sexScore = getSelectedSexScore(scores);
+
+    if (!PHYSICAL_GROUPS.every((group) => isFiniteScore(scores[group])) || sexScore == null) {
+      return null;
+    }
+
+    return sumSelectedScores(PHYSICAL_GROUPS, scores) + sexScore;
+  }
+
+  function calculateTotalScore(scores) {
+    const neuromuscularScore = calculateNeuromuscularScore(scores);
+    const physicalScore = calculatePhysicalScore(scores);
+
+    if (!isFiniteScore(neuromuscularScore) || !isFiniteScore(physicalScore)) {
+      return null;
+    }
+
+    return neuromuscularScore + physicalScore;
+  }
+
+  window.BallardCalculator = Object.freeze({
+    calculateNeuromuscularPartialScore,
+    calculateNeuromuscularScore,
+    calculatePhysicalPartialScore,
+    calculatePhysicalScore,
+    calculateTotalScore,
+    weeksFromTotalScore,
+    completedWeeksFromTotalScore
+  });
+
+  // formatters
+  function formatWeeksExact(totalScore) {
+    const weeks = weeksFromTotalScore(totalScore);
+    if (!isFiniteScore(weeks)) {
+      return EMPTY;
+    }
+
+    return weeks.toLocaleString('pt-BR', {
+      minimumFractionDigits: 1,
+      maximumFractionDigits: 1
+    });
+  }
+
+  function formatWeeksDetailed(totalScore) {
+    const parts = splitWeeksAndDays(totalScore);
+    if (!parts) {
+      return EMPTY;
+    }
+
+    const exactWeeksLabel = parts.exactWeeks.toLocaleString('pt-BR', {
+      minimumFractionDigits: 1,
+      maximumFractionDigits: 1
+    });
+
+    return `${exactWeeksLabel} semanas<br><span class="summary-subvalue">${parts.completedWeeks} semanas e ${parts.proportionalDays} dias</span>`;
+  }
+
+  // ui renderers
+  function getElement(id) {
+    return document.getElementById(id);
+  }
+
+  function setText(id, value) {
+    const element = getElement(id);
+    if (element) {
+      element.textContent = value == null ? EMPTY : String(value);
+    }
+  }
+
+  function setHtml(id, value) {
+    const element = getElement(id);
+    if (element) {
+      element.innerHTML = value == null ? EMPTY : String(value);
+    }
+  }
+
+  function getCurrentScores() {
+    return { ...UI_STATE.selected };
+  }
+
+  function clearGroupHighlights(group) {
+    SCORE_TOKENS.forEach((token) => {
+      const cell = getElement(`${group}${token}`);
+      if (cell) {
+        cell.classList.remove(SELECTED_CLASS, HOVER_CLASS);
+        cell.setAttribute('aria-pressed', 'false');
+      }
+    });
+  }
+
+  function resetIndexTable() {
+    for (let index = INDEX_ROW_RANGE.start; index <= INDEX_ROW_RANGE.end; index += 1) {
+      const betweenRow = getElement(`btwn${index}`);
+      const fixedRow = getElement(`rate${index}`);
+
+      if (betweenRow) {
+        betweenRow.style.display = 'none';
+        betweenRow.classList.remove('is-active');
+      }
+
+      if (fixedRow) {
+        fixedRow.classList.remove('is-active');
+      }
+    }
+  }
+
+  function updateTopSummary(neuromuscularScore, physicalScore, totalScore) {
+    setText('topNeu', neuromuscularScore);
+    setText('topPhy', physicalScore);
+    setText('topTot', totalScore);
+    setHtml('topWeeks', totalScore == null ? EMPTY : formatWeeksDetailed(totalScore));
+  }
+
+  function updateScoreOutputs(scores) {
+    SCORING_GROUPS.forEach((group) => {
+      setText(`${group}Num`, scores[group]);
+    });
+  }
+
+  function highlightIndexRow(totalScore) {
+    resetIndexTable();
+
+    if (!isFiniteScore(totalScore)) {
+      return;
+    }
+
+    if (totalScore % 5 === 0) {
+      const fixedRowIndex = (totalScore / 5) + 3;
+      const fixedRow = getElement(`rate${fixedRowIndex}`);
+
+      if (fixedRow) {
+        fixedRow.classList.add('is-active');
+      }
+
+      return;
+    }
+
+    const betweenRowIndex = Math.floor((totalScore / 5) + 3);
+    const betweenRow = getElement(`btwn${betweenRowIndex}`);
+
+    if (!betweenRow) {
+      return;
+    }
+
+    setText(`bScore${betweenRowIndex}`, totalScore);
+    setText(`bWeeks${betweenRowIndex}`, formatWeeksExact(totalScore));
+    betweenRow.style.display = '';
+    betweenRow.classList.add('is-active');
+  }
+
+  function render() {
+    const scores = getCurrentScores();
+    const neuromuscularPartialScore = calculateNeuromuscularPartialScore(scores);
+    const physicalPartialScore = calculatePhysicalPartialScore(scores);
+    const totalScore = calculateTotalScore(scores);
+
+    updateScoreOutputs(scores);
+    setText('nScore', neuromuscularPartialScore);
+    setText('nScore2', neuromuscularPartialScore);
+    setText('pScore', physicalPartialScore);
+    setText('pScore2', physicalPartialScore);
+    setText('totScore', totalScore);
+
+    updateTopSummary(neuromuscularPartialScore, physicalPartialScore, totalScore);
+    highlightIndexRow(totalScore);
+  }
+
+  // event handlers
+  function selectGroupScore(group, score, sourceCell) {
+    if (!isScoringGroup(group) || !isFiniteScore(score)) {
+      return;
+    }
+
+    clearGroupHighlights(group);
+    UI_STATE.selected[group] = score;
+
+    if (group === 'male') {
+      UI_STATE.selected.female = null;
+      clearGroupHighlights('female');
+    }
+
+    if (group === 'female') {
+      UI_STATE.selected.male = null;
+      clearGroupHighlights('male');
+    }
+
+    if (sourceCell) {
+      sourceCell.classList.add(SELECTED_CLASS);
+      sourceCell.setAttribute('aria-pressed', 'true');
+    }
+
+    render();
+  }
+
+  function resolveScoreFromCell(cell) {
+    const parsed = parseCellId(cell?.id);
+    if (!parsed) {
+      return null;
+    }
+
+    if (parsed.token === 'neg1') {
+      return UI_STATE.negativeChoice[parsed.group] ?? -1;
+    }
+
+    return parseCellTokenScore(parsed.token);
+  }
+
+  function handleCellSelection(cell) {
+    const parsed = parseCellId(cell?.id);
+    if (!parsed) {
+      return;
+    }
+
+    const score = resolveScoreFromCell(cell);
+    selectGroupScore(parsed.group, score, cell);
+  }
+
+  function handleCellHover(cell, shouldHover) {
+    const parsed = parseCellId(cell?.id);
+    if (!parsed || cell.classList.contains(SELECTED_CLASS)) {
+      return;
+    }
+
+    cell.classList.toggle(HOVER_CLASS, shouldHover);
+  }
+
+  function handleNegativeLinkSelection(group, score) {
+    UI_STATE.negativeChoice[group] = score;
+    handleCellSelection(getElement(`${group}neg1`));
+  }
+
+  function bindScoreCells() {
+    document.querySelectorAll('td[id]').forEach((cell) => {
+      const parsed = parseCellId(cell.id);
+      if (!parsed) {
+        return;
+      }
+
+      cell.setAttribute('role', 'button');
+      cell.setAttribute('tabindex', '0');
+      cell.setAttribute('aria-pressed', 'false');
+
+      cell.addEventListener('click', () => handleCellSelection(cell));
+      cell.addEventListener('mouseenter', () => handleCellHover(cell, true));
+      cell.addEventListener('mouseleave', () => handleCellHover(cell, false));
+      cell.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          handleCellSelection(cell);
+        }
+      });
+    });
+  }
+
+  function bindNegativeLinks() {
+    NEGATIVE_LINK_GROUPS.forEach((group) => {
+      document.querySelectorAll(`#${group}neg1 a`).forEach((link) => {
+        const score = link.textContent.includes('-2') ? -2 : -1;
+        link.addEventListener('click', (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          handleNegativeLinkSelection(group, score);
+        });
+      });
+    });
+  }
+
+  function resetAll() {
+    SCORING_GROUPS.forEach((group) => {
+      UI_STATE.selected[group] = null;
+      clearGroupHighlights(group);
+    });
+
+    UI_STATE.negativeChoice.plantar = -1;
+    UI_STATE.negativeChoice.eye = -1;
+
+    render();
+  }
+
+  // bootstrap
+  function bindControls() {
+    const resetButton = DOM.resetButton();
+    if (resetButton) {
+      resetButton.addEventListener('click', resetAll);
+    }
+  }
+
+  function init() {
+    bindScoreCells();
+    bindNegativeLinks();
+    bindControls();
+    resetAll();
+  }
+
+  document.addEventListener('DOMContentLoaded', init);
+})();
+</script>
+<meta content="yes" name="mobile-web-app-capable"/><meta content="yes" name="apple-mobile-web-app-capable"/><meta content="default" name="apple-mobile-web-app-status-bar-style"/><meta content="telephone=no" name="format-detection"/><meta content="Ballard" name="application-name"/></head>
+<body>
+<header class="app-header">
+<div class="espaco-antes-caixa-titulo" aria-hidden="true"></div>
+<section class="hero" id="sectionHero">
+      <h1>Estimativa de Idade Gestacional pelo método New Ballard</h1>
+      <p>Toque nas imagens ou descrições para selecionar cada escore.</p>
+    </section>
+
+</header>
+
+<div class="app-reset-static" aria-label="Controles da calculadora">
+  <div class="app-header-row actions-center">
+    <div class="actions">
+      <button class="clean-btn" id="resetBtn" type="button">Limpar seleção</button>
+    </div>
+  </div>
+</div>
+
+<div class="app-results-sticky" aria-label="Resumo dos resultados">
+  <div class="app-results-sticky-inner">
+<div class="app-header-row">
+<div class="quick-summary">
+<div class="summary-card"><span class="summary-label">Neuromuscular</span><span class="summary-value" id="topNeu">—</span></div>
+<div class="summary-card"><span class="summary-label">Física</span><span class="summary-value" id="topPhy">—</span></div>
+<div class="summary-card"><span class="summary-label">Total</span><span class="summary-value" id="topTot">—</span></div>
+<div class="summary-card"><span class="summary-label">IG estimada</span><span class="summary-value" id="topWeeks">—</span></div>
+</div>
+</div>
+  </div>
+</div>
+
+<div class="app-shell">
+<div class="table-scroller">
+<table border="0" class="main-table">
+<tr>
+<td valign="top">
+<span style="FONT-SIZE: 0.12in; FONT-FAMILY: Arial, Helvetica, sans-serif">
+<b>MATURIDADE NEUROMUSCULAR </b></span><br/>
+<table border="1" cellpadding="1" cellspacing="0">
+<tr>
+<td class="small" rowspan="2" valign="center" width="15.8%"> </td>
+<td align="middle" class="small" colspan="7">ESCORE</td>
+<td align="middle" class="small" rowspan="2" valign="center" width="10.5%">
+        RESULTADO  </td>
+</tr>
+<tr bgcolor="#99ccff">
+<td class="smCtr" width="10.5%">-1</td>
+<td class="smCtr" width="10.5%">0</td>
+<td class="smCtr" width="10.5%">1</td>
+<td class="smCtr" width="10.5%">2</td>
+<td class="smCtr" width="10.5%">3</td>
+<td class="smCtr" width="10.5%">4</td>
+<td class="smCtr" width="10.5%">5</td>
+</tr>
+<tr>
+<td bgcolor="#99ccff" class="small" width="15.8%">POSTURA</td>
+<td width="10.5%"> </td>
+<td id="posture0" width="10.5%">
+<img height="45" src="data:image/gif;base64,R0lGODlhQgAtAKIFAP///3l5eZubmwAAALe3t////wAAAAAAACH5BAEAAAUALAAAAABCAC0AAAP/WLrc/jDKSau9OOvNu/9gKI5kaZ5oqq6sCLwtCAjDAMQcQARDQNw4zKsWgAUXLyBEVxMojy8e8YdkTpOvH9bo4SJr2uFAIJDWzuazGv3MAAaExrsoJ4DD23yeRuj7/wJ9gYEEZHwONG0LiR52a4+QPHFyNhFvkx0BTnpbBUmeDzsTb4pClSBkDJ9fpRekIT6qpwqvHbUfqapPtxu8trMPZa0WoiG+ssMVbzZ/zc5+pceePHmucwHY2draZdrAi9/LkdiG5eVSyaPfnjSEMz1YaWTb9D7pFH1LM2RUcu/2R2wtK3Iv4BJHdAxqiNKjn0IhOwo+nEixosWLGDNq3MixBqPHjx8SAAA7" width="66"/></td>
+<td id="posture1" width="10.5%">
+<img height="45" src="data:image/gif;base64,R0lGODlhQgAtAKIGAM7OzmNjY4KCgqWlpf///wAAAP///wAAACH5BAEAAAYALAAAAABCAC0AAAP/aLrc/jDKSau9OOvNu/9gKI5kaZ5oqq5s61YEIQTEyxFAUAxDIdQ2C6EnAABxwFAMJPMlUYBBB6cbPFMAAWQY6P4Yw0LAaIiZz2ZJLAowohnZB8A3iPas0YI+IJh1/4B/X2BcYn1/Ynx9PHwOPVcEOoo8bWiWZncxA5J1SZdtUUUNBAVXCpFaNzo+biBjEaSmF7EjtBGiHTwjOZ5WDLodcSK8CzJPwBzCSjQSAlK5z8sAsKVT1bvXjqkbkWKdshqbkD10oJfncz+FAZ2EZ208uGB3RlFdbas+foJegUWeODYp6nPIC8FN20YJ5POkiboy59LAwlHJEpyEDiRm7DEGLlwJZTey7PA4LNqHMMxOkRGxpJZAfCmDYMAxY6VMbjdz6tzJs6fPn0CDCh26MwEAOw==" width="66"/></td>
+<td id="posture2" width="10.5%">
+<img height="45" src="data:image/gif;base64,R0lGODlhQgAtAKIFAK2trf///5SUlAAAAGRkZP///wAAAAAAACH5BAEAAAUALAAAAABCAC0AAAP/WLrc/jDKSau9OOvNcQhdyAUDKJ6XIKAsRZpt7AiA3Hyw+NpMQOQdH/CCw0V2J2SGRCAMmrSiSRn8bXZFgKr5JKhKSesSfMRth0SAEz2h6oq3gOD50QDISUFzDwAF7gNPfSqEhYR9DHdsGiQCUk5OgV1eAJWWl5VOjgWKLCQ1N3d9UhY+BJ0spxGqI2stbj14jLI6Kz09Yle5Jyq4Obsamyw0PXUKQlWLjMCxym3MQbS4VdIhsAWfcERQ0B2ox4CSXYbkhQOb3yhMNHpgcpIfWobyKpU56Ul/Wsbgeo7OD67xWPDH1RiAcU6oQXij2jEcWpowlIBslh8zeiBRwtdqM2KsSE+iGDnmcEk3F6QgVAzjcVlLCcQGYuOXpKTMEFpu2hCoM8jLnkCDCh1KtKhRTw0SAAA7" width="66"/></td>
+<td id="posture3" width="10.5%">
+<img height="45" src="data:image/gif;base64,R0lGODlhQgAtAKIFAJiYmP///3FxcQAAALu7u////wAAAAAAACH5BAEAAAUALAAAAABCAC0AAAP/WLrc/jDKSV8gNevtwghcKEoeOJ4o8aFTYLIMILxwA9B1IMy1c/cMDwa44BEVwmPBqCxVdABZVCagUldKhQr32BEIl69rTOb2PMwIYJh9qtiTdfu5M0Pk80gAMPhp8E0XazQ6aRY+diw6A1UCjC58HwRRO4yMlQOZVSBfTX0mkJmiO1NgpmtgLpN9AnA5WA1bYxyLiSJOEFUnHgBEOom4t7AwUUGEhhu/QK1Bw8gayj2ABbNIzxnBMAQCJMO03ijZDdEhOq7Ez0Iu5Y62t3XjopekX6llY3xeTXyoq2CR9ShVkbKj4KYCfvYVBLOgkK11NtzBMHPh04ZpeSy0+yMxQiOvjhgzQqhF4ZrIWOB89Jk0qVTLKR2FdbwQpp7NMVuyiKthcldKRT2FnesRNMSOORClFT355CfTZE6fQospteqGBAA7" width="66"/></td>
+<td id="posture4" width="10.5%">
+<img height="45" src="data:image/gif;base64,R0lGODlhQgAtAKIFAP///7e3t5KSkmpqagAAAP///wAAAAAAACH5BAEAAAUALAAAAABCAC0AAAP/WLrc/jDKSau9OOvNu/9gKI5kiQECYK4KQKjsKgQjfNoVMOBeMAQ8iW4gKAaAgGSS4QpyUARCytlwEa/RLGHAnQUItBpUuozoFsr0MVAU/FZJN7FcfZ1iBcA36mziLXFbUw86VDVug2hjSBOFLDpRXHxJPlpyXJhbmDN2Ji6JelpRRkdqa6eRhk+ddUiqhF+vGkVmrLM7NbatHX4ivRC0HTOHTLgLwRzDvgNMQAxuHsohvw9vq7IXjhDUGT7Y2botRLzhH0M8Y1JraeztAlvfJ++uPjtHopiSA1r7kvEa6Yy1CEUGRjslPv7koeMgzr5Edf7hISiQQUKFFMZAZFIOO+PCSjNUXRxo6oicMCBQdHHWaAubIvuydGkTSwQbho28lGoX0WMINj5TdgwKTiLRKimOKl3KtKnTBgkAADs=" width="66"/></td>
+<td width="10.5%"> </td>
+<td class="score" width="10.5%">
+<div id="postureNum">
+ </div>
+</td>
+</tr>
+<tr>
+<td bgcolor="#99ccff" class="small" width="15.8%">ÂNGULO DO PUNHO<br/>
+ </td>
+<td id="squareneg1" width="10.5%">
+<img height="45" src="data:image/gif;base64,R0lGODlhQgAtAKIFAP///6mpqQAAAI6Ojm9vb////wAAAAAAACH5BAEAAAUALAAAAABCAC0AAAPPWLrc/jDKSau9OGPAQQBaGHYDIQgmKK5Q55nC8HEFQKgsywXw2TkAAS43Qg06hIDkSFwFcU8JYNAURRW8Ca2quV654JpQPAxXnymzOSj4qNfjN7wsb37r5zg+T987b358gXaAgzl3hkV9iReIjBt6jxk2i5JakZYWjplahZyamJ9SoaItnqWjlagLlKuXqq6trhGysw+bFB40Uypba6egKUE8HANMcxU/ZJRUvAHHYcpaNjMxKG6UvpxsHc8eNVSlHARHvDJPMqjS1CDstjkJADs=" width="66"/></td>
+<td id="square0" width="10.5%">
+<img height="45" src="data:image/gif;base64,R0lGODlhQgAtAKIAAAAAAMbGxqGhof///4SEhNPT0////wAAACH5BAEAAAYALAAAAABCAC0AAAPNaLrc/jDKSau9OOvNu//YQIxkaZID6AVAUAQs8L7wzApqF+DKAKSRXY4TICxGQIiAN8wUFYLfRNh0EkTSKbNqiQmSkiUXwwJPBuaxhKrmstvNNzwnn4Pq9tU2/8HzN35/TnuCgISFg4h6ijpGjIaPkJGJk2SHlUGXmA9PmxWBngwFmqELoKUGp6WdqBCqBmBpf6wQA1EBsFEFubJtA7trLT9FPiKjpQJXJLsEMATAnj4AAARSAri9kWgiS7jPrbAAUWjiWai/Xwqj2eAZCQA7" width="66"/></td>
+<td id="square1" width="10.5%">
+<img height="45" src="data:image/gif;base64,R0lGODlhQgAtAKIFAAAAAP///7i4uGxsbKKiov///wAAAAAAACH5BAEAAAUALAAAAABCAC0AAAPQWLrc/jDKSau9OOvNu/9VEIDkRQDDWK4QQQgAobJ08RbBKdfsrcCxGc/jCwBEOuFQczMSFoFBSrm0EKTHhmhwpFYlJxFkO/1WfBKy18xAT0QAATvipkTnLfklh3/U3yl9DQJ6FlFrbH9piImFghyEj0SOkhmKlWeUmFaamxSRnhigoZykJp2mD6OpYKisba6vCpeyP7GytLW5sqsaOQIjOcFiNL0YUVdwYQIuNcQbhyJ8hMBPrDBcAZHCwK8CKS7b1rJGUcApgbU4Azvf3eoZCQA7" width="66"/></td>
+<td id="square2" width="10.5%">
+<img height="45" src="data:image/gif;base64,R0lGODlhQgAtAKIEAISEhP///6+vrwAAAP///wAAAAAAAAAAACH5BAEAAAQALAAAAABCAC0AAAO8SLrc/jDKSau9OOvNbxBBJ3bDEI7oBZRn6kZAEJhv7cTE3No1TrA8WyywEtCCrtUAp0OmAD5F0ymKLmYCasd6PWoz3G72iwl3zeQHWgrdpSFrqfcNd6vtdEZcsX/3+2l/eHl8g3qGeX0yhHWMW4iOEoCRN5CUd5dglpmHnCqbngSTnqOcpZmnl6mUqzIyAgAgrlSLGkY5Jq8CY6G4A7iLILyeWL8zK66gbzMlIAq7vQyuJrtT0dI5RcrXDgkAOw==" width="66"/></td>
+<td id="square3" width="10.5%">
+<img height="45" src="data:image/gif;base64,R0lGODlhQgAtAKIFAAAAAJSUlP///7i4uMXFxf///wAAAAAAACH5BAEAAAUALAAAAABCAC0AAAPXWLrc/jDKSau9OOvNtxBd2AWDaGYBAJ7slAZtDAXpKt9FQBAqfpMFQMkXow0APSIrpaIpl7CCIPkM6RaDgK26ASqmBO5o+KWKMd6F84wKM6ZbNiWNjcor1wb8jie/zXwPeXpCgRJ0b3aGDoOEcYsKjYmPkJILAlqQjH5/lIuWX5maDKBSnp9uo3ipqi6srRGIsIKvs4y1tqS4uZG7vKUPAlkDIARXAgSnLcQXcADJKioDWconH80gJNNSOjTVd5jSYZgf33LXRiWYvNTe0eZ8mN5SQvC8DAkAOw==" width="66"/></td>
+<td id="square4" width="10.5%">
+<img height="45" src="data:image/gif;base64,R0lGODlhQgAtAKIGAI2NjQAAALq6uv///8PDw56env///wAAACH5BAEAAAYALAAAAABCAC0AAAOyaLrc/jDKSau9OOvNu//aIIzCAJ4TEQQAi76PACjEDN+KTNs4TBS73u0XFL50hprxCEzylh+iE3oSNJXUj7WY7WwNyC7n+xVvvlKzBolVZ6Qi95pnkmPS9kw5j9nzLX5/FIGCEniFE4SIMU2LKY2OEYeRDoqUOZCXDZaXk5o0mZ+gopWhEwMFBSYDrGKeEgUAsQMAAgRirRcDAay8snWXu72swMG8wqQGtAQqxZ+0vMkbCQA7" width="66"/></td>
+<td width="10.5%"> </td>
+<td class="score" width="10.5%">
+<div id="squareNum">
+ </div>
+</td>
+</tr>
+<tr>
+<td bgcolor="#99ccff" class="small" width="15.8%">RECUO DO BRAÇO</td>
+<td width="10.5%"> </td>
+<td id="arm0" width="10.5%">
+<img height="45" src="data:image/gif;base64,R0lGODlhQwAtAKIAAP///3h4eKCgoAAAANnZ2cPDw////wAAACH5BAEAAAYALAAAAABDAC0AAAP/aLrc/jDKSau9OFMASCGAJo5LMQSBEJwh6W7CULTc2r64g94MMfA5nA/IMBGDIkCAIFEykS/Aj8FpCATQFyHQGPa4WdK20eEpwyTlsQhGa6TrRaDgHl2b0/pbBpHS9UkDAkA+bYAaMYIfKgOCh4EEBFcpIHCPFRwhNg9SWJlxekqNK41Hoo2jT5cGMTMGPo4QpJkmf49GCkoFArYOuwUBNAOqoXmswUsRW0pYucZ1wAtDln0/Uk9Oh7vOTGoR3risvW68Cim5wd/px5rjaNHhY+o0cwbroSnGkk3JziqgSGoxuCOhnwITxPScK9IsgoCECwEBA1KuYMJrgKgNdNegex6ZZ2E8PDAIoWIDV6vkADSZss+9kg1bcnr5gKVMHQl1cDRQhWfPTLmyRPsGsoSnWfZYbMnpItvMnSawDJmjZs6iLD5yKqHJkCcqD3R2OYXiY1CmQqC2dZJRblsdAIlWUJ2wb6KKMTbRfAJ4kI6UUqK43iRD42fPwUESAAA7" width="67"/></td>
+<td id="arm1" width="10.5%">
+<img height="45" src="data:image/gif;base64,R0lGODlhQwAtAKIGANHR0f///2lpaQAAALOzs5KSkv///wAAACH5BAEAAAYALAAAAABDAC0AAAP/aLrc/jDKSau9+IYAAAlZKDYBIQhFeoJjawUnwBrlMLu4Axf3Eti5IAMg6A2LwiDM2BAAkrklY9MAFKA4axW40GJbXp9seP2OYJSwOSOVFAjrUUryY8Ypv+cDpr+Hfh8kA2V+IgUDKB0Eh4OFInUeBSgfbY4TJW+HTD+ZgZYkJyqImwKIiyh2cYAsBANwEKV6AZqfMK80A64RrVwGralYRDOSSBBEArd8los+NsV7Rb3MjgV6AAMyzzpF19aEfouzQGrbIJyYlj+DLOSgLOLYltc8C9MQlTW3qod9CgT65aqgumPFyL8J1XQkVAXhDcJ+Uz4xWBiBosSKEB04vOgmn2ODjRyhAfMFMKQPbQ8OmgwoQeXKjyWnFKOigEqJQDR9vCMwpoS5MRUqOTCx4VfNeCpkpJgxSwAufpyK/IsJ7dsUIDXMQXXKJ5wPSbj4eCD5zyqdgWLiLSiCyQmaJTZtXoGR6yZJDiNJHHrjIYbMDbkQEaEx0+ssA8JSHHT5Z1EKoCc3bECFbA40XCY+OEEJBa9OGkvvWUMGgojHlyISAAA7" width="67"/></td>
+<td id="arm2" width="10.5%">
+<img height="45" src="data:image/gif;base64,R0lGODlhQwAtAKIFANDQ0LCwsJGRkf///wAAAP///wAAAAAAACH5BAEAAAUALAAAAABDAC0AAAP/WLrc/jDKSau9GA8gCBHAkI0kM3hBAAQeUL4XQISm7MI4dIrPnv+MmUTGA+J8EaQRxmkAbgtBYIlLNTzFgpX62i4GWe2UW2pOpOSSskcIpy/oCOutFj6I9LogO+iM8yQeHykdLYAkOwMBAlJgc4cUG4ssBDqDjZAOMoMeApaXH255NjyGbG0KfaiQSpuiCoVFj4dWYCcdr1qMe2AFq3RgnYIBa057gh+huUyFnSq9Zpa2ks2YQIogtg6LEsUFtinLXF5s4pmwf+XnFCDdv+sQ7Unv8A7y0vUR9A3e+d/7Jvb4c9CPwb2BqQAahILwn7iDCAsmNHcOIj9Uvb7xUHQjdOOXLDT6iNBmAU88Yri+dYDVIcSiIrcWEDnBQhE3OJ4e1FSEceUJlSsEJsx5og23FEE1YAm4CkkflQ5D9npK0+iUFRsoMiVAKNSXppV+KnlZoAklrlaiIQpK7OLGsDPiaPJkq80Jk2SypurotQdIETYa4kgAADs=" width="67"/></td>
+<td id="arm3" width="10.5%">
+<img height="45" src="data:image/gif;base64,R0lGODlhQwAtAKIAAM3Nza+vr42NjWZmZv///y8vL////wAAACH5BAEAAAYALAAAAABDAC0AAAP/aLrc/jDKSau9OCvCuf7gQghDMZQBEa4WUAgdJxQAa0ME/bjq7Ru53iP4uwUEE0GgyCIMhJuGE8rMTBlE0bMKuooAUC/XupWIxxhBTQJAojWA8nCwfmOcS0hAbr/kYFIzVH0tBQUBYG2GfIQWSiMkAylZjWYAlwEFQlAnl2CVUpkDJIaDCpkvJYCgI08qLpoQLm4jsWgEAYgcez21AxE5tga8BAC5dTe4pItKxqN5QyZ0RyXSj1wdxkckbciBbc+XHaAbZw5q5BPmDbnpZozs0O4O6wzt83OmC/f4gfqn8vopaDPhiMAGBNm4OThwoSyHB/nhgCjQ4DuG+wI6SIjRgGIEjwzrbSiDiw4QEipwhfkEZI0TGCo1KIkQp8eemkdqqoHmJFaOX07aIDryD4eOjcIejdqyE92Gmi2RODkJqahRmEBqhTEhTQW6lCmAkAQq1ZVVYDNOqKLSQRLTTWG9TJ37qwkHMKbi8IqDMt8GNwK4ESoGqFjYIR6ybtCFMUQCADs=" width="67"/></td>
+<td id="arm4" width="10.5%">
+<img height="45" src="data:image/gif;base64,R0lGODlhQwAtAKIFAP///5ycnHd3dwAAAMLCwv///wAAAAAAACH5BAEAAAUALAAAAABDAC0AAAP/WLrc/jDKSSsEGNjNORBDKBBaZ54KEAxBRoAlKlPAIMRLTcx8FNyXAa7Xqw0bgQBxWUhOjMweMNdifI5RzzRVZXSzpytlCzYFdhJouYKxCiWvRnvtOFsFyuDwQ3eIcyxHNXlehH0pb24DJBgEK4mAWHR2bi8hIS1kBWqHOTdtgykZCisaGXidcpdCBIsQrS2rkn14AK0hkjW4KpCpCo6bl7k2b5S+kUlxFzdJnMcKAjDAPiQ2msetO8YPwDrPcmjXDNMk3w9/y+ZpvX4C6hHO7bPm8XLi7+jn9+r58u/6T9j922TonMB/fNLsMzcN3kF8Bf085Ddxk7uBDkbA0wivRosKU3Oy1CN1MUgpHawaigx052EjZiOUOCKgUiSIM5a+WPlR7VG3FuXoYPgxYpjHFzEL1MRIsGimai/mISTxAs2HoEx7JAAAOw==" width="67"/></td>
+<td width="10.5%"> </td>
+<td class="score" width="10.5%">
+<div id="armNum">
+ </div>
+</td>
+</tr>
+<tr>
+<td bgcolor="#99ccff" class="small" width="15.8%">ÂNGULO POPLÍTEO </td>
+<td id="popneg1" width="10.5%">
+<img height="45" src="data:image/gif;base64,R0lGODlhQwAtAKIAAM7Ozq+vr5OTk////wAAAGlpaf///wAAACH5BAEAAAYALAAAAABDAC0AAAP/aLrc/jDKSau9OOvNu/9gKI5kaZ5oqq5sOgBFLAytN8QBAAREUG+3GWNAAPwkr4FSQaQ1msfHjUCNFQgFgNKpKHCji+Y2F7BWC7neEswkfMNjwZWKDeReurdJKaivpXx0ggVyWHoiAFgCAgF9RUoAi31XMow5WkuQBEIkPG8vdIQCmFsVQYccngYvTz0fQSJQBo0Osh22HotwD4wgtK9eFDCoFzfEFrgQxq9uwMdtzxTLNs0T07fVt8ETw86+AhRZIL0gyQ2J0dbZH6oPiVrUPrF98GE8Z4t5f0ib6RgwohZhwaSjUQx8o7ZkGsAjgL8MLxoxIqZwx6I5Mig9BFMxSg+bjyBD2nACw+EscQw3qiACjggPLUXcWBIZphcRGDt82Ikkj6aBHavoDBg1y+E+kXYMyBk6M6lPBkkT0buB7ukQGi8S/uRktUMCADs=" width="67"/></td>
+<td id="pop0" width="10.5%">
+<img height="45" src="data:image/gif;base64,R0lGODlhQwAtAKIGALCwsM7OzpKSkv///wAAAGhoaP///wAAACH5BAEAAAYALAAAAABDAC0AAAP/aLrc/jDKSau9OOvNu/9gKDqDMIwoNBQFETDDmYYrEBNmyRb27MWLEgEXC7BkPtAAQECWBMlRwBVsRkUDQs8geF1pRK73qzwWkOSPsJBGMcdt0HRriMUAgADwurRTsjwAAi0EBQKHhXAoS0NDPDJ2S4eEOAI2fgoDUyYpTF12AQKVLSyWl3sSOmgfTKsKU02YGjVYViWrWYobWa6zPJmcDQBnIJZKVqnIHka9GHgVz2rEHgW6D4LHzRfV0FBqyhzGFOLL0x0rFeYd5OfgD7zf2hhT2rnSACODvSs4Af6RF7IEE8HkVAxRlg4NImToEB49AO9okcdhDSk6mSIFwDOJUOGOMFEiUXynEVWckyhTJtmzRE+dHrJUwvhV45OhJnjwyWxAi5meZzmj7WSwkUuhJl0M4NE0Ms4zUZKAWhuqFF+uR9XcUc34ytAJI1O3ckgAADs=" width="67"/></td>
+<td id="pop1" width="10.5%">
+<img height="45" src="data:image/gif;base64,R0lGODlhQwAtAKIGAP///5WVlWxsbAAAALm5udPT0////wAAACH5BAEAAAYALAAAAABDAC0AAAP/aLrc/jDKSau9OOvNu/9gKFZFAIzoAwTCEKTwAhAAIBRxrgDDqccEge+HshGIMN4QKSr0ZoEAjekJDFyE4OBI3fC4uwGuq1EyzOQMoccQHGs1JKAQp9hMBYL1Omi5l0UFLX03Q3BzeoN9UQR0cIJsKTZudHkCbol+AlKOdRBOY01bgAZrW51ekSA8OCuAaB5BIm47Jg5BpBk2ubpCE7sgUSB6FVIgJcFgEsQfNskVzB7IH9ESxtQvzb4SsBw2oR60EoK8F+Qh3Q3pZarHYg9OfVmNhxZfKU6FNZCNelGDly5x6nSoBbgRMy5d+ePgUIE8/xQGvDJFx6FyERw6SsOxRaNHEZ7gGJhxQuTHMywWOKkREIqyk5NKXoFiQEqWbCdlvDDSI0spPBjTrDCQb4tPnzkbChiZ58mNbUnPhJpzIsjLqB4SAAA7" width="67"/></td>
+<td id="pop2" width="10.5%">
+<img height="45" src="data:image/gif;base64,R0lGODlhQwAtAKIFAP///6WlpYKCggAAAMfHx////wAAAAAAACH5BAEAAAUALAAAAABDAC0AAAP/WLrc/jDKSau9OFMAQtBg6BCDMABiCnKFQKiw5sW0BZx1Ht2o7jeun1BB+Ax/vKMvqdQJApxeE0YaWAXSaYjHCeC022/BmwVjgotnlGWukDhFq/xa1nUIbEc0Ln8S8GteWEtec1B7ASZXAYB1DAAmjiI3A42UcwIueTYDRjFvepSbK2IpSR1lTCqJMDcvBah6pWGSF6oQt7SrnhIzKrkaaBMEAq2zwa/Dxb/HGb4TzyKgpoMTzRjAGtmP1xeJtRjTD66r3cHNlE+MlmuSkObaXoCwACTqiZmKc1f3HiZQSBQJdNcOThEPHvAoademoUMhbCC9ihXloZ5MsDqduBGJMhgvixk/sCBWZEyRkiAZoCzwhhFLKApTLugA65vJMR9lvmS5kcMJeA5H5kNBIpnOFAkAADs=" width="67"/></td>
+<td id="pop3" width="10.5%">
+<img height="45" src="data:image/gif;base64,R0lGODlhQwAtAKIGAP///6urq42NjW9vbwAAAMjIyP///wAAACH5BAEAAAYALAAAAABDAC0AAAP/aLrc/jDKSau9OFsQxABaKDZAURDgqI5Bsb5aC89WENC4ZOe8U9y9oGEn7P2KRgGSBxCkljMAgeCEwgqfAMq6AgwU0idX4011DIB0GrrefEqCqZwwCIhzaWqhTUr/5gMCLWppAwQueCeBgVN7JR0DhoEtjncMUkBRkXx5U5OVGVKIL15VfGhxlmRbLwEfaKwLXpkqgqSsag5hpK8qWBUDoyO7tbQRBUpdvSMCwsfJKsTMxhDIobqxIkcUtiu/XdkP0iJlMN0RZyuuUYfHh7lkWqrkBHYkcYCBgoOEp4XhpOIIMiGwX4kfkAzlE6TQXo8mkQLN60OIoIBmE8do3MixPQuiWSCw3OCQccwJJWGCpeTwo6QVDkqsIYzZollHcTRR2bJ26iYYlF9mDnHmUxbQVFJSFRWXgiQYh0thJAAAOw==" width="67"/></td>
+<td id="pop4" width="10.5%">
+<img height="45" src="data:image/gif;base64,R0lGODlhQwAtAKIGAP///6ysrIuLi2JiYgAAAMzMzP///wAAACH5BAEAAAYALAAAAABDAC0AAAP/aLrc/jDKSau9OGswCClaKDZAOQRjmgqg6mIc8M4VQMh0DsV63xQCn1ABHAoDKGNPkFTSeM7nCRd12QgDanUUE9y2qcKAOFaUqoCCdhIQlApYwWDOWj+BnkGdVAK0vVhxSGp+cy05HHpvAXMBBW1zkUwBfWcOaQSUTwRuJAF5TIR2EzaHKqVma3CmIjajGgJBCkgOjK8YbVZfqZcfurcWRRSMLywquRRQK00iTBVwwBa0KdMTYtEVxikcFcSnu1zgO+Ii1y7mEbG/LwByr5+U2BE2zKdza+0e+o0FotE2nZ580oPEi5tKj2LNycPPHx5NPdL8gbgD4Z9IeSiCyVBJO97Gj1WAtBADIo1HMABv0LuBpB7IWm5CoWhZ7eWDlJMMPDJpc16hljpd9iThJgsHdEN3MBo5gFVSFQkAADs=" width="67"/></td>
+<td id="pop5" width="10.5%">
+<img height="45" src="data:image/gif;base64,R0lGODlhQwAtAKIGALGxsf///5CQkGhoaM7OzgAAAP///wAAACH5BAEAAAYALAAAAABDAC0AAAP/aLrc/jDKSau9OOvNu//gRgRhaQUFaa4RkLIwgwpqvAZCQdhwMLy8FaEAqAVBOOAxNDMuOwHX7oksEKmgoWAwwC6clGTRJQAIRsGAj4iGqAMEl3U+KAO4tJ68vC3Q3gBmXAV4AmdvNWo5YB5JbQZqc1Z4ACNqFi6MHFskl185lh53mhlDnToOW0gDAFUqbw4opBc+sxW1FGWuH2YVBAO2FWcfumHAIMMehrfHxFMdBAIVvR+4jUoRrLsf2hKyyNLbDyitH6YlQ88yk4FFiBfnJiisgD+V0VuDhIb37wpwi/T04VIk1hsCcfL92DeoTrBGnjIcNFPpoZeLGDNCMbMjPsqAjgU1tiCS4tevKIFEjvNBg8+OdilV/osGTIufPIFgyTQwpBycOxwNxNw50xDAWiabEZWhZhSkO+qWekgAADs=" width="67"/></td>
+<td class="score" width="10.5%">
+<div id="popNum">
+ </div>
+</td>
+</tr>
+<tr>
+<td bgcolor="#99ccff" class="small" width="15.8%">SINAL DO CACHECOL</td>
+<td id="scarfneg1" width="10.5%">
+<img height="45" src="data:image/gif;base64,R0lGODlhQwAtAKIGAM3NzbGxsZSUlP///2lpaQAAAP///wAAACH5BAEAAAYALAAAAABDAC0AAAP/aLrc/jDKSau9OM8RBBHBoI2kMQiFAKyoIJbw9r0LR9BxXhNBBBQ4XawzCdyEucFRogwiNcqK6gkD9BinYOBKHVkb2QaxOzpVAgByeRlpqkegIuFdBrbtG+ebgAcX+g8DAARpdDsBBSEDixyJgFhGhHpkUScEfH9HjyYeLoaCLIsCNYJ8Hz+FJoM8k1QDf0CCozUuix1/IYg3rUiLVgVLW1iLDCimvEK+aIw0caQ4RMhJgsuTnjUhDACzbxzVTGwmQW5vAMQU5AphO9KG7GBg4e7gOBxBU/MU22DmYqn5EYQN08IFIASBtILsMxgBHxYHCxk+kLfuncR4485ZvLhRSZ1GdfIuplOXrcE1jupO1njgEOVITuNCSnz5EWQ7d2Ow3SuI0gQgQfU2ofxBg9ECVD0foBLBgaTQpCYuobHS6SZHDgJAlISaNAEAOw==" width="67"/></td>
+<td id="scarf0" width="10.5%">
+<img height="45" src="data:image/gif;base64,R0lGODlhQwAtAKIFAAAAAH5+fqOjo////8LCwv///wAAAAAAACH5BAEAAAUALAAAAABDAC0AAAP/WLrc/jDKSau9ONtBRBDCoI2kQgABoQqoWL7TwLoLB9Bwzng4M9y6YOHXaxACQl0qBkyWiBQBwfkM4Dg9EJU0sPpCDe1WA51IxyOvpFtEU7rMtnvdfJTnmNPU0a3j7QM4AQEtgYEnhHJBHCqGjjIAhQVWfZGEXmBoj5uQKSJQnYELZzGaV2pDkTSkEF0Cfwp3Q4kKYnYtsLNXNiFwfLS5BR1fn4NHVywEimissS42dT+ZwbV7sdPChcDUC6jODYSRytw+3obg5+Q+flhh1uo1fkNZr/DlyD3D9jVIDaL3+0zUq4FNV8ACzeb1kAUv4Tx/3uBFlFEkojqLbQpeXDgOLt1BfT4WylMnK92CIwdnvWsXbxm1kjRcpYzXMZM0l+T69ApE6N1MgoOM4fzpJAEAOw==" width="67"/></td>
+<td id="scarf1" width="10.5%">
+<img height="45" src="data:image/gif;base64,R0lGODlhQwAtAKIFAAAAAJ+fn3d3d////8DAwP///wAAAAAAACH5BAEAAAUALAAAAABDAC0AAAP/WLrc/jDKSau9OOvN+xhBIAjE0J3XIADkQKyBic7PAJQNCMh0b/OOX4+mIkxCw5lQskxykDmHAOjMTHNXRsBY3WxzOC23m4FOsmRME7JOV1RUh9md2kXadIrNDgbw8xY2BH4fHwGEf4B6AgUqfiMxJmhBcXQEAQqOVDFsApiKCl8Lg0CiOQCfoAWmmTejqaOJinAMLjacILUjlXlrH40rH4ytnL2/C74yIFNXgkOFJYXSey2NibYLhzukSdPeH36RwDlUgyy8aYUMLznFC7uqEXONce7xUlTYYvc1k/QOl/gFkXVMFzpQtGqFQSaLX8JaAw/OgpXJnjWJgHKRC+KPNV9AMPka3nuYqWArjL38mVTwUWCtawsvupSDxmSRmUFEKCt2C2eNQVugBfN559IITyuJxksAADs=" width="67"/></td>
+<td id="scarf2" width="10.5%">
+<img height="45" src="data:image/gif;base64,R0lGODlhQwAtAKIFAMfHx6GhoQAAAP///3Fxcf///wAAAAAAACH5BAEAAAUALAAAAABDAC0AAAP/WLrc/jDKSau9ONcxQiABMGhkWQyEEAIfAZhw9YkMB45x3gAE7qAEnfAk8D0GxWGORWEZlRnU85iEkqQ1Wq1nvXIXndd22qVgJ+cyJmT+qi9piOutmUeQZLoEIBA7+AF6GQECBD0ciCkggms2AoWGN3GMElxSiDiTlEeWRVoKmpsNWJdGoaJgXx4cDW6oP0GgLk9srw9MoFUMuLY7gbK6CrwnA35vU7XCriexHYbGajweNMlET0g8kmqYHY9FI654YN19eTCYAOkiiT6Tli0p5jDq66xgo8uKKjTLQvYWk8IYqdaLxw9kv3op8PBnyrBeDEdN6aBwgZ1dE/uh0shJNh6jiws+pfIoKGINhwkVijuJjyQjk8Ke8HApaCUoU8EqEtESIBMfaDqZSeKQjeYrZ5F6Bu2VAAA7" width="67"/></td>
+<td id="scarf3" width="10.5%">
+<img height="45" src="data:image/gif;base64,R0lGODlhQwAtAKIGAP///7W1tZWVlWhoaNHR0QAAAP///wAAACH5BAEAAAYALAAAAABDAC0AAAP/aLrc/jDKSau9OOvNuwKAIA4B4J0VMJBEKxSCic4NURDyEg45jQKFXiPA8/2KERXBeFJRVEImRhB4IqUawZIRakCxm5i3yr2CLwGy5HvGEMwPdtsijw+284stuiDy80kFBSVeAzCAbneCJQAEL1pwiBGOBo0rK1qVkZIPVFwgOpucDZk6AmV/ox9moAylqnFBXGoKabAQQD2tfae3Dm+6QpS+QwNjXr3ECyJeQnXEJMdcssqVN82FqW0g3NYkVAEiImngMOF42yCGBXfWae/w8SsEhFLcjS0tAYMyz7t9tHzgC0Dv3gddcAAENDCMSaNuVpxFaUiM4odkobQhsoUtNls1i5XQrdIIyJ/IShh9+YviqRpDY7M8ulRB618ul6HEVFID5GS1EPy4vaGGE9mlAVpIFpWSAAA7" width="67"/></td>
+<td id="scarf4" width="10.5%">
+<img height="45" src="data:image/gif;base64,R0lGODlhQwAtAKIGAM7OzrKyspCQkP///2NjYwAAAP///wAAACH5BAEAAAYALAAAAABDAC0AAAP/aLrc/jDKSau9OOvNuxmBQAjB4J3VIBQkEI4mKjcDTIvxLNdBBBQ5nSc0IQlPA+CkFjxmmEtC03lR3ZoCAHUDEFwb2a0GKiGLq9Lo9DwhSoxsTHKt+NHjkGShRAsUCHhyBT8EAAOHAASDaYEVdiAiBJKGZo1vjB+HMZWWD0leCypBAnedHywMmgwBWqYQfq0KIEFurg4rsZlBXbYOekGqoaC9oQVKwsCYxIRNzcqBh2CSwKSpzzuUmtoDhCWHI8Oht6Uc3ADn6ObcxlmHxgQB8fIk8vEs8YbQ+bKJ8PX/8iThI8eGlS8HLogxCJOqGgNeCj9cm8LJFadZNK6ZuhjNNhrBOBf3hdLY6SIfjxENwJkAMWIlUShTqgyXaSFNhTUcYvyAQ6YweIgQ2fD5MJLRXERTaXOSAAA7" width="67"/></td>
+<td width="10.5%"> </td>
+<td class="score" width="10.5%">
+<div id="scarfNum">
+ </div>
+</td>
+</tr>
+<tr>
+<td bgcolor="#99ccff" class="small" width="15.8%">MANOBRA 
+        CALCANHAR-ORELHA</td>
+<td id="heelneg1" width="10.5%">
+<img height="45" src="data:image/gif;base64,R0lGODlhQgAtAKIFAKCgoH9/f8PDw////wAAAP///wAAAAAAACH5BAEAAAUALAAAAABCAC0AAAP/WLrc/jDKSau9OOvNu/9gKI5kaZ5oqq5s63LD8HqxQABxns/UEBDAoBAYAAhkvMcAAMTpcoDfDZl0xCQxZoBazSwJAtG18+QyBjfQdzzRAaLE4FaZhjGFuIVOABcWBUduYEphGzZbOj9vAVIEjICBbFaOZh1MlQVoYDobaAAhNjI+ZmiFNASYGGhIA0eTqRgCAR+jFAGmZKgebxV8anOWuJl8UW9wxsjJxYxRRYyMusENaEXITdXJfNqQ3NzRHL5n3wrhp7AVtXrjBbdq617jS1yrIEbusKX3IZd0YICcsd51OBRJ1g0+zxw9MxKpkg+BNO4EyXMmB7FGRN4gpITiF8mFJ8Q0nutCsqTJkyhTqlzJsqXLCQkAADs=" width="66"/></td>
+<td id="heel0" width="10.5%">
+<img height="45" src="data:image/gif;base64,R0lGODlhQgAtAKIFAP///7CwsIiIiAAAANPT0////wAAAAAAACH5BAEAAAUALAAAAABCAC0AAAP/WLrc/jDKSau9OOvNu/9gKI5kaZ5oqq5s676mEAAZQBCwQgwCT9ASW48XCMiKvxRggAMEBoNZBDCEFo1GqABnAgAV3t7263ByGzYeebQuOKHJiRfda3vec/ROBvTaCEVDAXFuAgJ2GgRVVn1+O1CQWkc/gD1SblEfVFF+YVGLPEdaiAV7fQOkFFSHD48/fgxCahCrC04dOzRUa7lyYoS2qLYcS33ACoYVb5wNiiDOcsLKimqnqRUyqkw1T8xbH98U2RppUZke4RODHZ4BH0XaZx3pHNBB0uz4xNsSyR+9//Q1E0iOn6Yndlx1Imfo2oU3MxxZygLJ0KBXpJawIrFMJsslN44CVTEkg1KWjyUWWnBUScyYHDBjypxJs6bNmzhz6tzJs0ICADs=" width="66"/></td>
+<td id="heel1" width="10.5%">
+<img height="45" src="data:image/gif;base64,R0lGODlhQgAtAKIGAM3NzbCwsI+Pj////2hoaAAAAP///wAAACH5BAEAAAYALAAAAABCAC0AAAP/aLrc/jDKSau9OOvNu/9gKI5kaZ5oqq5s6z6DMEjD/NIEITc1IBSCgGCoGw4BNdagEBgQAryCVGoMAKyBLEGKVNVmSwCjJ3hOBoCcuLW08dy0NAGeAhTomth9hIbY8QpfaFldDgF7HwOHBQSFDH9fV2VbUjoBW3MOPh4xllpPPZKVOUUASF8LigVrYx1LTTyURVZbSRVhIrioqWVwuBdtIUGBiKmNUawVl4AYTja7Y5ljq8DFHFkUzprWE9geAskR4A+QguaCmx7S3VAPh6Twk/CMH+sSwzDn+jVCH/gT9jik6zAwgjZOxxAyWzAERLAPfwxyy2MmxDJyXMxl6LRwOOMhGZFyZCkzRceTU7YcOAnoUJ5IN+iEuBxCiAyTjpygZYs0Mgc4nDeCCh1KtKjRo0iTKl3KdEECADs=" width="66"/></td>
+<td id="heel2" width="10.5%">
+<img height="45" src="data:image/gif;base64,R0lGODlhQgAtAKIFAP///7CwsIyMjAAAANPT0////wAAAAAAACH5BAEAAAUALAAAAABCAC0AAAP/WLrc/jDKSau9OOvNu/9gKI5kaZ4AEQAse4aAMMw0LazAuxE13hKygSCngwACAUdq9WDJhkVGjEbMHAfMaCqH7ABm1WjhG9YEBmUd+cNLv7qfs9u0/mDFYzSo/nFF4A0tSwEEcwVtHldChU1oKSpBNkgzUEoDBBxTN5NYLUiRlDeFLQsscg88G19ZpZGiU34UiIGYVpdjsXl6pbsWsx8CAgq/Cnx5tRdCe7u5C6kMAcIYxhuAEcbUFALIHNsVtwydo4KCBObmdx7e2klSNcHw8fA07R3rE+BSpBQx3NXSErJp6JWJICqDGgRmuBEQoa16ifIFktFsWjBDtoZUSVFDMMimcRXdOfRyxmMQkOY+dQxGaJyKTiiOEApZqpzKHhjx6NzJs6fPn0CDCh1KtOjPBAA7" width="66"/></td>
+<td id="heel3" width="10.5%">
+<img height="45" src="data:image/gif;base64,R0lGODlhQgAtAKIFAP///7CwsJGRkW9vbwAAAP///wAAAAAAACH5BAEAAAUALAAAAABCAC0AAAP/WLrc/jDKSau9OOvNu/9gKI5kaZ4REAAF4KKgKxDEYNvCCnPATA8uV0BgY+0mwZdCZWSoas2jQzWLSp5WaUOQvRK62gI3A/iGHbpMYHBupDHKD1gyXsRhwu/c6RpwhwM/byR9NTYEdUlCRIE0iAErQTODMUUveX6BNzmRfWAAfntwoS0NZXp3DHUPoAEiayxlVrITq6xmcrhBaGx0oqAxAhS0EbasQB/GEMjFomLOE8y1ezaQ1teQoNAS0r5X1pw54gKTya4U3RzKZMJIuB3auaLkldsSsCnvPOn7/C00STjgC9EDlaQaRH4MyBYwRZUSoH7QSKNoiI8fORQVXEewG+GVIIAOHeLYBonHkihTqlzJsqXLlzBjypSZAAA7" width="66"/></td>
+<td id="heel4" width="10.5%">
+<img height="45" src="data:image/gif;base64,R0lGODlhQgAtAKIGAMTExKenp4aGhl9fX////wAAAP///wAAACH5BAEAAAYALAAAAABCAC0AAAP/aLrc/jDKSau9OOvNu/9gKI5kaZ4SMQgsgZJEUMyB+45EMQTDANi3D8FFAPSAwUwMaSjumEmKU8BUUaPKAlQFwF64kKHXIggkxZzhkBccDgo/KENdDAQEvffsd4r1yngDdHV3eStlNWpwBHhyHiqCcwA6M38CAHFyZQuTjhuMVGgLOYmeDDxIOaYYdwoqVZEVqg4AAiGvrppmUloPuEIDUrERKrsPlyB2wqZ+ngDGHQFdE78QkwWBeYEC2MnTKcMPmOPk0s8rIM/LH+rAq0YgV8DfvuGf9mm91rYfmyKdD2T4oKMBFYlJpYbgKaStTCZRDWLog8FDG59cQ54xtCQtHiMPeX3UWBj0jAWLGmNSqlzJsqXLlzBjypxJsyaJBAA7" width="66"/></td>
+<td width="10.5%"> </td>
+<td class="score" width="10.5%">
+<div id="heelNum">
+ </div>
+</td>
+</tr>
+<tr>
+<td align="right" class="small" colspan="8" height="44">TOTAL DA 
+        PONTUAÇÃO DA<br/>
+        MATURIDADE NEUROMUSCULAR </td>
+<td class="score">
+<div id="nScore">
+ </div>
+</td>
+</tr>
+</table>
+<p></p></td>
+<td rowspan="2" valign="top"> <br/>
+<table border="0" cellpadding="1" cellspacing="1">
+<tr>
+<td class="small" colspan="2"><b>PONTUAÇÃO</b></td>
+</tr>
+<tr>
+<td align="right" class="small">Neuromuscular:</td>
+<td align="left" class="small" style="COLOR: blue">
+<div id="nScore2">
+ </div>
+</td>
+</tr>
+<tr>
+<td align="right" class="small">Física:</td>
+<td align="left" class="small" style="COLOR: blue">
+<div id="pScore2">
+ </div>
+</td>
+</tr>
+<tr>
+<td align="right" class="small">Total:</td>
+<td align="left" class="small" style="COLOR: blue">
+<div id="totScore">
+ </div>
+</td>
+</tr>
+</table>
+<p>
+<!--span class="small">
+	<b>SCORE</b><br>
+	Neuromuscular:
+	<span id="nScore2" style="color:blue">&nbsp;</span><br>
+	Physical:
+	<span id="pScore2" style="color:blue">&nbsp;</span><br>
+	Total:
+	<span id="totScore" style="color:blue">&nbsp;</span><p-->
+<span class="small"><b>ÍNDICE DE MATURIDADE</b> </span></p>
+<table border="1" cellpadding="5" cellspacing="0">
+<tr bgcolor="#99ccff">
+<th class="small">Pontuação</th>
+<th class="small">Semanas</th>
+</tr>
+<tr class="smCtr" id="btwn0" style="display:none"><td class="smCtr" id="bScore0"></td><td class="smCtr" id="bWeeks0"></td></tr>
+<tr height="22" id="rate1"><td class="smCtr" id="score1">-10</td><td class="smCtr" id="weeks1">20</td></tr>
+<tr height="22" id="btwn1" style="display:none"><td class="smCtr" id="bScore1"></td><td class="smCtr" id="bWeeks1"></td></tr>
+<tr height="22" id="rate2"><td class="smCtr" id="score2">-5</td><td class="smCtr" id="weeks2">22</td></tr>
+<tr height="22" id="btwn2" style="display:none"><td class="smCtr" id="bScore2"></td><td class="smCtr" id="bWeeks2"></td></tr>
+<tr height="22" id="rate3"><td class="smCtr" id="score3">0</td><td class="smCtr" id="weeks3">24</td></tr>
+<tr height="22" id="btwn3" style="display:none"><td class="smCtr" id="bScore3"></td><td class="smCtr" id="bWeeks3"></td></tr>
+<tr height="22" id="rate4"><td class="smCtr" id="score4">5</td><td class="smCtr" id="weeks4">26</td></tr>
+<tr height="22" id="btwn4" style="display:none"><td class="smCtr" id="bScore4"></td><td class="smCtr" id="bWeeks4"></td></tr>
+<tr height="22" id="rate5"><td class="smCtr" id="score5">10</td><td class="smCtr" id="weeks5">28</td></tr>
+<tr height="22" id="btwn5" style="display:none"><td class="smCtr" id="bScore5"></td><td class="smCtr" id="bWeeks5"></td></tr>
+<tr height="22" id="rate6"><td class="smCtr" id="score6">15</td><td class="smCtr" id="weeks6">30</td></tr>
+<tr height="22" id="btwn6" style="display:none"><td class="smCtr" id="bScore6"></td><td class="smCtr" id="bWeeks6"></td></tr>
+<tr height="22" id="rate7"><td class="smCtr" id="score7">20</td><td class="smCtr" id="weeks7">32</td></tr>
+<tr height="22" id="btwn7" style="display:none"><td class="smCtr" id="bScore7"></td><td class="smCtr" id="bWeeks7"></td></tr>
+<tr height="22" id="rate8"><td class="smCtr" id="score8">25</td><td class="smCtr" id="weeks8">34</td></tr>
+<tr height="22" id="btwn8" style="display:none"><td class="smCtr" id="bScore8"></td><td class="smCtr" id="bWeeks8"></td></tr>
+<tr height="22" id="rate9"><td class="smCtr" id="score9">30</td><td class="smCtr" id="weeks9">36</td></tr>
+<tr height="22" id="btwn9" style="display:none"><td class="smCtr" id="bScore9"></td><td class="smCtr" id="bWeeks9"></td></tr>
+<tr height="22" id="rate10"><td class="smCtr" id="score10">35</td><td class="smCtr" id="weeks10">38</td></tr>
+<tr height="22" id="btwn10" style="display:none"><td class="smCtr" id="bScore10"></td><td class="smCtr" id="bWeeks10"></td></tr>
+<tr height="22" id="rate11"><td class="smCtr" id="score11">40</td><td class="smCtr" id="weeks11">40</td></tr>
+<tr height="22" id="btwn11" style="display:none"><td class="smCtr" id="bScore11"></td><td class="smCtr" id="bWeeks11"></td></tr>
+<tr height="22" id="rate12"><td class="smCtr" id="score12">45</td><td class="smCtr" id="weeks12">42</td></tr>
+<tr height="22" id="btwn12" style="display:none"><td class="smCtr" id="bScore12"></td><td class="smCtr" id="bWeeks12"></td></tr>
+<tr height="22" id="rate13"><td class="smCtr" id="score13">50</td><td class="smCtr" id="weeks13">44</td></tr>
+<tr height="22" id="btwn13" style="display:none"><td class="smCtr" id="bScore13"></td><td class="smCtr" id="bWeeks13"></td></tr>
+</table>
+<p></p></td>
+</tr>
+<tr>
+<td valign="top">
+<span style="FONT-SIZE: 0.12in; FONT-FAMILY: Arial, Helvetica, sans-serif">
+<b>MATURIDADE FÍSICA  </b></span><br/>
+<table border="1" cellpadding="1" cellspacing="0">
+<tr>
+<td class="small" rowspan="2" valign="center" width="15.8%"> </td>
+<td align="middle" class="small" colspan="7">ESCORE</td>
+<td align="middle" class="small" rowspan="2" valign="center" width="10.5%">
+        RESULTADO</td>
+</tr>
+<tr bgcolor="#99ccff">
+<td class="smCtr" width="10.5%">-1</td>
+<td class="smCtr" width="10.5%">0</td>
+<td class="smCtr" width="10.5%">1</td>
+<td class="smCtr" width="10.5%">2</td>
+<td class="smCtr" width="10.5%">3</td>
+<td class="smCtr" width="10.5%">4</td>
+<td class="smCtr" width="10.5%">5</td>
+</tr>
+<tr>
+<td bgcolor="#99ccff" class="small" width="15.8%">TEXTURA DA PELE</td>
+<td class="smCtr" id="skinneg1" width="10.5%">
+        úmida, friável, transparente</td>
+<td class="smCtr" id="skin0" width="10.5%">
+        vermelha, gelatinosa, translúcida</td>
+<td class="smCtr" id="skin1" width="10.5%">
+        lisa, rosada, veias visíveis</td>
+<td class="smCtr" id="skin2" width="10.5%">
+        descamação superficial e/ou rash, poucas veias</td>
+<td class="smCtr" id="skin3" width="10.5%">
+        sulcos em áreas limitadas, raras veias</td>
+<td class="smCtr" id="skin4" width="10.5%">
+        apergaminhada, sulcos profundos ausência de vasos</td>
+<td class="smCtr" id="skin5" width="10.5%">
+        grossa com fissuras, enrugada</td>
+<td class="score" width="10.5%">
+<div id="skinNum">
+ </div>
+</td>
+</tr>
+<tr>
+<td bgcolor="#99ccff" class="small" height="44" width="15.8%">LANUGO</td>
+<td class="smCtr" id="lanugoneg1" width="10.5%">
+        ausente</td>
+<td class="smCtr" id="lanugo0" width="10.5%">
+        esparso</td>
+<td class="smCtr" id="lanugo1" width="10.5%">
+        abundante</td>
+<td class="smCtr" id="lanugo2" width="10.5%">
+        fino</td>
+<td class="smCtr" id="lanugo3" width="10.5%">
+        poucas áreas sem pelo</td>
+<td class="smCtr" id="lanugo4" width="10.5%">
+        muitas áreas sem pelo</td>
+<td class="smCtr" width="10.5%"> </td>
+<td class="score" width="10.5%">
+<div id="lanugoNum">
+ </div>
+</td>
+</tr>
+<tr>
+<td bgcolor="#99ccff" class="small" width="15.8%">SUPERFÍCIE PLANTAR</td>
+<td class="smCtr" id="plantarneg1" width="10.5%">
+        calcanhar-dedo<br/>
+<a href="javascript:void(0)" style="COLOR: blue">
+        40-50 mm: -1</a><br/>
+  
+        <a href="javascript:void(0)" style="COLOR: blue">
+        &lt;40 mm: -2</a> </td>
+<td class="smCtr" id="plantar0" width="10.5%">
+        &gt;50 mm<br/>
+        nenhuma prega</td>
+<td class="smCtr" id="plantar1" width="10.5%">
+        marcas vermelhas discretas</td>
+<td class="smCtr" id="plantar2" width="10.5%">
+        pregas transversais somente no 1/3 anterior</td>
+<td class="smCtr" id="plantar3" width="10.5%">
+        pregas nos 2/3 anteriores</td>
+<td class="smCtr" id="plantar4" width="10.5%">
+        pregas sobre toda superfície plantar</td>
+<td class="smCtr" width="10.5%"> </td>
+<td class="score" width="10.5%">
+<div id="plantarNum">
+ </div>
+</td>
+</tr>
+<tr>
+<td bgcolor="#99ccff" class="small" height="44" width="15.8%">ARÉOLAS 
+        MAMÁRIAS</td>
+<td class="smCtr" id="breastneg1" width="10.5%">
+        imperceptíveis</td>
+<td class="smCtr" id="breast0" width="10.5%">
+        rudimentar, pouco perceptível</td>
+<td class="smCtr" id="breast1" width="10.5%">
+        aréola plana<br/>
+        sem botão</td>
+<td class="smCtr" id="breast2" width="10.5%">
+        aréola pigmentada botão de<br/>
+        1-2 mm</td>
+<td class="smCtr" id="breast3" width="10.5%">
+        bordas elevadas<br/>
+  botão de   3-4 mm</td>
+<td class="smCtr" id="breast4" width="10.5%">
+        aréola completa<br/>
+     botão de      5-10 mm</td>
+<td class="smCtr" width="10.5%"> </td>
+<td class="score" width="10.5%">
+<div id="breastNum">
+ </div>
+</td>
+</tr>
+<tr>
+<td bgcolor="#99ccff" class="small" width="15.8%">OLHOS / ORELHAS</td>
+<td class="smCtr" id="eyeneg1" width="10.5%">
+        fenda palpebral fechada<br/>
+<a href="javascript:void(0)" style="COLOR: blue">
+        frouxa:-1</a><br/>
+<a href="javascript:void(0)" style="COLOR: blue">
+        firme:-2</a> </td>
+<td class="smCtr" id="eye0" width="10.5%">
+        fenda  palpebral  aberta, <br/>
+        pavilhão auricular não encurvado, permanece dobrado</td>
+<td class="smCtr" id="eye1" width="10.5%">
+        pavilhão auricular ligeiramente curvo, amolecido, desdobra-se   
+        lentamente</td>
+<td class="smCtr" id="eye2" width="10.5%">
+        pavilhão auricular bem curvo, amolecido, desdobra-se rapidamente</td>
+<td class="smCtr" id="eye3" width="10.5%">
+        pavilhão auricular completamente curvo e firme, desdobra-se facilmente</td>
+<td class="smCtr" id="eye4" width="10.5%">
+        cartilagem espessa, orelhas rígidas</td>
+<td class="smCtr" width="10.5%"> </td>
+<td class="score" width="10.5%">
+<div id="eyeNum">
+ </div>
+</td>
+</tr>
+<tr>
+<td bgcolor="#99ccff" class="small" width="15.8%">ÓRGÃOS GENITAIS<br/>
+        (Masculinos)</td>
+<td class="smCtr" id="maleneg1" width="10.5%">
+        bolsa escrotal vazia, plana e lisa</td>
+<td class="smCtr" id="male0" width="10.5%">
+        bolsa escrotal vazia,<br/>
+        raras rugas</td>
+<td class="smCtr" id="male1" width="10.5%">
+        testículos no canal inguinal superior,  raras rugas</td>
+<td class="smCtr" id="male2" width="10.5%">
+        testículos no canal inguinal inferior, poucas rugas</td>
+<td class="smCtr" id="male3" width="10.5%">
+        testículos na bolsa escrotal, muitas rugas</td>
+<td class="smCtr" id="male4" width="10.5%">
+        testículos pendulares, rugas profundas</td>
+<td class="smCtr" width="10.5%"> </td>
+<td class="score" width="10.5%">
+<div id="maleNum">
+ </div>
+</td>
+</tr>
+<tr>
+<td bgcolor="#99ccff" class="small" width="15.8%">ÓRGÃOS GENITAIS<br/>
+        (Femininos)</td>
+<td class="smCtr" id="femaleneg1" width="10.5%">
+        clitóris proeminente e lábios planos</td>
+<td class="smCtr" id="female0" width="10.5%">
+        clitóris proeminente, pequenos lábios de tamanho reduzido</td>
+<td class="smCtr" id="female1" width="10.5%">
+        clitóris proeminente, pequenos lábios bem delineados</td>
+<td class="smCtr" id="female2" width="10.5%">
+        grandes e pequenos lábios do mesmo tamanho, proeminentes</td>
+<td class="smCtr" id="female3" width="10.5%">
+        grandes lábios maiores que pequenos lábios</td>
+<td class="smCtr" id="female4" width="10.5%">
+        grandes lábios cobrindo clitóris e pequenos lábios</td>
+<td class="smCtr" width="10.5%"> </td>
+<td class="score" width="10.5%">
+<div id="femaleNum">
+ </div>
+</td>
+</tr>
+<tr>
+<td align="right" class="small" colspan="8" height="44">TOTAL DA 
+        PONTUAÇÃO DA<br/>
+        MATURIDADE FÍSICA  </td>
+<td class="score">
+<div id="pScore">
+ </div>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</div>
+<div class="references"><span class="small"><b>Referência:</b><br/>
+Ballard JL, Khoury JC, Wedig K, <i>et al</i>: New Ballard Score, expanded to 
+include extremely premature<br/>
+infants. <i>J Pediatrics</i> 1991; 119:417-423.<br/>
+</span></div>
+<br>
+
+<div class="legal-disclaimer">
+      <strong>Aviso Legal e Isenção de Responsabilidade:</strong><br>
+      Este software e todas as informações nele contidas são fornecidos exclusivamente com propósitos educacionais e de auxílio à referência médica. ESTE SISTEMA NÃO SUBSTITUI O JULGAMENTO CLÍNICO INDIVIDUAL, A ANAMNESE E O EXAME FÍSICO. As informações aqui apresentadas não devem ser utilizadas isoladamente para o diagnóstico, conduta ou tratamento de pacientes. A responsabilidade final por qualquer decisão clínica, prescrição ou intervenção é exclusiva do profissional de saúde assistente, devidamente habilitado. Os desenvolvedores não garantem a precisão absoluta de todos os dados e isentam-se de responsabilidade por quaisquer danos diretos, indiretos, materiais ou morais que resultem do uso inadequado, interpretação equivocada ou confiança exclusiva nas informações deste sistema. Pacientes e indivíduos leigos que utilizarem este software devem sempre buscar a orientação de um médico qualificado antes de tomar qualquer decisão sobre sua saúde.
+    </div>
+<div class="signature-block"><strong>Desenvolvido por Adão L. L. Couto</strong></div>
+  <div class="spacer-lines"><br/><br/><br/></div>
+</div></div>
+</body>
+</html>
