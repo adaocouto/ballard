@@ -8,7 +8,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
 <meta content="light only" name="color-scheme"/>
-<title>Estimativa de Idade Gestacional pelo método New Ballard</title>
+<title>Estimativa de idade gestacional pelo método New Ballard</title>
 <style>
 :root{
       --surface: #ffffff;
@@ -44,7 +44,6 @@ button.clean-btn:active{transform:translateY(1px)}
 .table-scroller{overflow:auto;padding-bottom:8px}
 table{border-collapse:collapse;background:#fff}
 td,th{vertical-align:middle}
-td[id]{cursor:pointer;transition:background-color .15s ease, box-shadow .15s ease;touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-select:none}
 td.is-hover{background:var(--hover)!important}
 td.is-selected{background:var(--azul-claro)!important;box-shadow:inset 0 0 0 2px #3b82f6}
 tr.is-active td{background:var(--azul-claro)!important}
@@ -261,6 +260,62 @@ img{display:block;max-width:100%;height:auto;margin:0 auto}
   margin-top: 0;
 }
 
+
+/* Padronização da avaliação Ballard */
+:root{--criterion-width:16%;--results-height:180px}
+html,body{font-family:"Segoe UI",Roboto,Arial,sans-serif}
+html{scroll-padding-top:calc(var(--results-height) + 10px)}
+button{font:inherit}
+.app-header{max-width:1480px;margin:0 auto;padding-left:12px;padding-right:12px}
+.header-actions{display:flex;justify-content:center;padding:12px 0}
+button.clean-btn{min-width:44px;min-height:44px;font-size:1rem}
+.quick-summary{width:100%;min-width:0}
+.summary-card{min-width:0;background:linear-gradient(135deg,#fffdfa 0%,#fff8dd 100%)}
+.summary-label{color:#4b5b72}
+.summary-value{border-radius:6px;overflow-wrap:anywhere}
+.app-results-sticky{z-index:30}
+.ballard-layout{display:grid;grid-template-columns:minmax(0,1fr) 240px;gap:16px;align-items:start}
+.assessment-stack{display:grid;gap:16px;min-width:0}
+.assessment-section,.reference-panel{min-width:0;background:#fff;border:1px solid var(--border);border-radius:14px;padding:12px}
+.section-heading{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:6px 12px;margin-bottom:10px}
+.section-heading h2,.reference-panel h2{margin:0;color:var(--primary-strong);font-size:1.15rem;line-height:1.3}
+.criterion-progress{font-size:.95rem;color:#4b5b72}
+.score-scroller{overflow:visible;border:1px solid var(--border);border-radius:8px}
+.score-table{width:100%;min-width:0;table-layout:fixed;border-collapse:collapse;border-spacing:0}
+.score-table .criterion-column{width:var(--criterion-width)}
+.score-table .score-column{width:10.5%}
+.score-table .result-column{width:10.5%}
+.score-table td,.score-table th{border-right:1px solid #cddbea;border-bottom:1px solid #cddbea;font-family:inherit;font-size:12px;line-height:1.2;overflow-wrap:normal;word-break:normal;-webkit-hyphens:manual;hyphens:manual}
+.score-table thead th{text-align:center;background:#dbeafe;color:#173b66;padding:3px 2px}
+.score-table tbody th[scope="row"]{background:#edf5ff;text-align:left;font-weight:600;padding:4px 3px}
+.score-table td.score-cell{padding:1px;vertical-align:middle;cursor:pointer;-webkit-user-select:none;user-select:none}
+.score-option{display:flex;align-items:center;justify-content:center;width:100%;height:auto;min-width:0;min-height:36px;border:0;border-radius:3px;padding:3px 2px;background:#fff;color:var(--texto);font:inherit;font-size:10px;line-height:1.15;overflow-wrap:normal;word-break:normal;-webkit-hyphens:manual;hyphens:manual;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-select:none}
+.score-table .score-cell > .score-option{background:transparent}
+.score-table .score-cell > .score-option.is-selected{background:transparent;box-shadow:none}
+.score-option img{width:100%;max-width:54px;height:auto}
+.score-option.is-selected{background:#dbeafe;box-shadow:inset 0 0 0 2px #3b82f6}
+.score-option:focus-visible,button.clean-btn:focus-visible{outline:3px solid #173b66;outline-offset:-3px}
+@media(hover:hover){.score-option:hover:not(.is-selected){background:#fff7cc}}
+.negative-caption{display:block;padding:1px 0;font-size:10px;line-height:1.15;overflow-wrap:normal;word-break:normal;-webkit-hyphens:manual;hyphens:manual}
+.negative-options{display:grid;gap:3px;padding:2px 0}
+.negative-options .score-option{min-height:28px;height:auto;border:1px solid #cddbea}
+.score-table .score{min-width:0;font-size:1rem;color:#17436f;text-align:center}
+.score-table .score-total-label{padding:6px;text-align:right;background:#f8fbff}
+.score-total-value{padding:4px}
+.reference-panel h2{margin:16px 0 10px}
+.reference-panel h2:first-child{margin-top:0}
+.reference-panel table{width:100%}
+.reference-panel td,.reference-panel th{font-family:inherit;font-size:1rem;line-height:1.35;padding:6px;cursor:auto;user-select:text}
+.reference-panel .reference-score{min-width:38px;border-radius:5px}
+.reference-table{border-color:#cddbea}
+.reference-table th{background:#dbeafe}
+.score > div,.summary-value,.reference-score{transition:background-color .15s ease}
+.auto-updated{background:#bfdbfe!important}
+.sr-only{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+@media(max-width:1100px){.ballard-layout{grid-template-columns:minmax(0,1fr)}.reference-panel{max-width:100%}.reference-panel table{max-width:420px}}
+@media(max-width:640px){.app-shell{padding:6px}.assessment-section{padding:4px}.reference-panel{padding:10px}.score-table td,.score-table th{font-size:clamp(10px,2.85vw,12px)}.score-table tbody th[scope="row"]{padding:3px 2px}.score-option{min-height:30px;padding:2px 1px}.negative-options{gap:2px;padding:1px 0}.negative-options .score-option{min-height:26px}.score-table .score{font-size:14px}.section-heading h2{font-size:1.05rem}.criterion-progress{font-size:.8rem}}
+@media(max-width:640px){.score-option,.negative-caption{font-size:clamp(8px,2.2vw,9.5px)}}
+
 </style>
 <script>
 (() => {
@@ -455,22 +510,44 @@ img{display:block;max-width:100%;height:auto;margin:0 auto}
     return `${exactWeeksLabel} semanas<br><span class="summary-subvalue">${parts.completedWeeks} semanas e ${parts.proportionalDays} dias</span>`;
   }
 
-  // ui renderers
+  // Interface: seleção, navegação e apresentação dos resultados.
+  const OUTPUT_VALUES = new Map();
+  const FEEDBACK_TIMERS = new Map();
+  const STATUS_VALUES = new Map();
+  const NAVIGATION_GROUPS = [...NEUROMUSCULAR_GROUPS, ...PHYSICAL_GROUPS, 'genital'];
+
   function getElement(id) {
     return document.getElementById(id);
   }
 
   function setText(id, value) {
     const element = getElement(id);
-    if (element) {
-      element.textContent = value == null ? EMPTY : String(value);
-    }
+    const text = value == null ? EMPTY : String(value);
+    if (element && element.textContent !== text) element.textContent = text;
   }
 
-  function setHtml(id, value) {
+  function clearFeedback(id) {
+    const timer = FEEDBACK_TIMERS.get(id);
+    if (timer != null) window.clearTimeout(timer);
+    FEEDBACK_TIMERS.delete(id);
+    getElement(id)?.classList.remove('auto-updated');
+  }
+
+  function setComputedOutput(id, value, allowFlash, asHtml = false) {
     const element = getElement(id);
-    if (element) {
-      element.innerHTML = value == null ? EMPTY : String(value);
+    if (!element || (OUTPUT_VALUES.has(id) && OUTPUT_VALUES.get(id) === value)) return;
+    const previous = OUTPUT_VALUES.get(id);
+    OUTPUT_VALUES.set(id, value);
+    const content = value == null ? EMPTY : String(value);
+    if (asHtml) element.innerHTML = content;
+    else element.textContent = content;
+    clearFeedback(id);
+    if (allowFlash && previous != null && value != null) {
+      element.classList.add('auto-updated');
+      FEEDBACK_TIMERS.set(id, window.setTimeout(() => {
+        element.classList.remove('auto-updated');
+        FEEDBACK_TIMERS.delete(id);
+      }, 1000));
     }
   }
 
@@ -478,13 +555,48 @@ img{display:block;max-width:100%;height:auto;margin:0 auto}
     return { ...UI_STATE.selected };
   }
 
+  function getOptions(navigationGroup) {
+    return Array.from(document.querySelectorAll(`button.score-option[data-nav-group="${navigationGroup}"]`));
+  }
+
+  function setRovingOption(option) {
+    getOptions(option.dataset.navGroup).forEach((candidate) => {
+      candidate.tabIndex = candidate === option ? 0 : -1;
+    });
+  }
+
+  function focusOption(option) {
+    if (!option) return;
+    setRovingOption(option);
+    option.focus({ preventScroll: true });
+    option.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+  }
+
+  function scrollToNextSelection(currentGroup) {
+    const currentIndex = NAVIGATION_GROUPS.indexOf(currentGroup);
+    if (currentIndex < 0) return;
+    const orderedGroups = NAVIGATION_GROUPS.slice(currentIndex + 1)
+      .concat(NAVIGATION_GROUPS.slice(0, currentIndex + 1));
+    const nextGroup = orderedGroups.find((group) => group === 'genital'
+      ? !isFiniteScore(UI_STATE.selected.male) && !isFiniteScore(UI_STATE.selected.female)
+      : !isFiniteScore(UI_STATE.selected[group]));
+    if (!nextGroup) return;
+    const row = getOptions(nextGroup)[0]?.closest('tr');
+    if (!row) return;
+    updateSummaryHeight();
+    const bounds = row.getBoundingClientRect();
+    const visibleTop = Math.max(0, getElement('resultsSummary').getBoundingClientRect().bottom);
+    const visibleCenter = (visibleTop + window.innerHeight) / 2;
+    const isForward = NAVIGATION_GROUPS.indexOf(nextGroup) > currentIndex;
+    if (isForward && bounds.top >= visibleTop && bounds.top + bounds.height / 2 <= visibleCenter) return;
+    row.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+  }
+
   function clearGroupHighlights(group) {
-    SCORE_TOKENS.forEach((token) => {
-      const cell = getElement(`${group}${token}`);
-      if (cell) {
-        cell.classList.remove(SELECTED_CLASS, HOVER_CLASS);
-        cell.setAttribute('aria-pressed', 'false');
-      }
+    document.querySelectorAll(`button.score-option[data-group="${group}"]`).forEach((option) => {
+      option.classList.remove(SELECTED_CLASS);
+      option.setAttribute('aria-pressed', 'false');
+      option.closest('td.score-cell')?.classList.remove(SELECTED_CLASS);
     });
   }
 
@@ -492,207 +604,165 @@ img{display:block;max-width:100%;height:auto;margin:0 auto}
     for (let index = INDEX_ROW_RANGE.start; index <= INDEX_ROW_RANGE.end; index += 1) {
       const betweenRow = getElement(`btwn${index}`);
       const fixedRow = getElement(`rate${index}`);
-
       if (betweenRow) {
         betweenRow.style.display = 'none';
         betweenRow.classList.remove('is-active');
       }
-
-      if (fixedRow) {
-        fixedRow.classList.remove('is-active');
-      }
+      if (fixedRow) fixedRow.classList.remove('is-active');
     }
   }
 
-  function updateTopSummary(neuromuscularScore, physicalScore, totalScore) {
-    setText('topNeu', neuromuscularScore);
-    setText('topPhy', physicalScore);
-    setText('topTot', totalScore);
-    setHtml('topWeeks', totalScore == null ? EMPTY : formatWeeksDetailed(totalScore));
-  }
-
-  function updateScoreOutputs(scores) {
-    SCORING_GROUPS.forEach((group) => {
-      setText(`${group}Num`, scores[group]);
-    });
-  }
-
-  function highlightIndexRow(totalScore) {
+  function highlightIndexRow(totalScore, allowFlash) {
     resetIndexTable();
-
-    if (!isFiniteScore(totalScore)) {
-      return;
-    }
-
+    if (!isFiniteScore(totalScore)) return;
     if (totalScore % 5 === 0) {
-      const fixedRowIndex = (totalScore / 5) + 3;
-      const fixedRow = getElement(`rate${fixedRowIndex}`);
-
-      if (fixedRow) {
-        fixedRow.classList.add('is-active');
-      }
-
+      getElement(`rate${(totalScore / 5) + 3}`)?.classList.add('is-active');
       return;
     }
-
-    const betweenRowIndex = Math.floor((totalScore / 5) + 3);
-    const betweenRow = getElement(`btwn${betweenRowIndex}`);
-
-    if (!betweenRow) {
-      return;
-    }
-
-    setText(`bScore${betweenRowIndex}`, totalScore);
-    setText(`bWeeks${betweenRowIndex}`, formatWeeksExact(totalScore));
+    const index = Math.floor((totalScore / 5) + 3);
+    const betweenRow = getElement(`btwn${index}`);
+    if (!betweenRow) return;
+    setComputedOutput(`bScore${index}`, totalScore, allowFlash);
+    setComputedOutput(`bWeeks${index}`, formatWeeksExact(totalScore), allowFlash);
     betweenRow.style.display = '';
     betweenRow.classList.add('is-active');
   }
 
-  function render() {
-    const scores = getCurrentScores();
-    const neuromuscularPartialScore = calculateNeuromuscularPartialScore(scores);
-    const physicalPartialScore = calculatePhysicalPartialScore(scores);
-    const totalScore = calculateTotalScore(scores);
-
-    updateScoreOutputs(scores);
-    setText('nScore', neuromuscularPartialScore);
-    setText('nScore2', neuromuscularPartialScore);
-    setText('pScore', physicalPartialScore);
-    setText('pScore2', physicalPartialScore);
-    setText('totScore', totalScore);
-
-    updateTopSummary(neuromuscularPartialScore, physicalPartialScore, totalScore);
-    highlightIndexRow(totalScore);
+  function updateProgress(scores) {
+    const neu = NEUROMUSCULAR_GROUPS.filter((group) => isFiniteScore(scores[group])).length;
+    const phy = PHYSICAL_GROUPS.filter((group) => isFiniteScore(scores[group])).length
+      + (getSelectedSexScore(scores) == null ? 0 : 1);
+    setText('neuProgress', `${neu} de 6 critérios`);
+    setText('phyProgress', `${phy} de 6 critérios`);
+    [['neu', neu], ['phy', phy]].forEach(([group, count]) => {
+      document.querySelectorAll(`[data-partial-group="${group}"]`).forEach((label) => {
+        const text = count > 0 && count < 6 ? ' (parcial)' : '';
+        if (label.textContent !== text) label.textContent = text;
+      });
+    });
+    return { neu, phy };
   }
 
-  // event handlers
-  function selectGroupScore(group, score, sourceCell) {
-    if (!isScoringGroup(group) || !isFiniteScore(score)) {
-      return;
-    }
+  function announceResults(neu, phy, total, counts, shouldAnnounce) {
+    const scoreLabel = (value) => value == null ? 'sem resultado' : String(value);
+    const parts = splitWeeksAndDays(total);
+    const messages = [
+      ['neu', `Neuromuscular: ${scoreLabel(neu)}; ${counts.neu} de 6 critérios`],
+      ['phy', `Física: ${scoreLabel(phy)}; ${counts.phy} de 6 critérios`],
+      ['total', `Total: ${scoreLabel(total)}`],
+      ['weeks', parts
+        ? `IG estimada: ${formatWeeksExact(total)} semanas; ${parts.completedWeeks} semanas e ${parts.proportionalDays} dias`
+        : 'IG estimada: sem resultado']
+    ];
+    const changed = [];
+    messages.forEach(([key, message]) => {
+      if (STATUS_VALUES.get(key) !== message) changed.push(message);
+      STATUS_VALUES.set(key, message);
+    });
+    if (shouldAnnounce && changed.length) setText('ballardStatus', changed.join('. ') + '.');
+  }
 
+  function render({ allowFlash = true, announce = true } = {}) {
+    const scores = getCurrentScores();
+    const neu = calculateNeuromuscularPartialScore(scores);
+    const phy = calculatePhysicalPartialScore(scores);
+    const total = calculateTotalScore(scores);
+    SCORING_GROUPS.forEach((group) => setText(`${group}Num`, scores[group]));
+    [['nScore', neu], ['nScore2', neu], ['pScore', phy], ['pScore2', phy],
+      ['totScore', total], ['topNeu', neu], ['topPhy', phy], ['topTot', total]]
+      .forEach(([id, value]) => setComputedOutput(id, value, allowFlash));
+    setComputedOutput('topWeeks', total == null ? null : formatWeeksDetailed(total), allowFlash, true);
+    const counts = updateProgress(scores);
+    highlightIndexRow(total, allowFlash);
+    announceResults(neu, phy, total, counts, announce);
+  }
+
+  function selectGroupScore(group, score, sourceOption) {
+    if (!isScoringGroup(group) || !isFiniteScore(score)) return;
     clearGroupHighlights(group);
     UI_STATE.selected[group] = score;
-
-    if (group === 'male') {
-      UI_STATE.selected.female = null;
-      clearGroupHighlights('female');
+    if (group === 'male' || group === 'female') {
+      const opposite = group === 'male' ? 'female' : 'male';
+      UI_STATE.selected[opposite] = null;
+      clearGroupHighlights(opposite);
     }
-
-    if (group === 'female') {
-      UI_STATE.selected.male = null;
-      clearGroupHighlights('male');
-    }
-
-    if (sourceCell) {
-      sourceCell.classList.add(SELECTED_CLASS);
-      sourceCell.setAttribute('aria-pressed', 'true');
-    }
-
+    if (NEGATIVE_LINK_GROUPS.has(group) && score < 0) UI_STATE.negativeChoice[group] = score;
+    sourceOption.classList.add(SELECTED_CLASS);
+    const cell = sourceOption.closest('td.score-cell');
+    if (cell && !cell.classList.contains('negative-cell')) cell.classList.add(SELECTED_CLASS);
+    sourceOption.setAttribute('aria-pressed', 'true');
+    setRovingOption(sourceOption);
     render();
+    scrollToNextSelection(sourceOption.dataset.navGroup);
   }
 
-  function resolveScoreFromCell(cell) {
-    const parsed = parseCellId(cell?.id);
-    if (!parsed) {
-      return null;
-    }
-
-    if (parsed.token === 'neg1') {
-      return UI_STATE.negativeChoice[parsed.group] ?? -1;
-    }
-
-    return parseCellTokenScore(parsed.token);
-  }
-
-  function handleCellSelection(cell) {
-    const parsed = parseCellId(cell?.id);
-    if (!parsed) {
-      return;
-    }
-
-    const score = resolveScoreFromCell(cell);
-    selectGroupScore(parsed.group, score, cell);
-  }
-
-  function handleCellHover(cell, shouldHover) {
-    const parsed = parseCellId(cell?.id);
-    if (!parsed || cell.classList.contains(SELECTED_CLASS)) {
-      return;
-    }
-
-    cell.classList.toggle(HOVER_CLASS, shouldHover);
-  }
-
-  function handleNegativeLinkSelection(group, score) {
-    UI_STATE.negativeChoice[group] = score;
-    handleCellSelection(getElement(`${group}neg1`));
-  }
-
-  function bindScoreCells() {
-    document.querySelectorAll('td[id]').forEach((cell) => {
-      const parsed = parseCellId(cell.id);
-      if (!parsed) {
-        return;
+  function bindScoreOptions() {
+    document.querySelectorAll('button.score-option').forEach((option) => {
+      const activate = () => selectGroupScore(option.dataset.group, Number(option.dataset.score), option);
+      option.addEventListener('click', activate);
+      const cell = option.closest('td.score-cell');
+      if (cell && !cell.classList.contains('negative-cell')) {
+        cell.addEventListener('click', (event) => {
+          if (event.target === cell) {
+            option.focus({ preventScroll: true });
+            activate();
+          }
+        });
       }
-
-      cell.setAttribute('role', 'button');
-      cell.setAttribute('tabindex', '0');
-      cell.setAttribute('aria-pressed', 'false');
-
-      cell.addEventListener('click', () => handleCellSelection(cell));
-      cell.addEventListener('mouseenter', () => handleCellHover(cell, true));
-      cell.addEventListener('mouseleave', () => handleCellHover(cell, false));
-      cell.addEventListener('keydown', (event) => {
+      option.addEventListener('focus', () => setRovingOption(option));
+      option.addEventListener('keydown', (event) => {
         if (event.key === 'Enter' || event.key === ' ') {
           event.preventDefault();
-          handleCellSelection(cell);
+          activate();
+          return;
         }
+        const direction = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[event.key];
+        if (direction == null) return;
+        event.preventDefault();
+        const options = getOptions(option.dataset.navGroup);
+        const next = (options.indexOf(option) + direction + options.length) % options.length;
+        focusOption(options[next]);
       });
     });
   }
 
-  function bindNegativeLinks() {
-    NEGATIVE_LINK_GROUPS.forEach((group) => {
-      document.querySelectorAll(`#${group}neg1 a`).forEach((link) => {
-        const score = link.textContent.includes('-2') ? -2 : -1;
-        link.addEventListener('click', (event) => {
-          event.preventDefault();
-          event.stopPropagation();
-          handleNegativeLinkSelection(group, score);
-        });
-      });
-    });
-  }
-
-  function resetAll() {
+  function resetAll({ initial = false } = {}) {
+    Array.from(FEEDBACK_TIMERS.keys()).forEach(clearFeedback);
+    OUTPUT_VALUES.clear();
     SCORING_GROUPS.forEach((group) => {
       UI_STATE.selected[group] = null;
       clearGroupHighlights(group);
     });
-
     UI_STATE.negativeChoice.plantar = -1;
     UI_STATE.negativeChoice.eye = -1;
-
-    render();
+    NAVIGATION_GROUPS.forEach((group) => {
+      const first = getOptions(group)[0];
+      if (first) setRovingOption(first);
+    });
+    render({ allowFlash: false, announce: !initial });
+    focusOption(getElement('option-posture0'));
   }
 
-  // bootstrap
-  function bindControls() {
-    const resetButton = DOM.resetButton();
-    if (resetButton) {
-      resetButton.addEventListener('click', resetAll);
-    }
+  function updateSummaryHeight() {
+    const summary = getElement('resultsSummary');
+    if (summary) document.documentElement.style.setProperty('--results-height', `${Math.ceil(summary.getBoundingClientRect().height)}px`);
   }
 
   function init() {
-    bindScoreCells();
-    bindNegativeLinks();
-    bindControls();
-    resetAll();
+    bindScoreOptions();
+    DOM.resetButton()?.addEventListener('click', () => resetAll());
+    updateSummaryHeight();
+    if (typeof window.ResizeObserver === 'function') {
+      const observer = new window.ResizeObserver(updateSummaryHeight);
+      observer.observe(getElement('resultsSummary'));
+    } else {
+      window.addEventListener('resize', updateSummaryHeight);
+    }
+    resetAll({ initial: true });
   }
 
   document.addEventListener('DOMContentLoaded', init);
+
 })();
 </script>
 <meta content="yes" name="mobile-web-app-capable"/><meta content="yes" name="apple-mobile-web-app-capable"/><meta content="default" name="apple-mobile-web-app-status-bar-style"/><meta content="telephone=no" name="format-detection"/><meta content="Ballard" name="application-name"/></head>
@@ -700,18 +770,19 @@ img{display:block;max-width:100%;height:auto;margin:0 auto}
 <header class="app-header">
 <div class="espaco-antes-caixa-titulo" aria-hidden="true"></div>
 <section class="hero" id="sectionHero">
-      <h1>Estimativa de Idade Gestacional pelo método New Ballard</h1>
+      <h1>Estimativa de idade gestacional pelo método New Ballard</h1>
       <p>Toque nas imagens ou descrições para selecionar cada escore.</p>
     </section>
 
+<div class="header-actions"><button class="clean-btn" id="resetBtn" type="button">Limpar dados</button></div>
 </header>
 
-<div class="app-results-sticky" aria-label="Resumo dos resultados">
+<div id="resultsSummary" class="app-results-sticky" aria-label="Resumo dos resultados">
   <div class="app-results-sticky-inner">
 <div class="app-header-row">
 <div class="quick-summary">
-<div class="summary-card"><span class="summary-label">Neuromuscular</span><span class="summary-value" id="topNeu">—</span></div>
-<div class="summary-card"><span class="summary-label">Física</span><span class="summary-value" id="topPhy">—</span></div>
+<div class="summary-card"><span class="summary-label">Neuromuscular<span id="topNeuPartial" data-partial-group="neu"></span></span><span class="summary-value" id="topNeu">—</span></div>
+<div class="summary-card"><span class="summary-label">Física<span id="topPhyPartial" data-partial-group="phy"></span></span><span class="summary-value" id="topPhy">—</span></div>
 <div class="summary-card"><span class="summary-label">Total</span><span class="summary-value" id="topTot">—</span></div>
 <div class="summary-card"><span class="summary-label">IG estimada</span><span class="summary-value" id="topWeeks">—</span></div>
 </div>
@@ -720,201 +791,231 @@ img{display:block;max-width:100%;height:auto;margin:0 auto}
 </div>
 
 <div class="app-shell">
-<div class="table-scroller">
-<table border="0" class="main-table">
-<tr>
-<td valign="top">
-<span style="FONT-SIZE: 0.12in; FONT-FAMILY: Arial, Helvetica, sans-serif">
-<b>MATURIDADE NEUROMUSCULAR </b></span><br/>
-<table border="1" cellpadding="1" cellspacing="0">
-<tr>
-<td class="small" rowspan="2" valign="center" width="15.8%"> </td>
-<td align="middle" class="small" colspan="7">ESCORE</td>
-<td align="middle" class="small" rowspan="2" valign="center" width="10.5%">
-        RESULTADO  </td>
-</tr>
-<tr bgcolor="#99ccff">
-<td class="smCtr" width="10.5%">-1</td>
-<td class="smCtr" width="10.5%">0</td>
-<td class="smCtr" width="10.5%">1</td>
-<td class="smCtr" width="10.5%">2</td>
-<td class="smCtr" width="10.5%">3</td>
-<td class="smCtr" width="10.5%">4</td>
-<td class="smCtr" width="10.5%">5</td>
-</tr>
-<tr>
-<td bgcolor="#99ccff" class="small" width="15.8%">POSTURA</td>
-<td width="10.5%"> </td>
-<td id="posture0" width="10.5%">
-<img height="45" src="data:image/gif;base64,R0lGODlhQgAtAKIFAP///3l5eZubmwAAALe3t////wAAAAAAACH5BAEAAAUALAAAAABCAC0AAAP/WLrc/jDKSau9OOvNu/9gKI5kaZ5oqq6sCLwtCAjDAMQcQARDQNw4zKsWgAUXLyBEVxMojy8e8YdkTpOvH9bo4SJr2uFAIJDWzuazGv3MAAaExrsoJ4DD23yeRuj7/wJ9gYEEZHwONG0LiR52a4+QPHFyNhFvkx0BTnpbBUmeDzsTb4pClSBkDJ9fpRekIT6qpwqvHbUfqapPtxu8trMPZa0WoiG+ssMVbzZ/zc5+pceePHmucwHY2draZdrAi9/LkdiG5eVSyaPfnjSEMz1YaWTb9D7pFH1LM2RUcu/2R2wtK3Iv4BJHdAxqiNKjn0IhOwo+nEixosWLGDNq3MixBqPHjx8SAAA7" width="66"/></td>
-<td id="posture1" width="10.5%">
-<img height="45" src="data:image/gif;base64,R0lGODlhQgAtAKIGAM7OzmNjY4KCgqWlpf///wAAAP///wAAACH5BAEAAAYALAAAAABCAC0AAAP/aLrc/jDKSau9OOvNu/9gKI5kaZ5oqq5s61YEIQTEyxFAUAxDIdQ2C6EnAABxwFAMJPMlUYBBB6cbPFMAAWQY6P4Yw0LAaIiZz2ZJLAowohnZB8A3iPas0YI+IJh1/4B/X2BcYn1/Ynx9PHwOPVcEOoo8bWiWZncxA5J1SZdtUUUNBAVXCpFaNzo+biBjEaSmF7EjtBGiHTwjOZ5WDLodcSK8CzJPwBzCSjQSAlK5z8sAsKVT1bvXjqkbkWKdshqbkD10oJfncz+FAZ2EZ208uGB3RlFdbas+foJegUWeODYp6nPIC8FN20YJ5POkiboy59LAwlHJEpyEDiRm7DEGLlwJZTey7PA4LNqHMMxOkRGxpJZAfCmDYMAxY6VMbjdz6tzJs6fPn0CDCh26MwEAOw==" width="66"/></td>
-<td id="posture2" width="10.5%">
-<img height="45" src="data:image/gif;base64,R0lGODlhQgAtAKIFAK2trf///5SUlAAAAGRkZP///wAAAAAAACH5BAEAAAUALAAAAABCAC0AAAP/WLrc/jDKSau9OOvNcQhdyAUDKJ6XIKAsRZpt7AiA3Hyw+NpMQOQdH/CCw0V2J2SGRCAMmrSiSRn8bXZFgKr5JKhKSesSfMRth0SAEz2h6oq3gOD50QDISUFzDwAF7gNPfSqEhYR9DHdsGiQCUk5OgV1eAJWWl5VOjgWKLCQ1N3d9UhY+BJ0spxGqI2stbj14jLI6Kz09Yle5Jyq4Obsamyw0PXUKQlWLjMCxym3MQbS4VdIhsAWfcERQ0B2ox4CSXYbkhQOb3yhMNHpgcpIfWobyKpU56Ul/Wsbgeo7OD67xWPDH1RiAcU6oQXij2jEcWpowlIBslh8zeiBRwtdqM2KsSE+iGDnmcEk3F6QgVAzjcVlLCcQGYuOXpKTMEFpu2hCoM8jLnkCDCh1KtKhRTw0SAAA7" width="66"/></td>
-<td id="posture3" width="10.5%">
-<img height="45" src="data:image/gif;base64,R0lGODlhQgAtAKIFAJiYmP///3FxcQAAALu7u////wAAAAAAACH5BAEAAAUALAAAAABCAC0AAAP/WLrc/jDKSV8gNevtwghcKEoeOJ4o8aFTYLIMILxwA9B1IMy1c/cMDwa44BEVwmPBqCxVdABZVCagUldKhQr32BEIl69rTOb2PMwIYJh9qtiTdfu5M0Pk80gAMPhp8E0XazQ6aRY+diw6A1UCjC58HwRRO4yMlQOZVSBfTX0mkJmiO1NgpmtgLpN9AnA5WA1bYxyLiSJOEFUnHgBEOom4t7AwUUGEhhu/QK1Bw8gayj2ABbNIzxnBMAQCJMO03ijZDdEhOq7Ez0Iu5Y62t3XjopekX6llY3xeTXyoq2CR9ShVkbKj4KYCfvYVBLOgkK11NtzBMHPh04ZpeSy0+yMxQiOvjhgzQqhF4ZrIWOB89Jk0qVTLKR2FdbwQpp7NMVuyiKthcldKRT2FnesRNMSOORClFT355CfTZE6fQospteqGBAA7" width="66"/></td>
-<td id="posture4" width="10.5%">
-<img height="45" src="data:image/gif;base64,R0lGODlhQgAtAKIFAP///7e3t5KSkmpqagAAAP///wAAAAAAACH5BAEAAAUALAAAAABCAC0AAAP/WLrc/jDKSau9OOvNu/9gKI5kiQECYK4KQKjsKgQjfNoVMOBeMAQ8iW4gKAaAgGSS4QpyUARCytlwEa/RLGHAnQUItBpUuozoFsr0MVAU/FZJN7FcfZ1iBcA36mziLXFbUw86VDVug2hjSBOFLDpRXHxJPlpyXJhbmDN2Ji6JelpRRkdqa6eRhk+ddUiqhF+vGkVmrLM7NbatHX4ivRC0HTOHTLgLwRzDvgNMQAxuHsohvw9vq7IXjhDUGT7Y2botRLzhH0M8Y1JraeztAlvfJ++uPjtHopiSA1r7kvEa6Yy1CEUGRjslPv7koeMgzr5Edf7hISiQQUKFFMZAZFIOO+PCSjNUXRxo6oicMCBQdHHWaAubIvuydGkTSwQbho28lGoX0WMINj5TdgwKTiLRKimOKl3KtKnTBgkAADs=" width="66"/></td>
-<td width="10.5%"> </td>
-<td class="score" width="10.5%">
+<main class="ballard-layout">
+<div class="assessment-stack">
+<section class="assessment-section" aria-labelledby="neuTitle">
+<div class="section-heading"><h2 id="neuTitle">Maturidade neuromuscular</h2><span class="criterion-progress" id="neuProgress">0 de 6 critérios</span></div>
+<div class="score-scroller"><table class="score-table" aria-labelledby="neuTitle"><colgroup><col class="criterion-column"/><col class="score-column"/><col class="score-column"/><col class="score-column"/><col class="score-column"/><col class="score-column"/><col class="score-column"/><col class="score-column"/><col class="result-column"/></colgroup><thead><tr><th scope="col" rowspan="2" class="criterion-heading">Cri­té­rio</th><th scope="colgroup" colspan="7">Es­co­re</th><th scope="col" rowspan="2">Re­sul­ta­do</th></tr><tr><th scope="col">-1</th><th scope="col">0</th><th scope="col">1</th><th scope="col">2</th><th scope="col">3</th><th scope="col">4</th><th scope="col">5</th></tr></thead><tbody><tr>
+<th scope="row" id="criterion-posture">Pos­tu­ra</th>
+<td> </td>
+<td id="posture0" class="score-cell"><button type="button" class="score-option" id="option-posture0" data-group="posture" data-score="0" data-nav-group="posture" tabindex="-1" aria-pressed="false" aria-label="Postura. Pontuação 0. Braços e pernas estendidos."><img alt="Postura, pontuação 0. Braços e pernas estendidos." height="45" src="data:image/gif;base64,R0lGODlhQgAtAKIFAP///3l5eZubmwAAALe3t////wAAAAAAACH5BAEAAAUALAAAAABCAC0AAAP/WLrc/jDKSau9OOvNu/9gKI5kaZ5oqq6sCLwtCAjDAMQcQARDQNw4zKsWgAUXLyBEVxMojy8e8YdkTpOvH9bo4SJr2uFAIJDWzuazGv3MAAaExrsoJ4DD23yeRuj7/wJ9gYEEZHwONG0LiR52a4+QPHFyNhFvkx0BTnpbBUmeDzsTb4pClSBkDJ9fpRekIT6qpwqvHbUfqapPtxu8trMPZa0WoiG+ssMVbzZ/zc5+pceePHmucwHY2draZdrAi9/LkdiG5eVSyaPfnjSEMz1YaWTb9D7pFH1LM2RUcu/2R2wtK3Iv4BJHdAxqiNKjn0IhOwo+nEixosWLGDNq3MixBqPHjx8SAAA7"/></button></td>
+<td id="posture1" class="score-cell"><button type="button" class="score-option" id="option-posture1" data-group="posture" data-score="1" data-nav-group="posture" tabindex="-1" aria-pressed="false" aria-label="Postura. Pontuação 1. Braços abertos lateralmente e pernas estendidas."><img alt="Postura, pontuação 1. Braços abertos lateralmente e pernas estendidas." height="45" src="data:image/gif;base64,R0lGODlhQgAtAKIGAM7OzmNjY4KCgqWlpf///wAAAP///wAAACH5BAEAAAYALAAAAABCAC0AAAP/aLrc/jDKSau9OOvNu/9gKI5kaZ5oqq5s61YEIQTEyxFAUAxDIdQ2C6EnAABxwFAMJPMlUYBBB6cbPFMAAWQY6P4Yw0LAaIiZz2ZJLAowohnZB8A3iPas0YI+IJh1/4B/X2BcYn1/Ynx9PHwOPVcEOoo8bWiWZncxA5J1SZdtUUUNBAVXCpFaNzo+biBjEaSmF7EjtBGiHTwjOZ5WDLodcSK8CzJPwBzCSjQSAlK5z8sAsKVT1bvXjqkbkWKdshqbkD10oJfncz+FAZ2EZ208uGB3RlFdbas+foJegUWeODYp6nPIC8FN20YJ5POkiboy59LAwlHJEpyEDiRm7DEGLlwJZTey7PA4LNqHMMxOkRGxpJZAfCmDYMAxY6VMbjdz6tzJs6fPn0CDCh26MwEAOw=="/></button></td>
+<td id="posture2" class="score-cell"><button type="button" class="score-option" id="option-posture2" data-group="posture" data-score="2" data-nav-group="posture" tabindex="-1" aria-pressed="false" aria-label="Postura. Pontuação 2. Braços abertos lateralmente e pernas parcialmente flexionadas."><img alt="Postura, pontuação 2. Braços abertos lateralmente e pernas parcialmente flexionadas." height="45" src="data:image/gif;base64,R0lGODlhQgAtAKIFAK2trf///5SUlAAAAGRkZP///wAAAAAAACH5BAEAAAUALAAAAABCAC0AAAP/WLrc/jDKSau9OOvNcQhdyAUDKJ6XIKAsRZpt7AiA3Hyw+NpMQOQdH/CCw0V2J2SGRCAMmrSiSRn8bXZFgKr5JKhKSesSfMRth0SAEz2h6oq3gOD50QDISUFzDwAF7gNPfSqEhYR9DHdsGiQCUk5OgV1eAJWWl5VOjgWKLCQ1N3d9UhY+BJ0spxGqI2stbj14jLI6Kz09Yle5Jyq4Obsamyw0PXUKQlWLjMCxym3MQbS4VdIhsAWfcERQ0B2ox4CSXYbkhQOb3yhMNHpgcpIfWobyKpU56Ul/Wsbgeo7OD67xWPDH1RiAcU6oQXij2jEcWpowlIBslh8zeiBRwtdqM2KsSE+iGDnmcEk3F6QgVAzjcVlLCcQGYuOXpKTMEFpu2hCoM8jLnkCDCh1KtKhRTw0SAAA7"/></button></td>
+<td id="posture3" class="score-cell"><button type="button" class="score-option" id="option-posture3" data-group="posture" data-score="3" data-nav-group="posture" tabindex="-1" aria-pressed="false" aria-label="Postura. Pontuação 3. Braços e pernas flexionados."><img alt="Postura, pontuação 3. Braços e pernas flexionados." height="45" src="data:image/gif;base64,R0lGODlhQgAtAKIFAJiYmP///3FxcQAAALu7u////wAAAAAAACH5BAEAAAUALAAAAABCAC0AAAP/WLrc/jDKSV8gNevtwghcKEoeOJ4o8aFTYLIMILxwA9B1IMy1c/cMDwa44BEVwmPBqCxVdABZVCagUldKhQr32BEIl69rTOb2PMwIYJh9qtiTdfu5M0Pk80gAMPhp8E0XazQ6aRY+diw6A1UCjC58HwRRO4yMlQOZVSBfTX0mkJmiO1NgpmtgLpN9AnA5WA1bYxyLiSJOEFUnHgBEOom4t7AwUUGEhhu/QK1Bw8gayj2ABbNIzxnBMAQCJMO03ijZDdEhOq7Ez0Iu5Y62t3XjopekX6llY3xeTXyoq2CR9ShVkbKj4KYCfvYVBLOgkK11NtzBMHPh04ZpeSy0+yMxQiOvjhgzQqhF4ZrIWOB89Jk0qVTLKR2FdbwQpp7NMVuyiKthcldKRT2FnesRNMSOORClFT355CfTZE6fQospteqGBAA7"/></button></td>
+<td id="posture4" class="score-cell"><button type="button" class="score-option" id="option-posture4" data-group="posture" data-score="4" data-nav-group="posture" tabindex="-1" aria-pressed="false" aria-label="Postura. Pontuação 4. Braços e pernas em flexão acentuada."><img alt="Postura, pontuação 4. Braços e pernas em flexão acentuada." height="45" src="data:image/gif;base64,R0lGODlhQgAtAKIFAP///7e3t5KSkmpqagAAAP///wAAAAAAACH5BAEAAAUALAAAAABCAC0AAAP/WLrc/jDKSau9OOvNu/9gKI5kiQECYK4KQKjsKgQjfNoVMOBeMAQ8iW4gKAaAgGSS4QpyUARCytlwEa/RLGHAnQUItBpUuozoFsr0MVAU/FZJN7FcfZ1iBcA36mziLXFbUw86VDVug2hjSBOFLDpRXHxJPlpyXJhbmDN2Ji6JelpRRkdqa6eRhk+ddUiqhF+vGkVmrLM7NbatHX4ivRC0HTOHTLgLwRzDvgNMQAxuHsohvw9vq7IXjhDUGT7Y2botRLzhH0M8Y1JraeztAlvfJ++uPjtHopiSA1r7kvEa6Yy1CEUGRjslPv7koeMgzr5Edf7hISiQQUKFFMZAZFIOO+PCSjNUXRxo6oicMCBQdHHWaAubIvuydGkTSwQbho28lGoX0WMINj5TdgwKTiLRKimOKl3KtKnTBgkAADs="/></button></td>
+<td> </td>
+<td class="score">
 <div id="postureNum">
  </div>
 </td>
-</tr>
-<tr>
-<td bgcolor="#99ccff" class="small" width="15.8%">ÂNGULO DO PUNHO<br/>
- </td>
-<td id="squareneg1" width="10.5%">
-<img height="45" src="data:image/gif;base64,R0lGODlhQgAtAKIFAP///6mpqQAAAI6Ojm9vb////wAAAAAAACH5BAEAAAUALAAAAABCAC0AAAPPWLrc/jDKSau9OGPAQQBaGHYDIQgmKK5Q55nC8HEFQKgsywXw2TkAAS43Qg06hIDkSFwFcU8JYNAURRW8Ca2quV654JpQPAxXnymzOSj4qNfjN7wsb37r5zg+T987b358gXaAgzl3hkV9iReIjBt6jxk2i5JakZYWjplahZyamJ9SoaItnqWjlagLlKuXqq6trhGysw+bFB40Uypba6egKUE8HANMcxU/ZJRUvAHHYcpaNjMxKG6UvpxsHc8eNVSlHARHvDJPMqjS1CDstjkJADs=" width="66"/></td>
-<td id="square0" width="10.5%">
-<img height="45" src="data:image/gif;base64,R0lGODlhQgAtAKIAAAAAAMbGxqGhof///4SEhNPT0////wAAACH5BAEAAAYALAAAAABCAC0AAAPNaLrc/jDKSau9OOvNu//YQIxkaZID6AVAUAQs8L7wzApqF+DKAKSRXY4TICxGQIiAN8wUFYLfRNh0EkTSKbNqiQmSkiUXwwJPBuaxhKrmstvNNzwnn4Pq9tU2/8HzN35/TnuCgISFg4h6ijpGjIaPkJGJk2SHlUGXmA9PmxWBngwFmqELoKUGp6WdqBCqBmBpf6wQA1EBsFEFubJtA7trLT9FPiKjpQJXJLsEMATAnj4AAARSAri9kWgiS7jPrbAAUWjiWai/Xwqj2eAZCQA7" width="66"/></td>
-<td id="square1" width="10.5%">
-<img height="45" src="data:image/gif;base64,R0lGODlhQgAtAKIFAAAAAP///7i4uGxsbKKiov///wAAAAAAACH5BAEAAAUALAAAAABCAC0AAAPQWLrc/jDKSau9OOvNu/9VEIDkRQDDWK4QQQgAobJ08RbBKdfsrcCxGc/jCwBEOuFQczMSFoFBSrm0EKTHhmhwpFYlJxFkO/1WfBKy18xAT0QAATvipkTnLfklh3/U3yl9DQJ6FlFrbH9piImFghyEj0SOkhmKlWeUmFaamxSRnhigoZykJp2mD6OpYKisba6vCpeyP7GytLW5sqsaOQIjOcFiNL0YUVdwYQIuNcQbhyJ8hMBPrDBcAZHCwK8CKS7b1rJGUcApgbU4Azvf3eoZCQA7" width="66"/></td>
-<td id="square2" width="10.5%">
-<img height="45" src="data:image/gif;base64,R0lGODlhQgAtAKIEAISEhP///6+vrwAAAP///wAAAAAAAAAAACH5BAEAAAQALAAAAABCAC0AAAO8SLrc/jDKSau9OOvNbxBBJ3bDEI7oBZRn6kZAEJhv7cTE3No1TrA8WyywEtCCrtUAp0OmAD5F0ymKLmYCasd6PWoz3G72iwl3zeQHWgrdpSFrqfcNd6vtdEZcsX/3+2l/eHl8g3qGeX0yhHWMW4iOEoCRN5CUd5dglpmHnCqbngSTnqOcpZmnl6mUqzIyAgAgrlSLGkY5Jq8CY6G4A7iLILyeWL8zK66gbzMlIAq7vQyuJrtT0dI5RcrXDgkAOw==" width="66"/></td>
-<td id="square3" width="10.5%">
-<img height="45" src="data:image/gif;base64,R0lGODlhQgAtAKIFAAAAAJSUlP///7i4uMXFxf///wAAAAAAACH5BAEAAAUALAAAAABCAC0AAAPXWLrc/jDKSau9OOvNtxBd2AWDaGYBAJ7slAZtDAXpKt9FQBAqfpMFQMkXow0APSIrpaIpl7CCIPkM6RaDgK26ASqmBO5o+KWKMd6F84wKM6ZbNiWNjcor1wb8jie/zXwPeXpCgRJ0b3aGDoOEcYsKjYmPkJILAlqQjH5/lIuWX5maDKBSnp9uo3ipqi6srRGIsIKvs4y1tqS4uZG7vKUPAlkDIARXAgSnLcQXcADJKioDWconH80gJNNSOjTVd5jSYZgf33LXRiWYvNTe0eZ8mN5SQvC8DAkAOw==" width="66"/></td>
-<td id="square4" width="10.5%">
-<img height="45" src="data:image/gif;base64,R0lGODlhQgAtAKIGAI2NjQAAALq6uv///8PDw56env///wAAACH5BAEAAAYALAAAAABCAC0AAAOyaLrc/jDKSau9OOvNu//aIIzCAJ4TEQQAi76PACjEDN+KTNs4TBS73u0XFL50hprxCEzylh+iE3oSNJXUj7WY7WwNyC7n+xVvvlKzBolVZ6Qi95pnkmPS9kw5j9nzLX5/FIGCEniFE4SIMU2LKY2OEYeRDoqUOZCXDZaXk5o0mZ+gopWhEwMFBSYDrGKeEgUAsQMAAgRirRcDAay8snWXu72swMG8wqQGtAQqxZ+0vMkbCQA7" width="66"/></td>
-<td width="10.5%"> </td>
-<td class="score" width="10.5%">
+</tr><tr>
+<th scope="row" id="criterion-square">Ân­gu­lo do pu­nho</th>
+<td id="squareneg1" class="score-cell"><button type="button" class="score-option" id="option-squareneg1" data-group="square" data-score="-1" data-nav-group="square" tabindex="-1" aria-pressed="false" aria-label="Ângulo do punho. Pontuação -1. Flexão do punho: ângulo de maior que 90 graus."><img alt="Ângulo do punho, pontuação -1. Flexão do punho: ângulo de maior que 90 graus." height="45" src="data:image/gif;base64,R0lGODlhQgAtAKIFAP///6mpqQAAAI6Ojm9vb////wAAAAAAACH5BAEAAAUALAAAAABCAC0AAAPPWLrc/jDKSau9OGPAQQBaGHYDIQgmKK5Q55nC8HEFQKgsywXw2TkAAS43Qg06hIDkSFwFcU8JYNAURRW8Ca2quV654JpQPAxXnymzOSj4qNfjN7wsb37r5zg+T987b358gXaAgzl3hkV9iReIjBt6jxk2i5JakZYWjplahZyamJ9SoaItnqWjlagLlKuXqq6trhGysw+bFB40Uypba6egKUE8HANMcxU/ZJRUvAHHYcpaNjMxKG6UvpxsHc8eNVSlHARHvDJPMqjS1CDstjkJADs="/></button></td>
+<td id="square0" class="score-cell"><button type="button" class="score-option" id="option-square0" data-group="square" data-score="0" data-nav-group="square" tabindex="-1" aria-pressed="false" aria-label="Ângulo do punho. Pontuação 0. Flexão do punho: ângulo de 90 graus."><img alt="Ângulo do punho, pontuação 0. Flexão do punho: ângulo de 90 graus." height="45" src="data:image/gif;base64,R0lGODlhQgAtAKIAAAAAAMbGxqGhof///4SEhNPT0////wAAACH5BAEAAAYALAAAAABCAC0AAAPNaLrc/jDKSau9OOvNu//YQIxkaZID6AVAUAQs8L7wzApqF+DKAKSRXY4TICxGQIiAN8wUFYLfRNh0EkTSKbNqiQmSkiUXwwJPBuaxhKrmstvNNzwnn4Pq9tU2/8HzN35/TnuCgISFg4h6ijpGjIaPkJGJk2SHlUGXmA9PmxWBngwFmqELoKUGp6WdqBCqBmBpf6wQA1EBsFEFubJtA7trLT9FPiKjpQJXJLsEMATAnj4AAARSAri9kWgiS7jPrbAAUWjiWai/Xwqj2eAZCQA7"/></button></td>
+<td id="square1" class="score-cell"><button type="button" class="score-option" id="option-square1" data-group="square" data-score="1" data-nav-group="square" tabindex="-1" aria-pressed="false" aria-label="Ângulo do punho. Pontuação 1. Flexão do punho: ângulo de 60 graus."><img alt="Ângulo do punho, pontuação 1. Flexão do punho: ângulo de 60 graus." height="45" src="data:image/gif;base64,R0lGODlhQgAtAKIFAAAAAP///7i4uGxsbKKiov///wAAAAAAACH5BAEAAAUALAAAAABCAC0AAAPQWLrc/jDKSau9OOvNu/9VEIDkRQDDWK4QQQgAobJ08RbBKdfsrcCxGc/jCwBEOuFQczMSFoFBSrm0EKTHhmhwpFYlJxFkO/1WfBKy18xAT0QAATvipkTnLfklh3/U3yl9DQJ6FlFrbH9piImFghyEj0SOkhmKlWeUmFaamxSRnhigoZykJp2mD6OpYKisba6vCpeyP7GytLW5sqsaOQIjOcFiNL0YUVdwYQIuNcQbhyJ8hMBPrDBcAZHCwK8CKS7b1rJGUcApgbU4Azvf3eoZCQA7"/></button></td>
+<td id="square2" class="score-cell"><button type="button" class="score-option" id="option-square2" data-group="square" data-score="2" data-nav-group="square" tabindex="-1" aria-pressed="false" aria-label="Ângulo do punho. Pontuação 2. Flexão do punho: ângulo de 45 graus."><img alt="Ângulo do punho, pontuação 2. Flexão do punho: ângulo de 45 graus." height="45" src="data:image/gif;base64,R0lGODlhQgAtAKIEAISEhP///6+vrwAAAP///wAAAAAAAAAAACH5BAEAAAQALAAAAABCAC0AAAO8SLrc/jDKSau9OOvNbxBBJ3bDEI7oBZRn6kZAEJhv7cTE3No1TrA8WyywEtCCrtUAp0OmAD5F0ymKLmYCasd6PWoz3G72iwl3zeQHWgrdpSFrqfcNd6vtdEZcsX/3+2l/eHl8g3qGeX0yhHWMW4iOEoCRN5CUd5dglpmHnCqbngSTnqOcpZmnl6mUqzIyAgAgrlSLGkY5Jq8CY6G4A7iLILyeWL8zK66gbzMlIAq7vQyuJrtT0dI5RcrXDgkAOw=="/></button></td>
+<td id="square3" class="score-cell"><button type="button" class="score-option" id="option-square3" data-group="square" data-score="3" data-nav-group="square" tabindex="-1" aria-pressed="false" aria-label="Ângulo do punho. Pontuação 3. Flexão do punho: ângulo de 30 graus."><img alt="Ângulo do punho, pontuação 3. Flexão do punho: ângulo de 30 graus." height="45" src="data:image/gif;base64,R0lGODlhQgAtAKIFAAAAAJSUlP///7i4uMXFxf///wAAAAAAACH5BAEAAAUALAAAAABCAC0AAAPXWLrc/jDKSau9OOvNtxBd2AWDaGYBAJ7slAZtDAXpKt9FQBAqfpMFQMkXow0APSIrpaIpl7CCIPkM6RaDgK26ASqmBO5o+KWKMd6F84wKM6ZbNiWNjcor1wb8jie/zXwPeXpCgRJ0b3aGDoOEcYsKjYmPkJILAlqQjH5/lIuWX5maDKBSnp9uo3ipqi6srRGIsIKvs4y1tqS4uZG7vKUPAlkDIARXAgSnLcQXcADJKioDWconH80gJNNSOjTVd5jSYZgf33LXRiWYvNTe0eZ8mN5SQvC8DAkAOw=="/></button></td>
+<td id="square4" class="score-cell"><button type="button" class="score-option" id="option-square4" data-group="square" data-score="4" data-nav-group="square" tabindex="-1" aria-pressed="false" aria-label="Ângulo do punho. Pontuação 4. Flexão do punho: ângulo de 0 graus."><img alt="Ângulo do punho, pontuação 4. Flexão do punho: ângulo de 0 graus." height="45" src="data:image/gif;base64,R0lGODlhQgAtAKIGAI2NjQAAALq6uv///8PDw56env///wAAACH5BAEAAAYALAAAAABCAC0AAAOyaLrc/jDKSau9OOvNu//aIIzCAJ4TEQQAi76PACjEDN+KTNs4TBS73u0XFL50hprxCEzylh+iE3oSNJXUj7WY7WwNyC7n+xVvvlKzBolVZ6Qi95pnkmPS9kw5j9nzLX5/FIGCEniFE4SIMU2LKY2OEYeRDoqUOZCXDZaXk5o0mZ+gopWhEwMFBSYDrGKeEgUAsQMAAgRirRcDAay8snWXu72swMG8wqQGtAQqxZ+0vMkbCQA7"/></button></td>
+<td> </td>
+<td class="score">
 <div id="squareNum">
  </div>
 </td>
-</tr>
-<tr>
-<td bgcolor="#99ccff" class="small" width="15.8%">RECUO DO BRAÇO</td>
-<td width="10.5%"> </td>
-<td id="arm0" width="10.5%">
-<img height="45" src="data:image/gif;base64,R0lGODlhQwAtAKIAAP///3h4eKCgoAAAANnZ2cPDw////wAAACH5BAEAAAYALAAAAABDAC0AAAP/aLrc/jDKSau9OFMASCGAJo5LMQSBEJwh6W7CULTc2r64g94MMfA5nA/IMBGDIkCAIFEykS/Aj8FpCATQFyHQGPa4WdK20eEpwyTlsQhGa6TrRaDgHl2b0/pbBpHS9UkDAkA+bYAaMYIfKgOCh4EEBFcpIHCPFRwhNg9SWJlxekqNK41Hoo2jT5cGMTMGPo4QpJkmf49GCkoFArYOuwUBNAOqoXmswUsRW0pYucZ1wAtDln0/Uk9Oh7vOTGoR3risvW68Cim5wd/px5rjaNHhY+o0cwbroSnGkk3JziqgSGoxuCOhnwITxPScK9IsgoCECwEBA1KuYMJrgKgNdNegex6ZZ2E8PDAIoWIDV6vkADSZss+9kg1bcnr5gKVMHQl1cDRQhWfPTLmyRPsGsoSnWfZYbMnpItvMnSawDJmjZs6iLD5yKqHJkCcqD3R2OYXiY1CmQqC2dZJRblsdAIlWUJ2wb6KKMTbRfAJ4kI6UUqK43iRD42fPwUESAAA7" width="67"/></td>
-<td id="arm1" width="10.5%">
-<img height="45" src="data:image/gif;base64,R0lGODlhQwAtAKIGANHR0f///2lpaQAAALOzs5KSkv///wAAACH5BAEAAAYALAAAAABDAC0AAAP/aLrc/jDKSau9+IYAAAlZKDYBIQhFeoJjawUnwBrlMLu4Axf3Eti5IAMg6A2LwiDM2BAAkrklY9MAFKA4axW40GJbXp9seP2OYJSwOSOVFAjrUUryY8Ypv+cDpr+Hfh8kA2V+IgUDKB0Eh4OFInUeBSgfbY4TJW+HTD+ZgZYkJyqImwKIiyh2cYAsBANwEKV6AZqfMK80A64RrVwGralYRDOSSBBEArd8los+NsV7Rb3MjgV6AAMyzzpF19aEfouzQGrbIJyYlj+DLOSgLOLYltc8C9MQlTW3qod9CgT65aqgumPFyL8J1XQkVAXhDcJ+Uz4xWBiBosSKEB04vOgmn2ODjRyhAfMFMKQPbQ8OmgwoQeXKjyWnFKOigEqJQDR9vCMwpoS5MRUqOTCx4VfNeCpkpJgxSwAufpyK/IsJ7dsUIDXMQXXKJ5wPSbj4eCD5zyqdgWLiLSiCyQmaJTZtXoGR6yZJDiNJHHrjIYbMDbkQEaEx0+ssA8JSHHT5Z1EKoCc3bECFbA40XCY+OEEJBa9OGkvvWUMGgojHlyISAAA7" width="67"/></td>
-<td id="arm2" width="10.5%">
-<img height="45" src="data:image/gif;base64,R0lGODlhQwAtAKIFANDQ0LCwsJGRkf///wAAAP///wAAAAAAACH5BAEAAAUALAAAAABDAC0AAAP/WLrc/jDKSau9GA8gCBHAkI0kM3hBAAQeUL4XQISm7MI4dIrPnv+MmUTGA+J8EaQRxmkAbgtBYIlLNTzFgpX62i4GWe2UW2pOpOSSskcIpy/oCOutFj6I9LogO+iM8yQeHykdLYAkOwMBAlJgc4cUG4ssBDqDjZAOMoMeApaXH255NjyGbG0KfaiQSpuiCoVFj4dWYCcdr1qMe2AFq3RgnYIBa057gh+huUyFnSq9Zpa2ks2YQIogtg6LEsUFtinLXF5s4pmwf+XnFCDdv+sQ7Unv8A7y0vUR9A3e+d/7Jvb4c9CPwb2BqQAahILwn7iDCAsmNHcOIj9Uvb7xUHQjdOOXLDT6iNBmAU88Yri+dYDVIcSiIrcWEDnBQhE3OJ4e1FSEceUJlSsEJsx5og23FEE1YAm4CkkflQ5D9npK0+iUFRsoMiVAKNSXppV+KnlZoAklrlaiIQpK7OLGsDPiaPJkq80Jk2SypurotQdIETYa4kgAADs=" width="67"/></td>
-<td id="arm3" width="10.5%">
-<img height="45" src="data:image/gif;base64,R0lGODlhQwAtAKIAAM3Nza+vr42NjWZmZv///y8vL////wAAACH5BAEAAAYALAAAAABDAC0AAAP/aLrc/jDKSau9OCvCuf7gQghDMZQBEa4WUAgdJxQAa0ME/bjq7Ru53iP4uwUEE0GgyCIMhJuGE8rMTBlE0bMKuooAUC/XupWIxxhBTQJAojWA8nCwfmOcS0hAbr/kYFIzVH0tBQUBYG2GfIQWSiMkAylZjWYAlwEFQlAnl2CVUpkDJIaDCpkvJYCgI08qLpoQLm4jsWgEAYgcez21AxE5tga8BAC5dTe4pItKxqN5QyZ0RyXSj1wdxkckbciBbc+XHaAbZw5q5BPmDbnpZozs0O4O6wzt83OmC/f4gfqn8vopaDPhiMAGBNm4OThwoSyHB/nhgCjQ4DuG+wI6SIjRgGIEjwzrbSiDiw4QEipwhfkEZI0TGCo1KIkQp8eemkdqqoHmJFaOX07aIDryD4eOjcIejdqyE92Gmi2RODkJqahRmEBqhTEhTQW6lCmAkAQq1ZVVYDNOqKLSQRLTTWG9TJ37qwkHMKbi8IqDMt8GNwK4ESoGqFjYIR6ybtCFMUQCADs=" width="67"/></td>
-<td id="arm4" width="10.5%">
-<img height="45" src="data:image/gif;base64,R0lGODlhQwAtAKIFAP///5ycnHd3dwAAAMLCwv///wAAAAAAACH5BAEAAAUALAAAAABDAC0AAAP/WLrc/jDKSSsEGNjNORBDKBBaZ54KEAxBRoAlKlPAIMRLTcx8FNyXAa7Xqw0bgQBxWUhOjMweMNdifI5RzzRVZXSzpytlCzYFdhJouYKxCiWvRnvtOFsFyuDwQ3eIcyxHNXlehH0pb24DJBgEK4mAWHR2bi8hIS1kBWqHOTdtgykZCisaGXidcpdCBIsQrS2rkn14AK0hkjW4KpCpCo6bl7k2b5S+kUlxFzdJnMcKAjDAPiQ2msetO8YPwDrPcmjXDNMk3w9/y+ZpvX4C6hHO7bPm8XLi7+jn9+r58u/6T9j922TonMB/fNLsMzcN3kF8Bf085Ddxk7uBDkbA0wivRosKU3Oy1CN1MUgpHawaigx052EjZiOUOCKgUiSIM5a+WPlR7VG3FuXoYPgxYpjHFzEL1MRIsGimai/mISTxAs2HoEx7JAAAOw==" width="67"/></td>
-<td width="10.5%"> </td>
-<td class="score" width="10.5%">
+</tr><tr>
+<th scope="row" id="criterion-arm">Re­cuo do bra­ço</th>
+<td> </td>
+<td id="arm0" class="score-cell"><button type="button" class="score-option" id="option-arm0" data-group="arm" data-score="0" data-nav-group="arm" tabindex="-1" aria-pressed="false" aria-label="Recuo do braço. Pontuação 0. Posição do braço no recuo: ângulo de 180 graus."><img alt="Recuo do braço, pontuação 0. Posição do braço no recuo: ângulo de 180 graus." height="45" src="data:image/gif;base64,R0lGODlhQwAtAKIAAP///3h4eKCgoAAAANnZ2cPDw////wAAACH5BAEAAAYALAAAAABDAC0AAAP/aLrc/jDKSau9OFMASCGAJo5LMQSBEJwh6W7CULTc2r64g94MMfA5nA/IMBGDIkCAIFEykS/Aj8FpCATQFyHQGPa4WdK20eEpwyTlsQhGa6TrRaDgHl2b0/pbBpHS9UkDAkA+bYAaMYIfKgOCh4EEBFcpIHCPFRwhNg9SWJlxekqNK41Hoo2jT5cGMTMGPo4QpJkmf49GCkoFArYOuwUBNAOqoXmswUsRW0pYucZ1wAtDln0/Uk9Oh7vOTGoR3risvW68Cim5wd/px5rjaNHhY+o0cwbroSnGkk3JziqgSGoxuCOhnwITxPScK9IsgoCECwEBA1KuYMJrgKgNdNegex6ZZ2E8PDAIoWIDV6vkADSZss+9kg1bcnr5gKVMHQl1cDRQhWfPTLmyRPsGsoSnWfZYbMnpItvMnSawDJmjZs6iLD5yKqHJkCcqD3R2OYXiY1CmQqC2dZJRblsdAIlWUJ2wb6KKMTbRfAJ4kI6UUqK43iRD42fPwUESAAA7"/></button></td>
+<td id="arm1" class="score-cell"><button type="button" class="score-option" id="option-arm1" data-group="arm" data-score="1" data-nav-group="arm" tabindex="-1" aria-pressed="false" aria-label="Recuo do braço. Pontuação 1. Posição do braço no recuo: ângulo de 140 a 180 graus."><img alt="Recuo do braço, pontuação 1. Posição do braço no recuo: ângulo de 140 a 180 graus." height="45" src="data:image/gif;base64,R0lGODlhQwAtAKIGANHR0f///2lpaQAAALOzs5KSkv///wAAACH5BAEAAAYALAAAAABDAC0AAAP/aLrc/jDKSau9+IYAAAlZKDYBIQhFeoJjawUnwBrlMLu4Axf3Eti5IAMg6A2LwiDM2BAAkrklY9MAFKA4axW40GJbXp9seP2OYJSwOSOVFAjrUUryY8Ypv+cDpr+Hfh8kA2V+IgUDKB0Eh4OFInUeBSgfbY4TJW+HTD+ZgZYkJyqImwKIiyh2cYAsBANwEKV6AZqfMK80A64RrVwGralYRDOSSBBEArd8los+NsV7Rb3MjgV6AAMyzzpF19aEfouzQGrbIJyYlj+DLOSgLOLYltc8C9MQlTW3qod9CgT65aqgumPFyL8J1XQkVAXhDcJ+Uz4xWBiBosSKEB04vOgmn2ODjRyhAfMFMKQPbQ8OmgwoQeXKjyWnFKOigEqJQDR9vCMwpoS5MRUqOTCx4VfNeCpkpJgxSwAufpyK/IsJ7dsUIDXMQXXKJ5wPSbj4eCD5zyqdgWLiLSiCyQmaJTZtXoGR6yZJDiNJHHrjIYbMDbkQEaEx0+ssA8JSHHT5Z1EKoCc3bECFbA40XCY+OEEJBa9OGkvvWUMGgojHlyISAAA7"/></button></td>
+<td id="arm2" class="score-cell"><button type="button" class="score-option" id="option-arm2" data-group="arm" data-score="2" data-nav-group="arm" tabindex="-1" aria-pressed="false" aria-label="Recuo do braço. Pontuação 2. Posição do braço no recuo: ângulo de 110 a 140 graus."><img alt="Recuo do braço, pontuação 2. Posição do braço no recuo: ângulo de 110 a 140 graus." height="45" src="data:image/gif;base64,R0lGODlhQwAtAKIFANDQ0LCwsJGRkf///wAAAP///wAAAAAAACH5BAEAAAUALAAAAABDAC0AAAP/WLrc/jDKSau9GA8gCBHAkI0kM3hBAAQeUL4XQISm7MI4dIrPnv+MmUTGA+J8EaQRxmkAbgtBYIlLNTzFgpX62i4GWe2UW2pOpOSSskcIpy/oCOutFj6I9LogO+iM8yQeHykdLYAkOwMBAlJgc4cUG4ssBDqDjZAOMoMeApaXH255NjyGbG0KfaiQSpuiCoVFj4dWYCcdr1qMe2AFq3RgnYIBa057gh+huUyFnSq9Zpa2ks2YQIogtg6LEsUFtinLXF5s4pmwf+XnFCDdv+sQ7Unv8A7y0vUR9A3e+d/7Jvb4c9CPwb2BqQAahILwn7iDCAsmNHcOIj9Uvb7xUHQjdOOXLDT6iNBmAU88Yri+dYDVIcSiIrcWEDnBQhE3OJ4e1FSEceUJlSsEJsx5og23FEE1YAm4CkkflQ5D9npK0+iUFRsoMiVAKNSXppV+KnlZoAklrlaiIQpK7OLGsDPiaPJkq80Jk2SypurotQdIETYa4kgAADs="/></button></td>
+<td id="arm3" class="score-cell"><button type="button" class="score-option" id="option-arm3" data-group="arm" data-score="3" data-nav-group="arm" tabindex="-1" aria-pressed="false" aria-label="Recuo do braço. Pontuação 3. Posição do braço no recuo: ângulo de 90 a 110 graus."><img alt="Recuo do braço, pontuação 3. Posição do braço no recuo: ângulo de 90 a 110 graus." height="45" src="data:image/gif;base64,R0lGODlhQwAtAKIAAM3Nza+vr42NjWZmZv///y8vL////wAAACH5BAEAAAYALAAAAABDAC0AAAP/aLrc/jDKSau9OCvCuf7gQghDMZQBEa4WUAgdJxQAa0ME/bjq7Ru53iP4uwUEE0GgyCIMhJuGE8rMTBlE0bMKuooAUC/XupWIxxhBTQJAojWA8nCwfmOcS0hAbr/kYFIzVH0tBQUBYG2GfIQWSiMkAylZjWYAlwEFQlAnl2CVUpkDJIaDCpkvJYCgI08qLpoQLm4jsWgEAYgcez21AxE5tga8BAC5dTe4pItKxqN5QyZ0RyXSj1wdxkckbciBbc+XHaAbZw5q5BPmDbnpZozs0O4O6wzt83OmC/f4gfqn8vopaDPhiMAGBNm4OThwoSyHB/nhgCjQ4DuG+wI6SIjRgGIEjwzrbSiDiw4QEipwhfkEZI0TGCo1KIkQp8eemkdqqoHmJFaOX07aIDryD4eOjcIejdqyE92Gmi2RODkJqahRmEBqhTEhTQW6lCmAkAQq1ZVVYDNOqKLSQRLTTWG9TJ37qwkHMKbi8IqDMt8GNwK4ESoGqFjYIR6ybtCFMUQCADs="/></button></td>
+<td id="arm4" class="score-cell"><button type="button" class="score-option" id="option-arm4" data-group="arm" data-score="4" data-nav-group="arm" tabindex="-1" aria-pressed="false" aria-label="Recuo do braço. Pontuação 4. Posição do braço no recuo: ângulo de menor que 90 graus."><img alt="Recuo do braço, pontuação 4. Posição do braço no recuo: ângulo de menor que 90 graus." height="45" src="data:image/gif;base64,R0lGODlhQwAtAKIFAP///5ycnHd3dwAAAMLCwv///wAAAAAAACH5BAEAAAUALAAAAABDAC0AAAP/WLrc/jDKSSsEGNjNORBDKBBaZ54KEAxBRoAlKlPAIMRLTcx8FNyXAa7Xqw0bgQBxWUhOjMweMNdifI5RzzRVZXSzpytlCzYFdhJouYKxCiWvRnvtOFsFyuDwQ3eIcyxHNXlehH0pb24DJBgEK4mAWHR2bi8hIS1kBWqHOTdtgykZCisaGXidcpdCBIsQrS2rkn14AK0hkjW4KpCpCo6bl7k2b5S+kUlxFzdJnMcKAjDAPiQ2msetO8YPwDrPcmjXDNMk3w9/y+ZpvX4C6hHO7bPm8XLi7+jn9+r58u/6T9j922TonMB/fNLsMzcN3kF8Bf085Ddxk7uBDkbA0wivRosKU3Oy1CN1MUgpHawaigx052EjZiOUOCKgUiSIM5a+WPlR7VG3FuXoYPgxYpjHFzEL1MRIsGimai/mISTxAs2HoEx7JAAAOw=="/></button></td>
+<td> </td>
+<td class="score">
 <div id="armNum">
  </div>
 </td>
-</tr>
-<tr>
-<td bgcolor="#99ccff" class="small" width="15.8%">ÂNGULO POPLÍTEO </td>
-<td id="popneg1" width="10.5%">
-<img height="45" src="data:image/gif;base64,R0lGODlhQwAtAKIAAM7Ozq+vr5OTk////wAAAGlpaf///wAAACH5BAEAAAYALAAAAABDAC0AAAP/aLrc/jDKSau9OOvNu/9gKI5kaZ5oqq5sOgBFLAytN8QBAAREUG+3GWNAAPwkr4FSQaQ1msfHjUCNFQgFgNKpKHCji+Y2F7BWC7neEswkfMNjwZWKDeReurdJKaivpXx0ggVyWHoiAFgCAgF9RUoAi31XMow5WkuQBEIkPG8vdIQCmFsVQYccngYvTz0fQSJQBo0Osh22HotwD4wgtK9eFDCoFzfEFrgQxq9uwMdtzxTLNs0T07fVt8ETw86+AhRZIL0gyQ2J0dbZH6oPiVrUPrF98GE8Z4t5f0ib6RgwohZhwaSjUQx8o7ZkGsAjgL8MLxoxIqZwx6I5Mig9BFMxSg+bjyBD2nACw+EscQw3qiACjggPLUXcWBIZphcRGDt82Ikkj6aBHavoDBg1y+E+kXYMyBk6M6lPBkkT0buB7ukQGi8S/uRktUMCADs=" width="67"/></td>
-<td id="pop0" width="10.5%">
-<img height="45" src="data:image/gif;base64,R0lGODlhQwAtAKIGALCwsM7OzpKSkv///wAAAGhoaP///wAAACH5BAEAAAYALAAAAABDAC0AAAP/aLrc/jDKSau9OOvNu/9gKDqDMIwoNBQFETDDmYYrEBNmyRb27MWLEgEXC7BkPtAAQECWBMlRwBVsRkUDQs8geF1pRK73qzwWkOSPsJBGMcdt0HRriMUAgADwurRTsjwAAi0EBQKHhXAoS0NDPDJ2S4eEOAI2fgoDUyYpTF12AQKVLSyWl3sSOmgfTKsKU02YGjVYViWrWYobWa6zPJmcDQBnIJZKVqnIHka9GHgVz2rEHgW6D4LHzRfV0FBqyhzGFOLL0x0rFeYd5OfgD7zf2hhT2rnSACODvSs4Af6RF7IEE8HkVAxRlg4NImToEB49AO9okcdhDSk6mSIFwDOJUOGOMFEiUXynEVWckyhTJtmzRE+dHrJUwvhV45OhJnjwyWxAi5meZzmj7WSwkUuhJl0M4NE0Ms4zUZKAWhuqFF+uR9XcUc34ytAJI1O3ckgAADs=" width="67"/></td>
-<td id="pop1" width="10.5%">
-<img height="45" src="data:image/gif;base64,R0lGODlhQwAtAKIGAP///5WVlWxsbAAAALm5udPT0////wAAACH5BAEAAAYALAAAAABDAC0AAAP/aLrc/jDKSau9OOvNu/9gKFZFAIzoAwTCEKTwAhAAIBRxrgDDqccEge+HshGIMN4QKSr0ZoEAjekJDFyE4OBI3fC4uwGuq1EyzOQMoccQHGs1JKAQp9hMBYL1Omi5l0UFLX03Q3BzeoN9UQR0cIJsKTZudHkCbol+AlKOdRBOY01bgAZrW51ekSA8OCuAaB5BIm47Jg5BpBk2ubpCE7sgUSB6FVIgJcFgEsQfNskVzB7IH9ESxtQvzb4SsBw2oR60EoK8F+Qh3Q3pZarHYg9OfVmNhxZfKU6FNZCNelGDly5x6nSoBbgRMy5d+ePgUIE8/xQGvDJFx6FyERw6SsOxRaNHEZ7gGJhxQuTHMywWOKkREIqyk5NKXoFiQEqWbCdlvDDSI0spPBjTrDCQb4tPnzkbChiZ58mNbUnPhJpzIsjLqB4SAAA7" width="67"/></td>
-<td id="pop2" width="10.5%">
-<img height="45" src="data:image/gif;base64,R0lGODlhQwAtAKIFAP///6WlpYKCggAAAMfHx////wAAAAAAACH5BAEAAAUALAAAAABDAC0AAAP/WLrc/jDKSau9OFMAQtBg6BCDMABiCnKFQKiw5sW0BZx1Ht2o7jeun1BB+Ax/vKMvqdQJApxeE0YaWAXSaYjHCeC022/BmwVjgotnlGWukDhFq/xa1nUIbEc0Ln8S8GteWEtec1B7ASZXAYB1DAAmjiI3A42UcwIueTYDRjFvepSbK2IpSR1lTCqJMDcvBah6pWGSF6oQt7SrnhIzKrkaaBMEAq2zwa/Dxb/HGb4TzyKgpoMTzRjAGtmP1xeJtRjTD66r3cHNlE+MlmuSkObaXoCwACTqiZmKc1f3HiZQSBQJdNcOThEPHvAoademoUMhbCC9ihXloZ5MsDqduBGJMhgvixk/sCBWZEyRkiAZoCzwhhFLKApTLugA65vJMR9lvmS5kcMJeA5H5kNBIpnOFAkAADs=" width="67"/></td>
-<td id="pop3" width="10.5%">
-<img height="45" src="data:image/gif;base64,R0lGODlhQwAtAKIGAP///6urq42NjW9vbwAAAMjIyP///wAAACH5BAEAAAYALAAAAABDAC0AAAP/aLrc/jDKSau9OFsQxABaKDZAURDgqI5Bsb5aC89WENC4ZOe8U9y9oGEn7P2KRgGSBxCkljMAgeCEwgqfAMq6AgwU0idX4011DIB0GrrefEqCqZwwCIhzaWqhTUr/5gMCLWppAwQueCeBgVN7JR0DhoEtjncMUkBRkXx5U5OVGVKIL15VfGhxlmRbLwEfaKwLXpkqgqSsag5hpK8qWBUDoyO7tbQRBUpdvSMCwsfJKsTMxhDIobqxIkcUtiu/XdkP0iJlMN0RZyuuUYfHh7lkWqrkBHYkcYCBgoOEp4XhpOIIMiGwX4kfkAzlE6TQXo8mkQLN60OIoIBmE8do3MixPQuiWSCw3OCQccwJJWGCpeTwo6QVDkqsIYzZollHcTRR2bJ26iYYlF9mDnHmUxbQVFJSFRWXgiQYh0thJAAAOw==" width="67"/></td>
-<td id="pop4" width="10.5%">
-<img height="45" src="data:image/gif;base64,R0lGODlhQwAtAKIGAP///6ysrIuLi2JiYgAAAMzMzP///wAAACH5BAEAAAYALAAAAABDAC0AAAP/aLrc/jDKSau9OGswCClaKDZAOQRjmgqg6mIc8M4VQMh0DsV63xQCn1ABHAoDKGNPkFTSeM7nCRd12QgDanUUE9y2qcKAOFaUqoCCdhIQlApYwWDOWj+BnkGdVAK0vVhxSGp+cy05HHpvAXMBBW1zkUwBfWcOaQSUTwRuJAF5TIR2EzaHKqVma3CmIjajGgJBCkgOjK8YbVZfqZcfurcWRRSMLywquRRQK00iTBVwwBa0KdMTYtEVxikcFcSnu1zgO+Ii1y7mEbG/LwByr5+U2BE2zKdza+0e+o0FotE2nZ580oPEi5tKj2LNycPPHx5NPdL8gbgD4Z9IeSiCyVBJO97Gj1WAtBADIo1HMABv0LuBpB7IWm5CoWhZ7eWDlJMMPDJpc16hljpd9iThJgsHdEN3MBo5gFVSFQkAADs=" width="67"/></td>
-<td id="pop5" width="10.5%">
-<img height="45" src="data:image/gif;base64,R0lGODlhQwAtAKIGALGxsf///5CQkGhoaM7OzgAAAP///wAAACH5BAEAAAYALAAAAABDAC0AAAP/aLrc/jDKSau9OOvNu//gRgRhaQUFaa4RkLIwgwpqvAZCQdhwMLy8FaEAqAVBOOAxNDMuOwHX7oksEKmgoWAwwC6clGTRJQAIRsGAj4iGqAMEl3U+KAO4tJ68vC3Q3gBmXAV4AmdvNWo5YB5JbQZqc1Z4ACNqFi6MHFskl185lh53mhlDnToOW0gDAFUqbw4opBc+sxW1FGWuH2YVBAO2FWcfumHAIMMehrfHxFMdBAIVvR+4jUoRrLsf2hKyyNLbDyitH6YlQ88yk4FFiBfnJiisgD+V0VuDhIb37wpwi/T04VIk1hsCcfL92DeoTrBGnjIcNFPpoZeLGDNCMbMjPsqAjgU1tiCS4tevKIFEjvNBg8+OdilV/osGTIufPIFgyTQwpBycOxwNxNw50xDAWiabEZWhZhSkO+qWekgAADs=" width="67"/></td>
-<td class="score" width="10.5%">
+</tr><tr>
+<th scope="row" id="criterion-pop">Ân­gu­lo po­plí­teo</th>
+<td id="popneg1" class="score-cell"><button type="button" class="score-option" id="option-popneg1" data-group="pop" data-score="-1" data-nav-group="pop" tabindex="-1" aria-pressed="false" aria-label="Ângulo poplíteo. Pontuação -1. Extensão da perna: ângulo poplíteo de 180 graus."><img alt="Ângulo poplíteo, pontuação -1. Extensão da perna: ângulo poplíteo de 180 graus." height="45" src="data:image/gif;base64,R0lGODlhQwAtAKIAAM7Ozq+vr5OTk////wAAAGlpaf///wAAACH5BAEAAAYALAAAAABDAC0AAAP/aLrc/jDKSau9OOvNu/9gKI5kaZ5oqq5sOgBFLAytN8QBAAREUG+3GWNAAPwkr4FSQaQ1msfHjUCNFQgFgNKpKHCji+Y2F7BWC7neEswkfMNjwZWKDeReurdJKaivpXx0ggVyWHoiAFgCAgF9RUoAi31XMow5WkuQBEIkPG8vdIQCmFsVQYccngYvTz0fQSJQBo0Osh22HotwD4wgtK9eFDCoFzfEFrgQxq9uwMdtzxTLNs0T07fVt8ETw86+AhRZIL0gyQ2J0dbZH6oPiVrUPrF98GE8Z4t5f0ib6RgwohZhwaSjUQx8o7ZkGsAjgL8MLxoxIqZwx6I5Mig9BFMxSg+bjyBD2nACw+EscQw3qiACjggPLUXcWBIZphcRGDt82Ikkj6aBHavoDBg1y+E+kXYMyBk6M6lPBkkT0buB7ukQGi8S/uRktUMCADs="/></button></td>
+<td id="pop0" class="score-cell"><button type="button" class="score-option" id="option-pop0" data-group="pop" data-score="0" data-nav-group="pop" tabindex="-1" aria-pressed="false" aria-label="Ângulo poplíteo. Pontuação 0. Extensão da perna: ângulo poplíteo de 160 graus."><img alt="Ângulo poplíteo, pontuação 0. Extensão da perna: ângulo poplíteo de 160 graus." height="45" src="data:image/gif;base64,R0lGODlhQwAtAKIGALCwsM7OzpKSkv///wAAAGhoaP///wAAACH5BAEAAAYALAAAAABDAC0AAAP/aLrc/jDKSau9OOvNu/9gKDqDMIwoNBQFETDDmYYrEBNmyRb27MWLEgEXC7BkPtAAQECWBMlRwBVsRkUDQs8geF1pRK73qzwWkOSPsJBGMcdt0HRriMUAgADwurRTsjwAAi0EBQKHhXAoS0NDPDJ2S4eEOAI2fgoDUyYpTF12AQKVLSyWl3sSOmgfTKsKU02YGjVYViWrWYobWa6zPJmcDQBnIJZKVqnIHka9GHgVz2rEHgW6D4LHzRfV0FBqyhzGFOLL0x0rFeYd5OfgD7zf2hhT2rnSACODvSs4Af6RF7IEE8HkVAxRlg4NImToEB49AO9okcdhDSk6mSIFwDOJUOGOMFEiUXynEVWckyhTJtmzRE+dHrJUwvhV45OhJnjwyWxAi5meZzmj7WSwkUuhJl0M4NE0Ms4zUZKAWhuqFF+uR9XcUc34ytAJI1O3ckgAADs="/></button></td>
+<td id="pop1" class="score-cell"><button type="button" class="score-option" id="option-pop1" data-group="pop" data-score="1" data-nav-group="pop" tabindex="-1" aria-pressed="false" aria-label="Ângulo poplíteo. Pontuação 1. Extensão da perna: ângulo poplíteo de 140 graus."><img alt="Ângulo poplíteo, pontuação 1. Extensão da perna: ângulo poplíteo de 140 graus." height="45" src="data:image/gif;base64,R0lGODlhQwAtAKIGAP///5WVlWxsbAAAALm5udPT0////wAAACH5BAEAAAYALAAAAABDAC0AAAP/aLrc/jDKSau9OOvNu/9gKFZFAIzoAwTCEKTwAhAAIBRxrgDDqccEge+HshGIMN4QKSr0ZoEAjekJDFyE4OBI3fC4uwGuq1EyzOQMoccQHGs1JKAQp9hMBYL1Omi5l0UFLX03Q3BzeoN9UQR0cIJsKTZudHkCbol+AlKOdRBOY01bgAZrW51ekSA8OCuAaB5BIm47Jg5BpBk2ubpCE7sgUSB6FVIgJcFgEsQfNskVzB7IH9ESxtQvzb4SsBw2oR60EoK8F+Qh3Q3pZarHYg9OfVmNhxZfKU6FNZCNelGDly5x6nSoBbgRMy5d+ePgUIE8/xQGvDJFx6FyERw6SsOxRaNHEZ7gGJhxQuTHMywWOKkREIqyk5NKXoFiQEqWbCdlvDDSI0spPBjTrDCQb4tPnzkbChiZ58mNbUnPhJpzIsjLqB4SAAA7"/></button></td>
+<td id="pop2" class="score-cell"><button type="button" class="score-option" id="option-pop2" data-group="pop" data-score="2" data-nav-group="pop" tabindex="-1" aria-pressed="false" aria-label="Ângulo poplíteo. Pontuação 2. Extensão da perna: ângulo poplíteo de 120 graus."><img alt="Ângulo poplíteo, pontuação 2. Extensão da perna: ângulo poplíteo de 120 graus." height="45" src="data:image/gif;base64,R0lGODlhQwAtAKIFAP///6WlpYKCggAAAMfHx////wAAAAAAACH5BAEAAAUALAAAAABDAC0AAAP/WLrc/jDKSau9OFMAQtBg6BCDMABiCnKFQKiw5sW0BZx1Ht2o7jeun1BB+Ax/vKMvqdQJApxeE0YaWAXSaYjHCeC022/BmwVjgotnlGWukDhFq/xa1nUIbEc0Ln8S8GteWEtec1B7ASZXAYB1DAAmjiI3A42UcwIueTYDRjFvepSbK2IpSR1lTCqJMDcvBah6pWGSF6oQt7SrnhIzKrkaaBMEAq2zwa/Dxb/HGb4TzyKgpoMTzRjAGtmP1xeJtRjTD66r3cHNlE+MlmuSkObaXoCwACTqiZmKc1f3HiZQSBQJdNcOThEPHvAoademoUMhbCC9ihXloZ5MsDqduBGJMhgvixk/sCBWZEyRkiAZoCzwhhFLKApTLugA65vJMR9lvmS5kcMJeA5H5kNBIpnOFAkAADs="/></button></td>
+<td id="pop3" class="score-cell"><button type="button" class="score-option" id="option-pop3" data-group="pop" data-score="3" data-nav-group="pop" tabindex="-1" aria-pressed="false" aria-label="Ângulo poplíteo. Pontuação 3. Extensão da perna: ângulo poplíteo de 100 graus."><img alt="Ângulo poplíteo, pontuação 3. Extensão da perna: ângulo poplíteo de 100 graus." height="45" src="data:image/gif;base64,R0lGODlhQwAtAKIGAP///6urq42NjW9vbwAAAMjIyP///wAAACH5BAEAAAYALAAAAABDAC0AAAP/aLrc/jDKSau9OFsQxABaKDZAURDgqI5Bsb5aC89WENC4ZOe8U9y9oGEn7P2KRgGSBxCkljMAgeCEwgqfAMq6AgwU0idX4011DIB0GrrefEqCqZwwCIhzaWqhTUr/5gMCLWppAwQueCeBgVN7JR0DhoEtjncMUkBRkXx5U5OVGVKIL15VfGhxlmRbLwEfaKwLXpkqgqSsag5hpK8qWBUDoyO7tbQRBUpdvSMCwsfJKsTMxhDIobqxIkcUtiu/XdkP0iJlMN0RZyuuUYfHh7lkWqrkBHYkcYCBgoOEp4XhpOIIMiGwX4kfkAzlE6TQXo8mkQLN60OIoIBmE8do3MixPQuiWSCw3OCQccwJJWGCpeTwo6QVDkqsIYzZollHcTRR2bJ26iYYlF9mDnHmUxbQVFJSFRWXgiQYh0thJAAAOw=="/></button></td>
+<td id="pop4" class="score-cell"><button type="button" class="score-option" id="option-pop4" data-group="pop" data-score="4" data-nav-group="pop" tabindex="-1" aria-pressed="false" aria-label="Ângulo poplíteo. Pontuação 4. Extensão da perna: ângulo poplíteo de 90 graus."><img alt="Ângulo poplíteo, pontuação 4. Extensão da perna: ângulo poplíteo de 90 graus." height="45" src="data:image/gif;base64,R0lGODlhQwAtAKIGAP///6ysrIuLi2JiYgAAAMzMzP///wAAACH5BAEAAAYALAAAAABDAC0AAAP/aLrc/jDKSau9OGswCClaKDZAOQRjmgqg6mIc8M4VQMh0DsV63xQCn1ABHAoDKGNPkFTSeM7nCRd12QgDanUUE9y2qcKAOFaUqoCCdhIQlApYwWDOWj+BnkGdVAK0vVhxSGp+cy05HHpvAXMBBW1zkUwBfWcOaQSUTwRuJAF5TIR2EzaHKqVma3CmIjajGgJBCkgOjK8YbVZfqZcfurcWRRSMLywquRRQK00iTBVwwBa0KdMTYtEVxikcFcSnu1zgO+Ii1y7mEbG/LwByr5+U2BE2zKdza+0e+o0FotE2nZ580oPEi5tKj2LNycPPHx5NPdL8gbgD4Z9IeSiCyVBJO97Gj1WAtBADIo1HMABv0LuBpB7IWm5CoWhZ7eWDlJMMPDJpc16hljpd9iThJgsHdEN3MBo5gFVSFQkAADs="/></button></td>
+<td id="pop5" class="score-cell"><button type="button" class="score-option" id="option-pop5" data-group="pop" data-score="5" data-nav-group="pop" tabindex="-1" aria-pressed="false" aria-label="Ângulo poplíteo. Pontuação 5. Extensão da perna: ângulo poplíteo de menor que 90 graus."><img alt="Ângulo poplíteo, pontuação 5. Extensão da perna: ângulo poplíteo de menor que 90 graus." height="45" src="data:image/gif;base64,R0lGODlhQwAtAKIGALGxsf///5CQkGhoaM7OzgAAAP///wAAACH5BAEAAAYALAAAAABDAC0AAAP/aLrc/jDKSau9OOvNu//gRgRhaQUFaa4RkLIwgwpqvAZCQdhwMLy8FaEAqAVBOOAxNDMuOwHX7oksEKmgoWAwwC6clGTRJQAIRsGAj4iGqAMEl3U+KAO4tJ68vC3Q3gBmXAV4AmdvNWo5YB5JbQZqc1Z4ACNqFi6MHFskl185lh53mhlDnToOW0gDAFUqbw4opBc+sxW1FGWuH2YVBAO2FWcfumHAIMMehrfHxFMdBAIVvR+4jUoRrLsf2hKyyNLbDyitH6YlQ88yk4FFiBfnJiisgD+V0VuDhIb37wpwi/T04VIk1hsCcfL92DeoTrBGnjIcNFPpoZeLGDNCMbMjPsqAjgU1tiCS4tevKIFEjvNBg8+OdilV/osGTIufPIFgyTQwpBycOxwNxNw50xDAWiabEZWhZhSkO+qWekgAADs="/></button></td>
+<td class="score">
 <div id="popNum">
  </div>
 </td>
-</tr>
-<tr>
-<td bgcolor="#99ccff" class="small" width="15.8%">SINAL DO CACHECOL</td>
-<td id="scarfneg1" width="10.5%">
-<img height="45" src="data:image/gif;base64,R0lGODlhQwAtAKIGAM3NzbGxsZSUlP///2lpaQAAAP///wAAACH5BAEAAAYALAAAAABDAC0AAAP/aLrc/jDKSau9OM8RBBHBoI2kMQiFAKyoIJbw9r0LR9BxXhNBBBQ4XawzCdyEucFRogwiNcqK6gkD9BinYOBKHVkb2QaxOzpVAgByeRlpqkegIuFdBrbtG+ebgAcX+g8DAARpdDsBBSEDixyJgFhGhHpkUScEfH9HjyYeLoaCLIsCNYJ8Hz+FJoM8k1QDf0CCozUuix1/IYg3rUiLVgVLW1iLDCimvEK+aIw0caQ4RMhJgsuTnjUhDACzbxzVTGwmQW5vAMQU5AphO9KG7GBg4e7gOBxBU/MU22DmYqn5EYQN08IFIASBtILsMxgBHxYHCxk+kLfuncR4485ZvLhRSZ1GdfIuplOXrcE1jupO1njgEOVITuNCSnz5EWQ7d2Ow3SuI0gQgQfU2ofxBg9ECVD0foBLBgaTQpCYuobHS6SZHDgJAlISaNAEAOw==" width="67"/></td>
-<td id="scarf0" width="10.5%">
-<img height="45" src="data:image/gif;base64,R0lGODlhQwAtAKIFAAAAAH5+fqOjo////8LCwv///wAAAAAAACH5BAEAAAUALAAAAABDAC0AAAP/WLrc/jDKSau9ONtBRBDCoI2kQgABoQqoWL7TwLoLB9Bwzng4M9y6YOHXaxACQl0qBkyWiBQBwfkM4Dg9EJU0sPpCDe1WA51IxyOvpFtEU7rMtnvdfJTnmNPU0a3j7QM4AQEtgYEnhHJBHCqGjjIAhQVWfZGEXmBoj5uQKSJQnYELZzGaV2pDkTSkEF0Cfwp3Q4kKYnYtsLNXNiFwfLS5BR1fn4NHVywEimissS42dT+ZwbV7sdPChcDUC6jODYSRytw+3obg5+Q+flhh1uo1fkNZr/DlyD3D9jVIDaL3+0zUq4FNV8ACzeb1kAUv4Tx/3uBFlFEkojqLbQpeXDgOLt1BfT4WylMnK92CIwdnvWsXbxm1kjRcpYzXMZM0l+T69ApE6N1MgoOM4fzpJAEAOw==" width="67"/></td>
-<td id="scarf1" width="10.5%">
-<img height="45" src="data:image/gif;base64,R0lGODlhQwAtAKIFAAAAAJ+fn3d3d////8DAwP///wAAAAAAACH5BAEAAAUALAAAAABDAC0AAAP/WLrc/jDKSau9OOvN+xhBIAjE0J3XIADkQKyBic7PAJQNCMh0b/OOX4+mIkxCw5lQskxykDmHAOjMTHNXRsBY3WxzOC23m4FOsmRME7JOV1RUh9md2kXadIrNDgbw8xY2BH4fHwGEf4B6AgUqfiMxJmhBcXQEAQqOVDFsApiKCl8Lg0CiOQCfoAWmmTejqaOJinAMLjacILUjlXlrH40rH4ytnL2/C74yIFNXgkOFJYXSey2NibYLhzukSdPeH36RwDlUgyy8aYUMLznFC7uqEXONce7xUlTYYvc1k/QOl/gFkXVMFzpQtGqFQSaLX8JaAw/OgpXJnjWJgHKRC+KPNV9AMPka3nuYqWArjL38mVTwUWCtawsvupSDxmSRmUFEKCt2C2eNQVugBfN559IITyuJxksAADs=" width="67"/></td>
-<td id="scarf2" width="10.5%">
-<img height="45" src="data:image/gif;base64,R0lGODlhQwAtAKIFAMfHx6GhoQAAAP///3Fxcf///wAAAAAAACH5BAEAAAUALAAAAABDAC0AAAP/WLrc/jDKSau9ONcxQiABMGhkWQyEEAIfAZhw9YkMB45x3gAE7qAEnfAk8D0GxWGORWEZlRnU85iEkqQ1Wq1nvXIXndd22qVgJ+cyJmT+qi9piOutmUeQZLoEIBA7+AF6GQECBD0ciCkggms2AoWGN3GMElxSiDiTlEeWRVoKmpsNWJdGoaJgXx4cDW6oP0GgLk9srw9MoFUMuLY7gbK6CrwnA35vU7XCriexHYbGajweNMlET0g8kmqYHY9FI654YN19eTCYAOkiiT6Tli0p5jDq66xgo8uKKjTLQvYWk8IYqdaLxw9kv3op8PBnyrBeDEdN6aBwgZ1dE/uh0shJNh6jiws+pfIoKGINhwkVijuJjyQjk8Ke8HApaCUoU8EqEtESIBMfaDqZSeKQjeYrZ5F6Bu2VAAA7" width="67"/></td>
-<td id="scarf3" width="10.5%">
-<img height="45" src="data:image/gif;base64,R0lGODlhQwAtAKIGAP///7W1tZWVlWhoaNHR0QAAAP///wAAACH5BAEAAAYALAAAAABDAC0AAAP/aLrc/jDKSau9OOvNuwKAIA4B4J0VMJBEKxSCic4NURDyEg45jQKFXiPA8/2KERXBeFJRVEImRhB4IqUawZIRakCxm5i3yr2CLwGy5HvGEMwPdtsijw+284stuiDy80kFBSVeAzCAbneCJQAEL1pwiBGOBo0rK1qVkZIPVFwgOpucDZk6AmV/ox9moAylqnFBXGoKabAQQD2tfae3Dm+6QpS+QwNjXr3ECyJeQnXEJMdcssqVN82FqW0g3NYkVAEiImngMOF42yCGBXfWae/w8SsEhFLcjS0tAYMyz7t9tHzgC0Dv3gddcAAENDCMSaNuVpxFaUiM4odkobQhsoUtNls1i5XQrdIIyJ/IShh9+YviqRpDY7M8ulRB618ul6HEVFID5GS1EPy4vaGGE9mlAVpIFpWSAAA7" width="67"/></td>
-<td id="scarf4" width="10.5%">
-<img height="45" src="data:image/gif;base64,R0lGODlhQwAtAKIGAM7OzrKyspCQkP///2NjYwAAAP///wAAACH5BAEAAAYALAAAAABDAC0AAAP/aLrc/jDKSau9OOvNuxmBQAjB4J3VIBQkEI4mKjcDTIvxLNdBBBQ5nSc0IQlPA+CkFjxmmEtC03lR3ZoCAHUDEFwb2a0GKiGLq9Lo9DwhSoxsTHKt+NHjkGShRAsUCHhyBT8EAAOHAASDaYEVdiAiBJKGZo1vjB+HMZWWD0leCypBAnedHywMmgwBWqYQfq0KIEFurg4rsZlBXbYOekGqoaC9oQVKwsCYxIRNzcqBh2CSwKSpzzuUmtoDhCWHI8Oht6Uc3ADn6ObcxlmHxgQB8fIk8vEs8YbQ+bKJ8PX/8iThI8eGlS8HLogxCJOqGgNeCj9cm8LJFadZNK6ZuhjNNhrBOBf3hdLY6SIfjxENwJkAMWIlUShTqgyXaSFNhTUcYvyAQ6YweIgQ2fD5MJLRXERTaXOSAAA7" width="67"/></td>
-<td width="10.5%"> </td>
-<td class="score" width="10.5%">
+</tr><tr>
+<th scope="row" id="criterion-scarf">Si­nal do ca­che­col</th>
+<td id="scarfneg1" class="score-cell"><button type="button" class="score-option" id="option-scarfneg1" data-group="scarf" data-score="-1" data-nav-group="scarf" tabindex="-1" aria-pressed="false" aria-label="Sinal do cachecol. Pontuação -1. Posição do braço cruzado sobre o tórax na manobra ilustrada."><img alt="Sinal do cachecol, pontuação -1. Posição do braço cruzado sobre o tórax na manobra ilustrada." height="45" src="data:image/gif;base64,R0lGODlhQwAtAKIGAM3NzbGxsZSUlP///2lpaQAAAP///wAAACH5BAEAAAYALAAAAABDAC0AAAP/aLrc/jDKSau9OM8RBBHBoI2kMQiFAKyoIJbw9r0LR9BxXhNBBBQ4XawzCdyEucFRogwiNcqK6gkD9BinYOBKHVkb2QaxOzpVAgByeRlpqkegIuFdBrbtG+ebgAcX+g8DAARpdDsBBSEDixyJgFhGhHpkUScEfH9HjyYeLoaCLIsCNYJ8Hz+FJoM8k1QDf0CCozUuix1/IYg3rUiLVgVLW1iLDCimvEK+aIw0caQ4RMhJgsuTnjUhDACzbxzVTGwmQW5vAMQU5AphO9KG7GBg4e7gOBxBU/MU22DmYqn5EYQN08IFIASBtILsMxgBHxYHCxk+kLfuncR4485ZvLhRSZ1GdfIuplOXrcE1jupO1njgEOVITuNCSnz5EWQ7d2Ow3SuI0gQgQfU2ofxBg9ECVD0foBLBgaTQpCYuobHS6SZHDgJAlISaNAEAOw=="/></button></td>
+<td id="scarf0" class="score-cell"><button type="button" class="score-option" id="option-scarf0" data-group="scarf" data-score="0" data-nav-group="scarf" tabindex="-1" aria-pressed="false" aria-label="Sinal do cachecol. Pontuação 0. Posição do braço cruzado sobre o tórax na manobra ilustrada."><img alt="Sinal do cachecol, pontuação 0. Posição do braço cruzado sobre o tórax na manobra ilustrada." height="45" src="data:image/gif;base64,R0lGODlhQwAtAKIFAAAAAH5+fqOjo////8LCwv///wAAAAAAACH5BAEAAAUALAAAAABDAC0AAAP/WLrc/jDKSau9ONtBRBDCoI2kQgABoQqoWL7TwLoLB9Bwzng4M9y6YOHXaxACQl0qBkyWiBQBwfkM4Dg9EJU0sPpCDe1WA51IxyOvpFtEU7rMtnvdfJTnmNPU0a3j7QM4AQEtgYEnhHJBHCqGjjIAhQVWfZGEXmBoj5uQKSJQnYELZzGaV2pDkTSkEF0Cfwp3Q4kKYnYtsLNXNiFwfLS5BR1fn4NHVywEimissS42dT+ZwbV7sdPChcDUC6jODYSRytw+3obg5+Q+flhh1uo1fkNZr/DlyD3D9jVIDaL3+0zUq4FNV8ACzeb1kAUv4Tx/3uBFlFEkojqLbQpeXDgOLt1BfT4WylMnK92CIwdnvWsXbxm1kjRcpYzXMZM0l+T69ApE6N1MgoOM4fzpJAEAOw=="/></button></td>
+<td id="scarf1" class="score-cell"><button type="button" class="score-option" id="option-scarf1" data-group="scarf" data-score="1" data-nav-group="scarf" tabindex="-1" aria-pressed="false" aria-label="Sinal do cachecol. Pontuação 1. Posição do braço cruzado sobre o tórax na manobra ilustrada."><img alt="Sinal do cachecol, pontuação 1. Posição do braço cruzado sobre o tórax na manobra ilustrada." height="45" src="data:image/gif;base64,R0lGODlhQwAtAKIFAAAAAJ+fn3d3d////8DAwP///wAAAAAAACH5BAEAAAUALAAAAABDAC0AAAP/WLrc/jDKSau9OOvN+xhBIAjE0J3XIADkQKyBic7PAJQNCMh0b/OOX4+mIkxCw5lQskxykDmHAOjMTHNXRsBY3WxzOC23m4FOsmRME7JOV1RUh9md2kXadIrNDgbw8xY2BH4fHwGEf4B6AgUqfiMxJmhBcXQEAQqOVDFsApiKCl8Lg0CiOQCfoAWmmTejqaOJinAMLjacILUjlXlrH40rH4ytnL2/C74yIFNXgkOFJYXSey2NibYLhzukSdPeH36RwDlUgyy8aYUMLznFC7uqEXONce7xUlTYYvc1k/QOl/gFkXVMFzpQtGqFQSaLX8JaAw/OgpXJnjWJgHKRC+KPNV9AMPka3nuYqWArjL38mVTwUWCtawsvupSDxmSRmUFEKCt2C2eNQVugBfN559IITyuJxksAADs="/></button></td>
+<td id="scarf2" class="score-cell"><button type="button" class="score-option" id="option-scarf2" data-group="scarf" data-score="2" data-nav-group="scarf" tabindex="-1" aria-pressed="false" aria-label="Sinal do cachecol. Pontuação 2. Posição do braço cruzado sobre o tórax na manobra ilustrada."><img alt="Sinal do cachecol, pontuação 2. Posição do braço cruzado sobre o tórax na manobra ilustrada." height="45" src="data:image/gif;base64,R0lGODlhQwAtAKIFAMfHx6GhoQAAAP///3Fxcf///wAAAAAAACH5BAEAAAUALAAAAABDAC0AAAP/WLrc/jDKSau9ONcxQiABMGhkWQyEEAIfAZhw9YkMB45x3gAE7qAEnfAk8D0GxWGORWEZlRnU85iEkqQ1Wq1nvXIXndd22qVgJ+cyJmT+qi9piOutmUeQZLoEIBA7+AF6GQECBD0ciCkggms2AoWGN3GMElxSiDiTlEeWRVoKmpsNWJdGoaJgXx4cDW6oP0GgLk9srw9MoFUMuLY7gbK6CrwnA35vU7XCriexHYbGajweNMlET0g8kmqYHY9FI654YN19eTCYAOkiiT6Tli0p5jDq66xgo8uKKjTLQvYWk8IYqdaLxw9kv3op8PBnyrBeDEdN6aBwgZ1dE/uh0shJNh6jiws+pfIoKGINhwkVijuJjyQjk8Ke8HApaCUoU8EqEtESIBMfaDqZSeKQjeYrZ5F6Bu2VAAA7"/></button></td>
+<td id="scarf3" class="score-cell"><button type="button" class="score-option" id="option-scarf3" data-group="scarf" data-score="3" data-nav-group="scarf" tabindex="-1" aria-pressed="false" aria-label="Sinal do cachecol. Pontuação 3. Posição do braço cruzado sobre o tórax na manobra ilustrada."><img alt="Sinal do cachecol, pontuação 3. Posição do braço cruzado sobre o tórax na manobra ilustrada." height="45" src="data:image/gif;base64,R0lGODlhQwAtAKIGAP///7W1tZWVlWhoaNHR0QAAAP///wAAACH5BAEAAAYALAAAAABDAC0AAAP/aLrc/jDKSau9OOvNuwKAIA4B4J0VMJBEKxSCic4NURDyEg45jQKFXiPA8/2KERXBeFJRVEImRhB4IqUawZIRakCxm5i3yr2CLwGy5HvGEMwPdtsijw+284stuiDy80kFBSVeAzCAbneCJQAEL1pwiBGOBo0rK1qVkZIPVFwgOpucDZk6AmV/ox9moAylqnFBXGoKabAQQD2tfae3Dm+6QpS+QwNjXr3ECyJeQnXEJMdcssqVN82FqW0g3NYkVAEiImngMOF42yCGBXfWae/w8SsEhFLcjS0tAYMyz7t9tHzgC0Dv3gddcAAENDCMSaNuVpxFaUiM4odkobQhsoUtNls1i5XQrdIIyJ/IShh9+YviqRpDY7M8ulRB618ul6HEVFID5GS1EPy4vaGGE9mlAVpIFpWSAAA7"/></button></td>
+<td id="scarf4" class="score-cell"><button type="button" class="score-option" id="option-scarf4" data-group="scarf" data-score="4" data-nav-group="scarf" tabindex="-1" aria-pressed="false" aria-label="Sinal do cachecol. Pontuação 4. Posição do braço cruzado sobre o tórax na manobra ilustrada."><img alt="Sinal do cachecol, pontuação 4. Posição do braço cruzado sobre o tórax na manobra ilustrada." height="45" src="data:image/gif;base64,R0lGODlhQwAtAKIGAM7OzrKyspCQkP///2NjYwAAAP///wAAACH5BAEAAAYALAAAAABDAC0AAAP/aLrc/jDKSau9OOvNuxmBQAjB4J3VIBQkEI4mKjcDTIvxLNdBBBQ5nSc0IQlPA+CkFjxmmEtC03lR3ZoCAHUDEFwb2a0GKiGLq9Lo9DwhSoxsTHKt+NHjkGShRAsUCHhyBT8EAAOHAASDaYEVdiAiBJKGZo1vjB+HMZWWD0leCypBAnedHywMmgwBWqYQfq0KIEFurg4rsZlBXbYOekGqoaC9oQVKwsCYxIRNzcqBh2CSwKSpzzuUmtoDhCWHI8Oht6Uc3ADn6ObcxlmHxgQB8fIk8vEs8YbQ+bKJ8PX/8iThI8eGlS8HLogxCJOqGgNeCj9cm8LJFadZNK6ZuhjNNhrBOBf3hdLY6SIfjxENwJkAMWIlUShTqgyXaSFNhTUcYvyAQ6YweIgQ2fD5MJLRXERTaXOSAAA7"/></button></td>
+<td> </td>
+<td class="score">
 <div id="scarfNum">
  </div>
 </td>
-</tr>
-<tr>
-<td bgcolor="#99ccff" class="small" width="15.8%">MANOBRA 
-        CALCANHAR-ORELHA</td>
-<td id="heelneg1" width="10.5%">
-<img height="45" src="data:image/gif;base64,R0lGODlhQgAtAKIFAKCgoH9/f8PDw////wAAAP///wAAAAAAACH5BAEAAAUALAAAAABCAC0AAAP/WLrc/jDKSau9OOvNu/9gKI5kaZ5oqq5s63LD8HqxQABxns/UEBDAoBAYAAhkvMcAAMTpcoDfDZl0xCQxZoBazSwJAtG18+QyBjfQdzzRAaLE4FaZhjGFuIVOABcWBUduYEphGzZbOj9vAVIEjICBbFaOZh1MlQVoYDobaAAhNjI+ZmiFNASYGGhIA0eTqRgCAR+jFAGmZKgebxV8anOWuJl8UW9wxsjJxYxRRYyMusENaEXITdXJfNqQ3NzRHL5n3wrhp7AVtXrjBbdq617jS1yrIEbusKX3IZd0YICcsd51OBRJ1g0+zxw9MxKpkg+BNO4EyXMmB7FGRN4gpITiF8mFJ8Q0nutCsqTJkyhTqlzJsqXLCQkAADs=" width="66"/></td>
-<td id="heel0" width="10.5%">
-<img height="45" src="data:image/gif;base64,R0lGODlhQgAtAKIFAP///7CwsIiIiAAAANPT0////wAAAAAAACH5BAEAAAUALAAAAABCAC0AAAP/WLrc/jDKSau9OOvNu/9gKI5kaZ5oqq5s676mEAAZQBCwQgwCT9ASW48XCMiKvxRggAMEBoNZBDCEFo1GqABnAgAV3t7263ByGzYeebQuOKHJiRfda3vec/ROBvTaCEVDAXFuAgJ2GgRVVn1+O1CQWkc/gD1SblEfVFF+YVGLPEdaiAV7fQOkFFSHD48/fgxCahCrC04dOzRUa7lyYoS2qLYcS33ACoYVb5wNiiDOcsLKimqnqRUyqkw1T8xbH98U2RppUZke4RODHZ4BH0XaZx3pHNBB0uz4xNsSyR+9//Q1E0iOn6Yndlx1Imfo2oU3MxxZygLJ0KBXpJawIrFMJsslN44CVTEkg1KWjyUWWnBUScyYHDBjypxJs6bNmzhz6tzJs0ICADs=" width="66"/></td>
-<td id="heel1" width="10.5%">
-<img height="45" src="data:image/gif;base64,R0lGODlhQgAtAKIGAM3NzbCwsI+Pj////2hoaAAAAP///wAAACH5BAEAAAYALAAAAABCAC0AAAP/aLrc/jDKSau9OOvNu/9gKI5kaZ5oqq5s6z6DMEjD/NIEITc1IBSCgGCoGw4BNdagEBgQAryCVGoMAKyBLEGKVNVmSwCjJ3hOBoCcuLW08dy0NAGeAhTomth9hIbY8QpfaFldDgF7HwOHBQSFDH9fV2VbUjoBW3MOPh4xllpPPZKVOUUASF8LigVrYx1LTTyURVZbSRVhIrioqWVwuBdtIUGBiKmNUawVl4AYTja7Y5ljq8DFHFkUzprWE9geAskR4A+QguaCmx7S3VAPh6Twk/CMH+sSwzDn+jVCH/gT9jik6zAwgjZOxxAyWzAERLAPfwxyy2MmxDJyXMxl6LRwOOMhGZFyZCkzRceTU7YcOAnoUJ5IN+iEuBxCiAyTjpygZYs0Mgc4nDeCCh1KtKjRo0iTKl3KdEECADs=" width="66"/></td>
-<td id="heel2" width="10.5%">
-<img height="45" src="data:image/gif;base64,R0lGODlhQgAtAKIFAP///7CwsIyMjAAAANPT0////wAAAAAAACH5BAEAAAUALAAAAABCAC0AAAP/WLrc/jDKSau9OOvNu/9gKI5kaZ4AEQAse4aAMMw0LazAuxE13hKygSCngwACAUdq9WDJhkVGjEbMHAfMaCqH7ABm1WjhG9YEBmUd+cNLv7qfs9u0/mDFYzSo/nFF4A0tSwEEcwVtHldChU1oKSpBNkgzUEoDBBxTN5NYLUiRlDeFLQsscg88G19ZpZGiU34UiIGYVpdjsXl6pbsWsx8CAgq/Cnx5tRdCe7u5C6kMAcIYxhuAEcbUFALIHNsVtwydo4KCBObmdx7e2klSNcHw8fA07R3rE+BSpBQx3NXSErJp6JWJICqDGgRmuBEQoa16ifIFktFsWjBDtoZUSVFDMMimcRXdOfRyxmMQkOY+dQxGaJyKTiiOEApZqpzKHhjx6NzJs6fPn0CDCh1KtOjPBAA7" width="66"/></td>
-<td id="heel3" width="10.5%">
-<img height="45" src="data:image/gif;base64,R0lGODlhQgAtAKIFAP///7CwsJGRkW9vbwAAAP///wAAAAAAACH5BAEAAAUALAAAAABCAC0AAAP/WLrc/jDKSau9OOvNu/9gKI5kaZ4REAAF4KKgKxDEYNvCCnPATA8uV0BgY+0mwZdCZWSoas2jQzWLSp5WaUOQvRK62gI3A/iGHbpMYHBupDHKD1gyXsRhwu/c6RpwhwM/byR9NTYEdUlCRIE0iAErQTODMUUveX6BNzmRfWAAfntwoS0NZXp3DHUPoAEiayxlVrITq6xmcrhBaGx0oqAxAhS0EbasQB/GEMjFomLOE8y1ezaQ1teQoNAS0r5X1pw54gKTya4U3RzKZMJIuB3auaLkldsSsCnvPOn7/C00STjgC9EDlaQaRH4MyBYwRZUSoH7QSKNoiI8fORQVXEewG+GVIIAOHeLYBonHkihTqlzJsqXLlzBjypSZAAA7" width="66"/></td>
-<td id="heel4" width="10.5%">
-<img height="45" src="data:image/gif;base64,R0lGODlhQgAtAKIGAMTExKenp4aGhl9fX////wAAAP///wAAACH5BAEAAAYALAAAAABCAC0AAAP/aLrc/jDKSau9OOvNu/9gKI5kaZ4SMQgsgZJEUMyB+45EMQTDANi3D8FFAPSAwUwMaSjumEmKU8BUUaPKAlQFwF64kKHXIggkxZzhkBccDgo/KENdDAQEvffsd4r1yngDdHV3eStlNWpwBHhyHiqCcwA6M38CAHFyZQuTjhuMVGgLOYmeDDxIOaYYdwoqVZEVqg4AAiGvrppmUloPuEIDUrERKrsPlyB2wqZ+ngDGHQFdE78QkwWBeYEC2MnTKcMPmOPk0s8rIM/LH+rAq0YgV8DfvuGf9mm91rYfmyKdD2T4oKMBFYlJpYbgKaStTCZRDWLog8FDG59cQ54xtCQtHiMPeX3UWBj0jAWLGmNSqlzJsqXLlzBjypxJsyaJBAA7" width="66"/></td>
-<td width="10.5%"> </td>
-<td class="score" width="10.5%">
+</tr><tr>
+<th scope="row" id="criterion-heel">Ma­no­bra cal­ca­nhar-ore­lha</th>
+<td id="heelneg1" class="score-cell"><button type="button" class="score-option" id="option-heelneg1" data-group="heel" data-score="-1" data-nav-group="heel" tabindex="-1" aria-pressed="false" aria-label="Manobra calcanhar-orelha. Pontuação -1. Posição do pé em relação à cabeça na manobra calcanhar-orelha ilustrada."><img alt="Manobra calcanhar-orelha, pontuação -1. Posição do pé em relação à cabeça na manobra calcanhar-orelha ilustrada." height="45" src="data:image/gif;base64,R0lGODlhQgAtAKIFAKCgoH9/f8PDw////wAAAP///wAAAAAAACH5BAEAAAUALAAAAABCAC0AAAP/WLrc/jDKSau9OOvNu/9gKI5kaZ5oqq5s63LD8HqxQABxns/UEBDAoBAYAAhkvMcAAMTpcoDfDZl0xCQxZoBazSwJAtG18+QyBjfQdzzRAaLE4FaZhjGFuIVOABcWBUduYEphGzZbOj9vAVIEjICBbFaOZh1MlQVoYDobaAAhNjI+ZmiFNASYGGhIA0eTqRgCAR+jFAGmZKgebxV8anOWuJl8UW9wxsjJxYxRRYyMusENaEXITdXJfNqQ3NzRHL5n3wrhp7AVtXrjBbdq617jS1yrIEbusKX3IZd0YICcsd51OBRJ1g0+zxw9MxKpkg+BNO4EyXMmB7FGRN4gpITiF8mFJ8Q0nutCsqTJkyhTqlzJsqXLCQkAADs="/></button></td>
+<td id="heel0" class="score-cell"><button type="button" class="score-option" id="option-heel0" data-group="heel" data-score="0" data-nav-group="heel" tabindex="-1" aria-pressed="false" aria-label="Manobra calcanhar-orelha. Pontuação 0. Posição do pé em relação à cabeça na manobra calcanhar-orelha ilustrada."><img alt="Manobra calcanhar-orelha, pontuação 0. Posição do pé em relação à cabeça na manobra calcanhar-orelha ilustrada." height="45" src="data:image/gif;base64,R0lGODlhQgAtAKIFAP///7CwsIiIiAAAANPT0////wAAAAAAACH5BAEAAAUALAAAAABCAC0AAAP/WLrc/jDKSau9OOvNu/9gKI5kaZ5oqq5s676mEAAZQBCwQgwCT9ASW48XCMiKvxRggAMEBoNZBDCEFo1GqABnAgAV3t7263ByGzYeebQuOKHJiRfda3vec/ROBvTaCEVDAXFuAgJ2GgRVVn1+O1CQWkc/gD1SblEfVFF+YVGLPEdaiAV7fQOkFFSHD48/fgxCahCrC04dOzRUa7lyYoS2qLYcS33ACoYVb5wNiiDOcsLKimqnqRUyqkw1T8xbH98U2RppUZke4RODHZ4BH0XaZx3pHNBB0uz4xNsSyR+9//Q1E0iOn6Yndlx1Imfo2oU3MxxZygLJ0KBXpJawIrFMJsslN44CVTEkg1KWjyUWWnBUScyYHDBjypxJs6bNmzhz6tzJs0ICADs="/></button></td>
+<td id="heel1" class="score-cell"><button type="button" class="score-option" id="option-heel1" data-group="heel" data-score="1" data-nav-group="heel" tabindex="-1" aria-pressed="false" aria-label="Manobra calcanhar-orelha. Pontuação 1. Posição do pé em relação à cabeça na manobra calcanhar-orelha ilustrada."><img alt="Manobra calcanhar-orelha, pontuação 1. Posição do pé em relação à cabeça na manobra calcanhar-orelha ilustrada." height="45" src="data:image/gif;base64,R0lGODlhQgAtAKIGAM3NzbCwsI+Pj////2hoaAAAAP///wAAACH5BAEAAAYALAAAAABCAC0AAAP/aLrc/jDKSau9OOvNu/9gKI5kaZ5oqq5s6z6DMEjD/NIEITc1IBSCgGCoGw4BNdagEBgQAryCVGoMAKyBLEGKVNVmSwCjJ3hOBoCcuLW08dy0NAGeAhTomth9hIbY8QpfaFldDgF7HwOHBQSFDH9fV2VbUjoBW3MOPh4xllpPPZKVOUUASF8LigVrYx1LTTyURVZbSRVhIrioqWVwuBdtIUGBiKmNUawVl4AYTja7Y5ljq8DFHFkUzprWE9geAskR4A+QguaCmx7S3VAPh6Twk/CMH+sSwzDn+jVCH/gT9jik6zAwgjZOxxAyWzAERLAPfwxyy2MmxDJyXMxl6LRwOOMhGZFyZCkzRceTU7YcOAnoUJ5IN+iEuBxCiAyTjpygZYs0Mgc4nDeCCh1KtKjRo0iTKl3KdEECADs="/></button></td>
+<td id="heel2" class="score-cell"><button type="button" class="score-option" id="option-heel2" data-group="heel" data-score="2" data-nav-group="heel" tabindex="-1" aria-pressed="false" aria-label="Manobra calcanhar-orelha. Pontuação 2. Posição do pé em relação à cabeça na manobra calcanhar-orelha ilustrada."><img alt="Manobra calcanhar-orelha, pontuação 2. Posição do pé em relação à cabeça na manobra calcanhar-orelha ilustrada." height="45" src="data:image/gif;base64,R0lGODlhQgAtAKIFAP///7CwsIyMjAAAANPT0////wAAAAAAACH5BAEAAAUALAAAAABCAC0AAAP/WLrc/jDKSau9OOvNu/9gKI5kaZ4AEQAse4aAMMw0LazAuxE13hKygSCngwACAUdq9WDJhkVGjEbMHAfMaCqH7ABm1WjhG9YEBmUd+cNLv7qfs9u0/mDFYzSo/nFF4A0tSwEEcwVtHldChU1oKSpBNkgzUEoDBBxTN5NYLUiRlDeFLQsscg88G19ZpZGiU34UiIGYVpdjsXl6pbsWsx8CAgq/Cnx5tRdCe7u5C6kMAcIYxhuAEcbUFALIHNsVtwydo4KCBObmdx7e2klSNcHw8fA07R3rE+BSpBQx3NXSErJp6JWJICqDGgRmuBEQoa16ifIFktFsWjBDtoZUSVFDMMimcRXdOfRyxmMQkOY+dQxGaJyKTiiOEApZqpzKHhjx6NzJs6fPn0CDCh1KtOjPBAA7"/></button></td>
+<td id="heel3" class="score-cell"><button type="button" class="score-option" id="option-heel3" data-group="heel" data-score="3" data-nav-group="heel" tabindex="-1" aria-pressed="false" aria-label="Manobra calcanhar-orelha. Pontuação 3. Posição do pé em relação à cabeça na manobra calcanhar-orelha ilustrada."><img alt="Manobra calcanhar-orelha, pontuação 3. Posição do pé em relação à cabeça na manobra calcanhar-orelha ilustrada." height="45" src="data:image/gif;base64,R0lGODlhQgAtAKIFAP///7CwsJGRkW9vbwAAAP///wAAAAAAACH5BAEAAAUALAAAAABCAC0AAAP/WLrc/jDKSau9OOvNu/9gKI5kaZ4REAAF4KKgKxDEYNvCCnPATA8uV0BgY+0mwZdCZWSoas2jQzWLSp5WaUOQvRK62gI3A/iGHbpMYHBupDHKD1gyXsRhwu/c6RpwhwM/byR9NTYEdUlCRIE0iAErQTODMUUveX6BNzmRfWAAfntwoS0NZXp3DHUPoAEiayxlVrITq6xmcrhBaGx0oqAxAhS0EbasQB/GEMjFomLOE8y1ezaQ1teQoNAS0r5X1pw54gKTya4U3RzKZMJIuB3auaLkldsSsCnvPOn7/C00STjgC9EDlaQaRH4MyBYwRZUSoH7QSKNoiI8fORQVXEewG+GVIIAOHeLYBonHkihTqlzJsqXLlzBjypSZAAA7"/></button></td>
+<td id="heel4" class="score-cell"><button type="button" class="score-option" id="option-heel4" data-group="heel" data-score="4" data-nav-group="heel" tabindex="-1" aria-pressed="false" aria-label="Manobra calcanhar-orelha. Pontuação 4. Posição do pé em relação à cabeça na manobra calcanhar-orelha ilustrada."><img alt="Manobra calcanhar-orelha, pontuação 4. Posição do pé em relação à cabeça na manobra calcanhar-orelha ilustrada." height="45" src="data:image/gif;base64,R0lGODlhQgAtAKIGAMTExKenp4aGhl9fX////wAAAP///wAAACH5BAEAAAYALAAAAABCAC0AAAP/aLrc/jDKSau9OOvNu/9gKI5kaZ4SMQgsgZJEUMyB+45EMQTDANi3D8FFAPSAwUwMaSjumEmKU8BUUaPKAlQFwF64kKHXIggkxZzhkBccDgo/KENdDAQEvffsd4r1yngDdHV3eStlNWpwBHhyHiqCcwA6M38CAHFyZQuTjhuMVGgLOYmeDDxIOaYYdwoqVZEVqg4AAiGvrppmUloPuEIDUrERKrsPlyB2wqZ+ngDGHQFdE78QkwWBeYEC2MnTKcMPmOPk0s8rIM/LH+rAq0YgV8DfvuGf9mm91rYfmyKdD2T4oKMBFYlJpYbgKaStTCZRDWLog8FDG59cQ54xtCQtHiMPeX3UWBj0jAWLGmNSqlzJsqXLlzBjypxJsyaJBAA7"/></button></td>
+<td> </td>
+<td class="score">
 <div id="heelNum">
  </div>
 </td>
-</tr>
-<tr>
-<td align="right" class="small" colspan="8" height="44">TOTAL DA 
-        PONTUAÇÃO DA<br/>
-        MATURIDADE NEUROMUSCULAR </td>
-<td class="score">
+</tr></tbody><tfoot><tr>
+<td colspan="8" class="score-total-label">Pontuação neuromuscular<span data-partial-group="neu"></span></td>
+<td class="score score-total-value">
 <div id="nScore">
  </div>
 </td>
-</tr>
-</table>
-<p></p></td>
-<td rowspan="2" valign="top"> <br/>
-<table border="0" cellpadding="1" cellspacing="1">
+</tr></tfoot></table></div></section>
+<section class="assessment-section" aria-labelledby="phyTitle">
+<div class="section-heading"><h2 id="phyTitle">Maturidade física</h2><span class="criterion-progress" id="phyProgress">0 de 6 critérios</span></div>
+<div class="score-scroller"><table class="score-table" aria-labelledby="phyTitle"><colgroup><col class="criterion-column"/><col class="score-column"/><col class="score-column"/><col class="score-column"/><col class="score-column"/><col class="score-column"/><col class="score-column"/><col class="score-column"/><col class="result-column"/></colgroup><thead><tr><th scope="col" rowspan="2" class="criterion-heading">Cri­té­rio</th><th scope="colgroup" colspan="7">Es­co­re</th><th scope="col" rowspan="2">Re­sul­ta­do</th></tr><tr><th scope="col">-1</th><th scope="col">0</th><th scope="col">1</th><th scope="col">2</th><th scope="col">3</th><th scope="col">4</th><th scope="col">5</th></tr></thead><tbody><tr>
+<th scope="row" id="criterion-skin">Tex­tu­ra da pe­le</th>
+<td id="skinneg1" class="score-cell"><button type="button" class="score-option" id="option-skinneg1" data-group="skin" data-score="-1" data-nav-group="skin" tabindex="-1" aria-pressed="false" aria-label="Textura da pele. Pontuação -1. úmida, friável, transparente">úmi­da, fri­á­vel, trans­pa­ren­te</button></td>
+<td id="skin0" class="score-cell"><button type="button" class="score-option" id="option-skin0" data-group="skin" data-score="0" data-nav-group="skin" tabindex="-1" aria-pressed="false" aria-label="Textura da pele. Pontuação 0. vermelha, gelatinosa, translúcida">ver­me­lha, ge­la­ti­no­sa, trans­lú­ci­da</button></td>
+<td id="skin1" class="score-cell"><button type="button" class="score-option" id="option-skin1" data-group="skin" data-score="1" data-nav-group="skin" tabindex="-1" aria-pressed="false" aria-label="Textura da pele. Pontuação 1. lisa, rosada, veias visíveis">li­sa, ro­sa­da, vei­as vi­sí­veis</button></td>
+<td id="skin2" class="score-cell"><button type="button" class="score-option" id="option-skin2" data-group="skin" data-score="2" data-nav-group="skin" tabindex="-1" aria-pressed="false" aria-label="Textura da pele. Pontuação 2. descamação superficial e/ou rash, poucas veias">des­ca­ma­ção su­per­fi­ci­al e/ou rash, pou­cas vei­as</button></td>
+<td id="skin3" class="score-cell"><button type="button" class="score-option" id="option-skin3" data-group="skin" data-score="3" data-nav-group="skin" tabindex="-1" aria-pressed="false" aria-label="Textura da pele. Pontuação 3. sulcos em áreas limitadas, raras veias">sul­cos em áreas li­mi­ta­das, ra­ras vei­as</button></td>
+<td id="skin4" class="score-cell"><button type="button" class="score-option" id="option-skin4" data-group="skin" data-score="4" data-nav-group="skin" tabindex="-1" aria-pressed="false" aria-label="Textura da pele. Pontuação 4. apergaminhada, sulcos profundos ausência de vasos">aper­ga­mi­nha­da, sul­cos pro­fun­dos au­sên­cia de va­sos</button></td>
+<td id="skin5" class="score-cell"><button type="button" class="score-option" id="option-skin5" data-group="skin" data-score="5" data-nav-group="skin" tabindex="-1" aria-pressed="false" aria-label="Textura da pele. Pontuação 5. grossa com fissuras, enrugada">gros­sa com fis­su­ras, en­ru­ga­da</button></td>
+<td class="score">
+<div id="skinNum">
+ </div>
+</td>
+</tr><tr>
+<th scope="row" id="criterion-lanugo">La­nu­go</th>
+<td id="lanugoneg1" class="score-cell"><button type="button" class="score-option" id="option-lanugoneg1" data-group="lanugo" data-score="-1" data-nav-group="lanugo" tabindex="-1" aria-pressed="false" aria-label="Lanugo. Pontuação -1. ausente">au­sen­te</button></td>
+<td id="lanugo0" class="score-cell"><button type="button" class="score-option" id="option-lanugo0" data-group="lanugo" data-score="0" data-nav-group="lanugo" tabindex="-1" aria-pressed="false" aria-label="Lanugo. Pontuação 0. esparso">es­par­so</button></td>
+<td id="lanugo1" class="score-cell"><button type="button" class="score-option" id="option-lanugo1" data-group="lanugo" data-score="1" data-nav-group="lanugo" tabindex="-1" aria-pressed="false" aria-label="Lanugo. Pontuação 1. abundante">abun­dan­te</button></td>
+<td id="lanugo2" class="score-cell"><button type="button" class="score-option" id="option-lanugo2" data-group="lanugo" data-score="2" data-nav-group="lanugo" tabindex="-1" aria-pressed="false" aria-label="Lanugo. Pontuação 2. fino">fi­no</button></td>
+<td id="lanugo3" class="score-cell"><button type="button" class="score-option" id="option-lanugo3" data-group="lanugo" data-score="3" data-nav-group="lanugo" tabindex="-1" aria-pressed="false" aria-label="Lanugo. Pontuação 3. poucas áreas sem pelo">pou­cas áreas sem pe­lo</button></td>
+<td id="lanugo4" class="score-cell"><button type="button" class="score-option" id="option-lanugo4" data-group="lanugo" data-score="4" data-nav-group="lanugo" tabindex="-1" aria-pressed="false" aria-label="Lanugo. Pontuação 4. muitas áreas sem pelo">mui­tas áreas sem pe­lo</button></td>
+<td class="smCtr"> </td>
+<td class="score">
+<div id="lanugoNum">
+ </div>
+</td>
+</tr><tr>
+<th scope="row" id="criterion-plantar">Su­per­fí­cie plan­tar</th>
+<td id="plantarneg1" class="score-cell negative-cell"><span class="negative-caption">cal­ca­nhar-de­do</span><div class="negative-options"><button type="button" class="score-option" id="option-plantarneg1" data-group="plantar" data-score="-1" data-nav-group="plantar" tabindex="-1" aria-pressed="false" aria-label="Superfície plantar. Pontuação -1. calcanhar-dedo. 40-50 mm: -1">40-50 mm: -1</button><button type="button" class="score-option" id="option-plantarneg2" data-group="plantar" data-score="-2" data-nav-group="plantar" tabindex="-1" aria-pressed="false" aria-label="Superfície plantar. Pontuação -2. calcanhar-dedo. &lt;40 mm: -2">&lt;40 mm: -2</button></div></td>
+<td id="plantar0" class="score-cell"><button type="button" class="score-option" id="option-plantar0" data-group="plantar" data-score="0" data-nav-group="plantar" tabindex="-1" aria-pressed="false" aria-label="Superfície plantar. Pontuação 0. &gt;50 mm nenhuma prega">&gt;50 mm 
+        ne­nhu­ma pre­ga</button></td>
+<td id="plantar1" class="score-cell"><button type="button" class="score-option" id="option-plantar1" data-group="plantar" data-score="1" data-nav-group="plantar" tabindex="-1" aria-pressed="false" aria-label="Superfície plantar. Pontuação 1. marcas vermelhas discretas">mar­cas ver­me­lhas dis­cre­tas</button></td>
+<td id="plantar2" class="score-cell"><button type="button" class="score-option" id="option-plantar2" data-group="plantar" data-score="2" data-nav-group="plantar" tabindex="-1" aria-pressed="false" aria-label="Superfície plantar. Pontuação 2. pregas transversais somente no 1/3 anterior">pre­gas trans­ver­sais so­men­te no 1/3 an­te­ri­or</button></td>
+<td id="plantar3" class="score-cell"><button type="button" class="score-option" id="option-plantar3" data-group="plantar" data-score="3" data-nav-group="plantar" tabindex="-1" aria-pressed="false" aria-label="Superfície plantar. Pontuação 3. pregas nos 2/3 anteriores">pre­gas nos 2/3 an­te­ri­o­res</button></td>
+<td id="plantar4" class="score-cell"><button type="button" class="score-option" id="option-plantar4" data-group="plantar" data-score="4" data-nav-group="plantar" tabindex="-1" aria-pressed="false" aria-label="Superfície plantar. Pontuação 4. pregas sobre toda superfície plantar">pre­gas so­bre to­da su­per­fí­cie plan­tar</button></td>
+<td class="smCtr"> </td>
+<td class="score">
+<div id="plantarNum">
+ </div>
+</td>
+</tr><tr>
+<th scope="row" id="criterion-breast">Aré­o­las ma­má­rias</th>
+<td id="breastneg1" class="score-cell"><button type="button" class="score-option" id="option-breastneg1" data-group="breast" data-score="-1" data-nav-group="breast" tabindex="-1" aria-pressed="false" aria-label="Aréolas mamárias. Pontuação -1. imperceptíveis">im­per­cep­tí­veis</button></td>
+<td id="breast0" class="score-cell"><button type="button" class="score-option" id="option-breast0" data-group="breast" data-score="0" data-nav-group="breast" tabindex="-1" aria-pressed="false" aria-label="Aréolas mamárias. Pontuação 0. rudimentar, pouco perceptível">ru­di­men­tar, pou­co per­cep­tí­vel</button></td>
+<td id="breast1" class="score-cell"><button type="button" class="score-option" id="option-breast1" data-group="breast" data-score="1" data-nav-group="breast" tabindex="-1" aria-pressed="false" aria-label="Aréolas mamárias. Pontuação 1. aréola plana sem botão">aré­o­la pla­na 
+        sem bo­tão</button></td>
+<td id="breast2" class="score-cell"><button type="button" class="score-option" id="option-breast2" data-group="breast" data-score="2" data-nav-group="breast" tabindex="-1" aria-pressed="false" aria-label="Aréolas mamárias. Pontuação 2. aréola pigmentada botão de 1-2 mm">aré­o­la pig­men­ta­da bo­tão de 
+        1-2 mm</button></td>
+<td id="breast3" class="score-cell"><button type="button" class="score-option" id="option-breast3" data-group="breast" data-score="3" data-nav-group="breast" tabindex="-1" aria-pressed="false" aria-label="Aréolas mamárias. Pontuação 3. bordas elevadas botão de 3-4 mm">bor­das ele­va­das 
+  bo­tão de   3-4 mm</button></td>
+<td id="breast4" class="score-cell"><button type="button" class="score-option" id="option-breast4" data-group="breast" data-score="4" data-nav-group="breast" tabindex="-1" aria-pressed="false" aria-label="Aréolas mamárias. Pontuação 4. aréola completa botão de 5-10 mm">aré­o­la com­ple­ta 
+     bo­tão de      5-10 mm</button></td>
+<td class="smCtr"> </td>
+<td class="score">
+<div id="breastNum">
+ </div>
+</td>
+</tr><tr>
+<th scope="row" id="criterion-eye">Olhos / ore­lhas</th>
+<td id="eyeneg1" class="score-cell negative-cell"><span class="negative-caption">fen­da pal­pe­bral fe­cha­da</span><div class="negative-options"><button type="button" class="score-option" id="option-eyeneg1" data-group="eye" data-score="-1" data-nav-group="eye" tabindex="-1" aria-pressed="false" aria-label="Olhos / orelhas. Pontuação -1. fenda palpebral fechada. frouxa:-1">frou­xa:-1</button><button type="button" class="score-option" id="option-eyeneg2" data-group="eye" data-score="-2" data-nav-group="eye" tabindex="-1" aria-pressed="false" aria-label="Olhos / orelhas. Pontuação -2. fenda palpebral fechada. firme:-2">fir­me:-2</button></div></td>
+<td id="eye0" class="score-cell"><button type="button" class="score-option" id="option-eye0" data-group="eye" data-score="0" data-nav-group="eye" tabindex="-1" aria-pressed="false" aria-label="Olhos / orelhas. Pontuação 0. fenda palpebral aberta, pavilhão auricular não encurvado, permanece dobrado">fen­da  pal­pe­bral  aber­ta,  
+        pa­vi­lhão au­ri­cu­lar não en­cur­va­do, per­ma­ne­ce do­bra­do</button></td>
+<td id="eye1" class="score-cell"><button type="button" class="score-option" id="option-eye1" data-group="eye" data-score="1" data-nav-group="eye" tabindex="-1" aria-pressed="false" aria-label="Olhos / orelhas. Pontuação 1. pavilhão auricular ligeiramente curvo, amolecido, desdobra-se lentamente">pa­vi­lhão au­ri­cu­lar li­gei­ra­men­te cur­vo, amo­le­ci­do, des­do­bra-se   
+        len­ta­men­te</button></td>
+<td id="eye2" class="score-cell"><button type="button" class="score-option" id="option-eye2" data-group="eye" data-score="2" data-nav-group="eye" tabindex="-1" aria-pressed="false" aria-label="Olhos / orelhas. Pontuação 2. pavilhão auricular bem curvo, amolecido, desdobra-se rapidamente">pa­vi­lhão au­ri­cu­lar bem cur­vo, amo­le­ci­do, des­do­bra-se ra­pi­da­men­te</button></td>
+<td id="eye3" class="score-cell"><button type="button" class="score-option" id="option-eye3" data-group="eye" data-score="3" data-nav-group="eye" tabindex="-1" aria-pressed="false" aria-label="Olhos / orelhas. Pontuação 3. pavilhão auricular completamente curvo e firme, desdobra-se facilmente">pa­vi­lhão au­ri­cu­lar com­ple­ta­men­te cur­vo e fir­me, des­do­bra-se fa­cil­men­te</button></td>
+<td id="eye4" class="score-cell"><button type="button" class="score-option" id="option-eye4" data-group="eye" data-score="4" data-nav-group="eye" tabindex="-1" aria-pressed="false" aria-label="Olhos / orelhas. Pontuação 4. cartilagem espessa, orelhas rígidas">car­ti­la­gem es­pes­sa, ore­lhas rí­gi­das</button></td>
+<td class="smCtr"> </td>
+<td class="score">
+<div id="eyeNum">
+ </div>
+</td>
+</tr><tr>
+<th scope="row" id="criterion-male">Ór­gãos ge­ni­tais (mas­cu­li­nos)</th>
+<td id="maleneg1" class="score-cell"><button type="button" class="score-option" id="option-maleneg1" data-group="male" data-score="-1" data-nav-group="genital" tabindex="-1" aria-pressed="false" aria-label="Órgãos genitais (masculinos). Pontuação -1. bolsa escrotal vazia, plana e lisa">bol­sa es­cro­tal va­zia, pla­na e li­sa</button></td>
+<td id="male0" class="score-cell"><button type="button" class="score-option" id="option-male0" data-group="male" data-score="0" data-nav-group="genital" tabindex="-1" aria-pressed="false" aria-label="Órgãos genitais (masculinos). Pontuação 0. bolsa escrotal vazia, raras rugas">bol­sa es­cro­tal va­zia, 
+        ra­ras ru­gas</button></td>
+<td id="male1" class="score-cell"><button type="button" class="score-option" id="option-male1" data-group="male" data-score="1" data-nav-group="genital" tabindex="-1" aria-pressed="false" aria-label="Órgãos genitais (masculinos). Pontuação 1. testículos no canal inguinal superior, raras rugas">tes­tí­cu­los no ca­nal in­gui­nal su­pe­ri­or,  ra­ras ru­gas</button></td>
+<td id="male2" class="score-cell"><button type="button" class="score-option" id="option-male2" data-group="male" data-score="2" data-nav-group="genital" tabindex="-1" aria-pressed="false" aria-label="Órgãos genitais (masculinos). Pontuação 2. testículos no canal inguinal inferior, poucas rugas">tes­tí­cu­los no ca­nal in­gui­nal in­fe­ri­or, pou­cas ru­gas</button></td>
+<td id="male3" class="score-cell"><button type="button" class="score-option" id="option-male3" data-group="male" data-score="3" data-nav-group="genital" tabindex="-1" aria-pressed="false" aria-label="Órgãos genitais (masculinos). Pontuação 3. testículos na bolsa escrotal, muitas rugas">tes­tí­cu­los na bol­sa es­cro­tal, mui­tas ru­gas</button></td>
+<td id="male4" class="score-cell"><button type="button" class="score-option" id="option-male4" data-group="male" data-score="4" data-nav-group="genital" tabindex="-1" aria-pressed="false" aria-label="Órgãos genitais (masculinos). Pontuação 4. testículos pendulares, rugas profundas">tes­tí­cu­los pen­du­la­res, ru­gas pro­fun­das</button></td>
+<td class="smCtr"> </td>
+<td class="score">
+<div id="maleNum">
+ </div>
+</td>
+</tr><tr>
+<th scope="row" id="criterion-female">Ór­gãos ge­ni­tais (fe­mi­ni­nos)</th>
+<td id="femaleneg1" class="score-cell"><button type="button" class="score-option" id="option-femaleneg1" data-group="female" data-score="-1" data-nav-group="genital" tabindex="-1" aria-pressed="false" aria-label="Órgãos genitais (femininos). Pontuação -1. clitóris proeminente e lábios planos">cli­tó­ris pro­e­mi­nen­te e lá­bios pla­nos</button></td>
+<td id="female0" class="score-cell"><button type="button" class="score-option" id="option-female0" data-group="female" data-score="0" data-nav-group="genital" tabindex="-1" aria-pressed="false" aria-label="Órgãos genitais (femininos). Pontuação 0. clitóris proeminente, pequenos lábios de tamanho reduzido">cli­tó­ris pro­e­mi­nen­te, pe­que­nos lá­bios de ta­ma­nho re­du­zi­do</button></td>
+<td id="female1" class="score-cell"><button type="button" class="score-option" id="option-female1" data-group="female" data-score="1" data-nav-group="genital" tabindex="-1" aria-pressed="false" aria-label="Órgãos genitais (femininos). Pontuação 1. clitóris proeminente, pequenos lábios bem delineados">cli­tó­ris pro­e­mi­nen­te, pe­que­nos lá­bios bem de­li­ne­a­dos</button></td>
+<td id="female2" class="score-cell"><button type="button" class="score-option" id="option-female2" data-group="female" data-score="2" data-nav-group="genital" tabindex="-1" aria-pressed="false" aria-label="Órgãos genitais (femininos). Pontuação 2. grandes e pequenos lábios do mesmo tamanho, proeminentes">gran­des e pe­que­nos lá­bios do mes­mo ta­ma­nho, pro­e­mi­nen­tes</button></td>
+<td id="female3" class="score-cell"><button type="button" class="score-option" id="option-female3" data-group="female" data-score="3" data-nav-group="genital" tabindex="-1" aria-pressed="false" aria-label="Órgãos genitais (femininos). Pontuação 3. grandes lábios maiores que pequenos lábios">gran­des lá­bios mai­o­res que pe­que­nos lá­bios</button></td>
+<td id="female4" class="score-cell"><button type="button" class="score-option" id="option-female4" data-group="female" data-score="4" data-nav-group="genital" tabindex="-1" aria-pressed="false" aria-label="Órgãos genitais (femininos). Pontuação 4. grandes lábios cobrindo clitóris e pequenos lábios">gran­des lá­bios co­brin­do cli­tó­ris e pe­que­nos lá­bios</button></td>
+<td class="smCtr"> </td>
+<td class="score">
+<div id="femaleNum">
+ </div>
+</td>
+</tr></tbody><tfoot><tr>
+<td colspan="8" class="score-total-label">Pontuação física<span data-partial-group="phy"></span></td>
+<td class="score score-total-value">
+<div id="pScore">
+ </div>
+</td>
+</tr></tfoot></table></div></section>
+</div>
+<aside class="reference-panel" id="referencePanel" aria-labelledby="referenceTitle"><h2 id="referenceTitle">Pontuação</h2><table border="0" cellpadding="1" cellspacing="1">
+
 <tr>
-<td class="small" colspan="2"><b>PONTUAÇÃO</b></td>
-</tr>
-<tr>
-<td align="right" class="small">Neuromuscular:</td>
+<td align="right" class="small">Neuromuscular<span data-partial-group="neu"></span>:</td>
 <td align="left" class="small" style="COLOR: blue">
-<div id="nScore2">
+<div class="reference-score" id="nScore2">
  </div>
 </td>
 </tr>
 <tr>
-<td align="right" class="small">Física:</td>
+<td align="right" class="small">Física<span data-partial-group="phy"></span>:</td>
 <td align="left" class="small" style="COLOR: blue">
-<div id="pScore2">
+<div class="reference-score" id="pScore2">
  </div>
 </td>
 </tr>
 <tr>
 <td align="right" class="small">Total:</td>
 <td align="left" class="small" style="COLOR: blue">
-<div id="totScore">
+<div class="reference-score" id="totScore">
  </div>
 </td>
 </tr>
-</table>
-<p>
-<!--span class="small">
-	<b>SCORE</b><br>
-	Neuromuscular:
-	<span id="nScore2" style="color:blue">&nbsp;</span><br>
-	Physical:
-	<span id="pScore2" style="color:blue">&nbsp;</span><br>
-	Total:
-	<span id="totScore" style="color:blue">&nbsp;</span><p-->
-<span class="small"><b>ÍNDICE DE MATURIDADE</b> </span></p>
-<table border="1" cellpadding="5" cellspacing="0">
+</table><h2 id="indexTitle">Índice de maturidade</h2><table class="reference-table" border="1" aria-labelledby="indexTitle">
 <tr bgcolor="#99ccff">
-<th class="small">Pontuação</th>
-<th class="small">Semanas</th>
+<th class="small">Pon­tu­a­ção</th>
+<th class="small">Se­ma­nas</th>
 </tr>
 <tr class="smCtr" id="btwn0" style="display:none"><td class="smCtr" id="bScore0"></td><td class="smCtr" id="bWeeks0"></td></tr>
 <tr height="22" id="rate1"><td class="smCtr" id="score1">-10</td><td class="smCtr" id="weeks1">20</td></tr>
@@ -943,204 +1044,9 @@ img{display:block;max-width:100%;height:auto;margin:0 auto}
 <tr height="22" id="btwn12" style="display:none"><td class="smCtr" id="bScore12"></td><td class="smCtr" id="bWeeks12"></td></tr>
 <tr height="22" id="rate13"><td class="smCtr" id="score13">50</td><td class="smCtr" id="weeks13">44</td></tr>
 <tr height="22" id="btwn13" style="display:none"><td class="smCtr" id="bScore13"></td><td class="smCtr" id="bWeeks13"></td></tr>
-</table>
-<p></p></td>
-</tr>
-<tr>
-<td valign="top">
-<span style="FONT-SIZE: 0.12in; FONT-FAMILY: Arial, Helvetica, sans-serif">
-<b>MATURIDADE FÍSICA  </b></span><br/>
-<table border="1" cellpadding="1" cellspacing="0">
-<tr>
-<td class="small" rowspan="2" valign="center" width="15.8%"> </td>
-<td align="middle" class="small" colspan="7">ESCORE</td>
-<td align="middle" class="small" rowspan="2" valign="center" width="10.5%">
-        RESULTADO</td>
-</tr>
-<tr bgcolor="#99ccff">
-<td class="smCtr" width="10.5%">-1</td>
-<td class="smCtr" width="10.5%">0</td>
-<td class="smCtr" width="10.5%">1</td>
-<td class="smCtr" width="10.5%">2</td>
-<td class="smCtr" width="10.5%">3</td>
-<td class="smCtr" width="10.5%">4</td>
-<td class="smCtr" width="10.5%">5</td>
-</tr>
-<tr>
-<td bgcolor="#99ccff" class="small" width="15.8%">TEXTURA DA PELE</td>
-<td class="smCtr" id="skinneg1" width="10.5%">
-        úmida, friável, transparente</td>
-<td class="smCtr" id="skin0" width="10.5%">
-        vermelha, gelatinosa, translúcida</td>
-<td class="smCtr" id="skin1" width="10.5%">
-        lisa, rosada, veias visíveis</td>
-<td class="smCtr" id="skin2" width="10.5%">
-        descamação superficial e/ou rash, poucas veias</td>
-<td class="smCtr" id="skin3" width="10.5%">
-        sulcos em áreas limitadas, raras veias</td>
-<td class="smCtr" id="skin4" width="10.5%">
-        apergaminhada, sulcos profundos ausência de vasos</td>
-<td class="smCtr" id="skin5" width="10.5%">
-        grossa com fissuras, enrugada</td>
-<td class="score" width="10.5%">
-<div id="skinNum">
- </div>
-</td>
-</tr>
-<tr>
-<td bgcolor="#99ccff" class="small" height="44" width="15.8%">LANUGO</td>
-<td class="smCtr" id="lanugoneg1" width="10.5%">
-        ausente</td>
-<td class="smCtr" id="lanugo0" width="10.5%">
-        esparso</td>
-<td class="smCtr" id="lanugo1" width="10.5%">
-        abundante</td>
-<td class="smCtr" id="lanugo2" width="10.5%">
-        fino</td>
-<td class="smCtr" id="lanugo3" width="10.5%">
-        poucas áreas sem pelo</td>
-<td class="smCtr" id="lanugo4" width="10.5%">
-        muitas áreas sem pelo</td>
-<td class="smCtr" width="10.5%"> </td>
-<td class="score" width="10.5%">
-<div id="lanugoNum">
- </div>
-</td>
-</tr>
-<tr>
-<td bgcolor="#99ccff" class="small" width="15.8%">SUPERFÍCIE PLANTAR</td>
-<td class="smCtr" id="plantarneg1" width="10.5%">
-        calcanhar-dedo<br/>
-<a href="javascript:void(0)" style="COLOR: blue">
-        40-50 mm: -1</a><br/>
-  
-        <a href="javascript:void(0)" style="COLOR: blue">
-        &lt;40 mm: -2</a> </td>
-<td class="smCtr" id="plantar0" width="10.5%">
-        &gt;50 mm<br/>
-        nenhuma prega</td>
-<td class="smCtr" id="plantar1" width="10.5%">
-        marcas vermelhas discretas</td>
-<td class="smCtr" id="plantar2" width="10.5%">
-        pregas transversais somente no 1/3 anterior</td>
-<td class="smCtr" id="plantar3" width="10.5%">
-        pregas nos 2/3 anteriores</td>
-<td class="smCtr" id="plantar4" width="10.5%">
-        pregas sobre toda superfície plantar</td>
-<td class="smCtr" width="10.5%"> </td>
-<td class="score" width="10.5%">
-<div id="plantarNum">
- </div>
-</td>
-</tr>
-<tr>
-<td bgcolor="#99ccff" class="small" height="44" width="15.8%">ARÉOLAS 
-        MAMÁRIAS</td>
-<td class="smCtr" id="breastneg1" width="10.5%">
-        imperceptíveis</td>
-<td class="smCtr" id="breast0" width="10.5%">
-        rudimentar, pouco perceptível</td>
-<td class="smCtr" id="breast1" width="10.5%">
-        aréola plana<br/>
-        sem botão</td>
-<td class="smCtr" id="breast2" width="10.5%">
-        aréola pigmentada botão de<br/>
-        1-2 mm</td>
-<td class="smCtr" id="breast3" width="10.5%">
-        bordas elevadas<br/>
-  botão de   3-4 mm</td>
-<td class="smCtr" id="breast4" width="10.5%">
-        aréola completa<br/>
-     botão de      5-10 mm</td>
-<td class="smCtr" width="10.5%"> </td>
-<td class="score" width="10.5%">
-<div id="breastNum">
- </div>
-</td>
-</tr>
-<tr>
-<td bgcolor="#99ccff" class="small" width="15.8%">OLHOS / ORELHAS</td>
-<td class="smCtr" id="eyeneg1" width="10.5%">
-        fenda palpebral fechada<br/>
-<a href="javascript:void(0)" style="COLOR: blue">
-        frouxa:-1</a><br/>
-<a href="javascript:void(0)" style="COLOR: blue">
-        firme:-2</a> </td>
-<td class="smCtr" id="eye0" width="10.5%">
-        fenda  palpebral  aberta, <br/>
-        pavilhão auricular não encurvado, permanece dobrado</td>
-<td class="smCtr" id="eye1" width="10.5%">
-        pavilhão auricular ligeiramente curvo, amolecido, desdobra-se   
-        lentamente</td>
-<td class="smCtr" id="eye2" width="10.5%">
-        pavilhão auricular bem curvo, amolecido, desdobra-se rapidamente</td>
-<td class="smCtr" id="eye3" width="10.5%">
-        pavilhão auricular completamente curvo e firme, desdobra-se facilmente</td>
-<td class="smCtr" id="eye4" width="10.5%">
-        cartilagem espessa, orelhas rígidas</td>
-<td class="smCtr" width="10.5%"> </td>
-<td class="score" width="10.5%">
-<div id="eyeNum">
- </div>
-</td>
-</tr>
-<tr>
-<td bgcolor="#99ccff" class="small" width="15.8%">ÓRGÃOS GENITAIS<br/>
-        (Masculinos)</td>
-<td class="smCtr" id="maleneg1" width="10.5%">
-        bolsa escrotal vazia, plana e lisa</td>
-<td class="smCtr" id="male0" width="10.5%">
-        bolsa escrotal vazia,<br/>
-        raras rugas</td>
-<td class="smCtr" id="male1" width="10.5%">
-        testículos no canal inguinal superior,  raras rugas</td>
-<td class="smCtr" id="male2" width="10.5%">
-        testículos no canal inguinal inferior, poucas rugas</td>
-<td class="smCtr" id="male3" width="10.5%">
-        testículos na bolsa escrotal, muitas rugas</td>
-<td class="smCtr" id="male4" width="10.5%">
-        testículos pendulares, rugas profundas</td>
-<td class="smCtr" width="10.5%"> </td>
-<td class="score" width="10.5%">
-<div id="maleNum">
- </div>
-</td>
-</tr>
-<tr>
-<td bgcolor="#99ccff" class="small" width="15.8%">ÓRGÃOS GENITAIS<br/>
-        (Femininos)</td>
-<td class="smCtr" id="femaleneg1" width="10.5%">
-        clitóris proeminente e lábios planos</td>
-<td class="smCtr" id="female0" width="10.5%">
-        clitóris proeminente, pequenos lábios de tamanho reduzido</td>
-<td class="smCtr" id="female1" width="10.5%">
-        clitóris proeminente, pequenos lábios bem delineados</td>
-<td class="smCtr" id="female2" width="10.5%">
-        grandes e pequenos lábios do mesmo tamanho, proeminentes</td>
-<td class="smCtr" id="female3" width="10.5%">
-        grandes lábios maiores que pequenos lábios</td>
-<td class="smCtr" id="female4" width="10.5%">
-        grandes lábios cobrindo clitóris e pequenos lábios</td>
-<td class="smCtr" width="10.5%"> </td>
-<td class="score" width="10.5%">
-<div id="femaleNum">
- </div>
-</td>
-</tr>
-<tr>
-<td align="right" class="small" colspan="8" height="44">TOTAL DA 
-        PONTUAÇÃO DA<br/>
-        MATURIDADE FÍSICA  </td>
-<td class="score">
-<div id="pScore">
- </div>
-</td>
-</tr>
-</table>
-</td>
-</tr>
-</table>
-</div>
+</table></aside>
+</main>
+<div class="sr-only" id="ballardStatus" role="status" aria-live="polite" aria-atomic="true"></div>
 <div class="references"><span class="small"><b>Referência:</b><br/>
 Ballard JL, Khoury JC, Wedig K, <i>et al</i>: New Ballard Score, expanded to 
 include extremely premature<br/>
@@ -1148,13 +1054,7 @@ infants. <i>J Pediatrics</i> 1991; 119:417-423.<br/>
 </span></div>
 <br>
 
-<div class="app-reset-static" aria-label="Controles da calculadora">
-  <div class="app-header-row actions-center">
-    <div class="actions">
-      <button class="clean-btn" id="resetBtn" type="button">Limpar seleção</button>
-    </div>
-  </div>
-</div>
+
 
 <details class="legal-disclaimer legal-disclaimer-collapsible">
       <summary>Aviso Legal e Isenção de Responsabilidade</summary>
@@ -1164,6 +1064,6 @@ infants. <i>J Pediatrics</i> 1991; 119:417-423.<br/>
     </details>
 <div class="signature-block"><strong>Desenvolvido por Adão L. L. Couto</strong><br><span class="version-name">1.10.09.13</span></div>
   <div class="spacer-lines"><br/><br/><br/></div>
-</div></div>
+</div>
 </body>
 </html>
