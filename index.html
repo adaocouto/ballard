@@ -1,6 +1,6 @@
 <!-- NomeDoApp = "Idade Gestacional pelo Ballard" -->
-<!-- AndroidVersionName = "1.012.10.16"; VersionName = "1.012.10.16" -->
-<!-- AndroidVersionCode = "262891034"; VersionCode = "262891034"; BuildTimestamp = "2026-10-16T10:34:16-03:00" -->
+<!-- AndroidVersionName = "1.012.10.20"; VersionName = "1.012.10.20" -->
+<!-- AndroidVersionCode = "262930013"; VersionCode = "262930013"; BuildTimestamp = "2026-10-20T00:13:23.830994-03:00" -->
 <!DOCTYPE html>
 
 <html lang="pt-BR">
@@ -316,6 +316,12 @@ button.clean-btn{min-width:44px;min-height:44px;font-size:1rem}
 @media(max-width:640px){.app-shell{padding:6px}.assessment-section{padding:4px}.reference-panel{padding:10px}.score-table td,.score-table th{font-size:clamp(10px,2.85vw,12px)}.score-table tbody th[scope="row"]{padding:3px 2px}.score-option{min-height:30px;padding:2px 1px}.negative-options{gap:2px;padding:1px 0}.negative-options .score-option{min-height:26px}.score-table .score{font-size:14px}.section-heading h2{font-size:1.05rem}.criterion-progress{font-size:.8rem}}
 @media(max-width:640px){.score-option,.negative-caption{font-size:clamp(8px,2.2vw,9.5px)}}
 
+
+/* Em janelas estreitas, preservar tamanho legível dos critérios com rolagem horizontal. */
+@media (max-width: 480px) {
+  .score-scroller { overflow-x: auto; overscroll-behavior-inline: contain; }
+  .score-table { min-width: 620px; }
+}
 </style>
 <script>
 (() => {
@@ -348,6 +354,74 @@ button.clean-btn{min-width:44px;min-height:44px;font-size:1rem}
       eye: -1
     }
   };
+
+
+  // Android WebView state recovery: store choices, never derived clinical values.
+  const APP_STATE_SCHEMA_VERSION = 1;
+  const APP_STATE_KEY = 'ballard.score-selections.v1';
+  function persistScoreSelections() {
+    try {
+      const selected = Object.fromEntries(
+        SCORING_GROUPS.filter(group => Number.isFinite(UI_STATE.selected[group]))
+          .map(group => [group, UI_STATE.selected[group]])
+      );
+      if (Object.keys(selected).length === 0) {
+        window.localStorage.removeItem(APP_STATE_KEY);
+        return;
+      }
+      window.localStorage.setItem(APP_STATE_KEY, JSON.stringify({
+        schemaVersion: APP_STATE_SCHEMA_VERSION,
+        selected,
+        scrollY: Math.max(0, Math.floor(window.scrollY))
+      }));
+    } catch (error) {
+      console.warn('Estado local indisponível; os cálculos permanecem funcionais.');
+    }
+  }
+  function discardSavedSelections() {
+    try { window.localStorage.removeItem(APP_STATE_KEY); } catch (error) { /* no persistent state */ }
+  }
+  function restoreScoreSelections() {
+    let snapshot;
+    try {
+      const raw = window.localStorage.getItem(APP_STATE_KEY);
+      if (!raw) return;
+      snapshot = JSON.parse(raw);
+    } catch (error) { return; }
+    if (!snapshot || snapshot.schemaVersion !== APP_STATE_SCHEMA_VERSION ||
+        !snapshot.selected || typeof snapshot.selected !== 'object' ||
+        Array.isArray(snapshot.selected)) return;
+    const selections = snapshot.selected;
+    let restored = 0;
+    SCORING_GROUPS.forEach((group) => {
+      if (!Object.prototype.hasOwnProperty.call(selections, group)) return;
+      const score = selections[group];
+      if (!Number.isFinite(score)) return;
+      const option = Array.from(document.querySelectorAll('button.score-option[data-group]'))
+        .find(candidate => candidate.dataset.group === group && Number(candidate.dataset.score) === score);
+      if (!option) return;
+      if (group === 'male' && Number.isFinite(selections.female)) return;
+      UI_STATE.selected[group] = score;
+      if (NEGATIVE_LINK_GROUPS.has(group) && score < 0) UI_STATE.negativeChoice[group] = score;
+      option.classList.add(SELECTED_CLASS);
+      option.setAttribute('aria-pressed', 'true');
+      const cell = option.closest('td.score-cell');
+      if (cell && !cell.classList.contains('negative-cell')) cell.classList.add(SELECTED_CLASS);
+      setRovingOption(option);
+      restored += 1;
+    });
+    if (restored) {
+      render({allowFlash: false, announce: false});
+      const y = snapshot.scrollY;
+      if (Number.isFinite(y) && y >= 0) {
+        window.requestAnimationFrame(() => window.scrollTo(0, Math.min(y, document.documentElement.scrollHeight)));
+      }
+    }
+  }
+  function storeScrollWithoutLosingScores() {
+    // Scroll is secondary; avoid creating a blank state after an explicit reset.
+    persistScoreSelections();
+  }
 
   // parsers
   function parseCellId(id) {
@@ -693,6 +767,7 @@ button.clean-btn{min-width:44px;min-height:44px;font-size:1rem}
     sourceOption.setAttribute('aria-pressed', 'true');
     setRovingOption(sourceOption);
     render();
+    persistScoreSelections();
     scrollToNextSelection(sourceOption.dataset.navGroup);
   }
 
@@ -750,7 +825,7 @@ button.clean-btn{min-width:44px;min-height:44px;font-size:1rem}
 
   function init() {
     bindScoreOptions();
-    DOM.resetButton()?.addEventListener('click', () => resetAll());
+    DOM.resetButton()?.addEventListener('click', () => { discardSavedSelections(); resetAll(); });
     updateSummaryHeight();
     if (typeof window.ResizeObserver === 'function') {
       const observer = new window.ResizeObserver(updateSummaryHeight);
@@ -759,6 +834,9 @@ button.clean-btn{min-width:44px;min-height:44px;font-size:1rem}
       window.addEventListener('resize', updateSummaryHeight);
     }
     resetAll({ initial: true });
+    restoreScoreSelections();
+    document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') storeScrollWithoutLosingScores(); });
+    window.addEventListener('pagehide', storeScrollWithoutLosingScores);
   }
 
   document.addEventListener('DOMContentLoaded', init);
@@ -1062,7 +1140,7 @@ infants. <i>J Pediatrics</i> 1991; 119:417-423.<br/>
         Este software e todas as informações nele contidas são fornecidos exclusivamente com propósitos educacionais e de auxílio à referência médica. ESTE SISTEMA NÃO SUBSTITUI O JULGAMENTO CLÍNICO INDIVIDUAL, A ANAMNESE E O EXAME FÍSICO. As informações aqui apresentadas não devem ser utilizadas isoladamente para o diagnóstico, conduta ou tratamento de pacientes. A responsabilidade final por qualquer decisão clínica, prescrição ou intervenção é exclusiva do profissional de saúde assistente, devidamente habilitado. Os desenvolvedores não garantem a precisão absoluta de todos os dados e isentam-se de responsabilidade por quaisquer danos diretos, indiretos, materiais ou morais que resultem do uso inadequado, interpretação equivocada ou confiança exclusiva nas informações deste sistema. Pacientes e indivíduos leigos que utilizarem este software devem sempre buscar a orientação de um médico qualificado antes de tomar qualquer decisão sobre sua saúde.
       </div>
     </details>
-<div class="signature-block"><strong>Desenvolvido por Adão L. L. Couto</strong><br><span class="version-name">1.012.10.16</span></div>
+<div class="signature-block"><strong>Desenvolvido por Adão L. L. Couto</strong><br><span class="version-name">1.012.10.20</span></div>
   <div class="spacer-lines"><br/><br/><br/></div>
 </div>
 </body>
