@@ -1,6 +1,6 @@
 <!-- NomeDoApp = "Idade Gestacional pelo Ballard" -->
-<!-- AndroidVersionName = "1.012.10.20"; VersionName = "1.012.10.20" -->
-<!-- AndroidVersionCode = "262930013"; VersionCode = "262930013"; BuildTimestamp = "2026-10-20T00:13:23.830994-03:00" -->
+<!-- AndroidVersionName = "1.014.11.01"; VersionName = "1.014.11.01" -->
+<!-- AndroidVersionCode = "262930016"; VersionCode = "262930016"; BuildTimestamp = "2026-10-29T14:53:00-03:00" -->
 <!DOCTYPE html>
 
 <html lang="pt-BR">
@@ -54,6 +54,9 @@ tr.is-active td{background:var(--azul-claro)!important}
 .score > div{display:flex;align-items:center;justify-content:center;min-height:1.35em}
 .note{margin:14px 0 0 0;font-size:.88rem;line-height:1.4;color:#44556d}
 .references{margin:14px 0 24px 0;background:#fff;border:1px solid #d8e2ef;border-radius:12px;padding:12px 14px;font-size:.9rem}
+.references h2{margin:0 0 10px;color:var(--primary-strong);font-size:1.15rem;line-height:1.3}
+.references ol{margin:0;padding-left:22px;line-height:1.5}
+.references li{padding:2px 0;overflow-wrap:anywhere}
 a{color:#1456a0;touch-action:manipulation}
 a:hover{color:#c62828}
 img{display:block;max-width:100%;height:auto;margin:0 auto}
@@ -263,7 +266,7 @@ img{display:block;max-width:100%;height:auto;margin:0 auto}
 
 /* Padronização da avaliação Ballard */
 :root{--criterion-width:16%;--results-height:180px}
-html,body{font-family:"Segoe UI",Roboto,Arial,sans-serif}
+html,body{font-family:Arial,Helvetica,sans-serif}
 html{scroll-padding-top:calc(var(--results-height) + 10px)}
 button{font:inherit}
 .app-header{max-width:1480px;margin:0 auto;padding-left:12px;padding-right:12px}
@@ -321,6 +324,153 @@ button.clean-btn{min-width:44px;min-height:44px;font-size:1rem}
 @media (max-width: 480px) {
   .score-scroller { overflow-x: auto; overscroll-behavior-inline: contain; }
   .score-table { min-width: 620px; }
+  .score-table tbody th[scope="row"] {
+    position: sticky;
+    left: 0;
+    z-index: 3;
+    background: #edf5ff;
+    box-shadow: 2px 0 0 #cddbea;
+  }
+  .score-table thead tr:first-child th:first-child {
+    position: sticky;
+    left: 0;
+    z-index: 4;
+    background: #dbeafe;
+    box-shadow: 2px 0 0 #cddbea;
+  }
+}
+
+/* Seleção persistente e foco de teclado são estados visualmente distintos. */
+.score-table td.score-cell.is-selected:not(.negative-cell) {
+  position: relative;
+  background: #bfdbfe !important;
+  box-shadow: inset 0 0 0 2px #2563eb;
+}
+.score-table td.score-cell.is-selected:not(.negative-cell)::after,
+.negative-options .score-option.is-selected::after {
+  content: '✓';
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #1d4ed8;
+  color: white;
+  font: 700 11px/14px Arial, sans-serif;
+  text-align: center;
+  pointer-events: none;
+  z-index: 1;
+}
+.negative-options .score-option.is-selected { position: relative; }
+.score-option:focus-visible {
+  outline: 3px dashed #92400e;
+  outline-offset: -3px;
+}
+
+/* Botão de limpeza e idioma no mesmo alinhamento, também em telas pequenas. */
+.header-actions{display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:nowrap}
+.header-actions .clean-btn{margin:0;white-space:nowrap;flex:0 0 auto}
+.language-control{display:flex;align-items:center;gap:6px;min-width:0;flex:0 0 auto}
+.language-control label{font-size:.92rem;font-weight:600;color:var(--texto);white-space:nowrap}
+.language-control select{min-height:44px;width:96px;min-width:0;border:1px solid #c8d5e6;border-radius:10px;background:#fff;color:var(--texto);padding:8px 6px;font:inherit;cursor:pointer}
+.language-control select:focus-visible{outline:3px solid #173b66;outline-offset:2px}
+@media(max-width:380px){.header-actions{gap:7px}.header-actions .clean-btn{padding:10px 9px;font-size:.93rem}.language-control{gap:4px}.language-control label{font-size:.85rem}.language-control select{width:91px;padding:8px 4px;font-size:.93rem}}
+
+/* Bibliographic citations follow the pre-existing expandable legal panel. */
+#ballardReferences .bibliographic-references{margin:0;padding-left:21px;line-height:1.6}
+#ballardReferences li{padding:4px 0;overflow-wrap:anywhere}
+#ballardReferences a{color:#1456a0;overflow-wrap:anywhere}
+
+/* Auditoria autorizada — layout clínico e acessibilidade */
+.section-top{margin-left:auto;border:1px solid #cbd5e1;border-radius:8px;background:white;color:#1a3a6b;padding:6px 10px;min-height:36px;cursor:pointer}
+:root{--azul:#2563a8;--fundo:#e8f0fe;--texto:#1e293b;--primary:#1a3a6b;--primary-strong:#1a3a6b;--border:#cbd5e1}
+.hero{background:linear-gradient(135deg,#f8fbff,#dbeafe)}
+.summary-card{background:#fff;border-color:#cbd5e1}
+.summary-card.clinical-primary{background:#FFF4CC}
+.summary-value{color:#1a3a6b}
+button.clean-btn{border-color:#CBD5E1;color:#1E293B;background:#F1F5F9}
+button.clean-btn:focus-visible{outline:3px solid #2563a8;outline-offset:2px}
+.recovery-notice,.result-status,.overall-progress,.clinical-guidance{max-width:1480px;margin:8px auto;padding:10px 14px;border-radius:10px;font-size:.9rem;line-height:1.5}
+.recovery-notice{background:#FDE68A;border:1px solid #B45309;color:#713F12;display:flex;align-items:flex-start;gap:7px;padding:8px 11px;font-size:.85rem;line-height:1.3}
+.recovery-notice .notice-icon{flex:0 0 17px;width:17px;height:17px;margin-top:1px}
+.recovery-notice .notice-content{min-width:0}
+.recovery-notice .notice-title{font-weight:700;line-height:1.25}
+.recovery-notice .notice-message{margin-top:2px;line-height:1.32}
+.recovery-notice .notice-message p{margin:0 0 2px}
+.recovery-notice .notice-message p:last-child{margin-bottom:0}
+.recovery-notice[hidden]{display:none}
+.result-status{background:#f8fafc;border:1px solid #cbd5e1;color:#475569}
+.result-status.complete{background:#eff6ff;color:#1a3a6b}
+.overall-progress{text-align:center;font-weight:700;color:#1a3a6b;padding:4px 12px}
+.clinical-guidance{background:#f8fafc;border:1px solid #cbd5e1}
+.clinical-guidance p{margin:5px 0 0}
+.return-top{display:flex;justify-content:flex-end;align-items:center;margin:12px 0 16px;padding-right:4px}
+.return-top .top-arrow{display:inline-flex;align-items:center;justify-content:center;width:46px;height:46px;min-width:46px;min-height:46px;padding:0;border:1px solid #2563a8;border-radius:12px;background:#fff;color:#1a3a6b;cursor:pointer;box-shadow:0 2px 5px rgba(26,58,107,.08)}
+.return-top .top-arrow svg{width:23px;height:23px;stroke:currentColor;stroke-width:2.5;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.return-top .top-arrow:focus-visible{outline:3px solid #2563a8;outline-offset:3px}
+.score-table tr.next-unfilled th[scope="row"]{box-shadow:inset 4px 0 0 #2563a8}
+@media(max-width:640px){.recovery-notice,.result-status,.overall-progress,.clinical-guidance{margin:7px 6px}}
+/* Padronização restrita: cabeçalho, cartões e controles */
+:root{--ballard-navy:#1A3A6B;--ballard-blue:#2563A8;--ballard-pale:#DBEAFE;--ballard-page:#E8F0FE;--ballard-border:#CBD5E1;--ballard-text:#1E293B}
+.hero h1{color:var(--ballard-navy)}
+.hero-title-line{display:flex;align-items:center;justify-content:center;gap:10px}
+.hero-title-line .hero-icon{width:31px;height:31px;flex:0 0 31px;color:var(--ballard-navy)}
+.hero p{text-align:center;margin-left:auto;margin-right:auto}
+.app-header .hero{border-color:var(--ballard-border)}
+.assessment-section,.reference-panel{border-color:var(--ballard-border)}
+.score-table tbody tr.next-unfilled th[scope="row"]{box-shadow:inset 4px 0 0 var(--ballard-blue)}
+.result-status:not(.complete){background:#F1F5F9}
+.result-status.complete{background:#DBEAFE}
+/* Escore parcial permanece distinguível do resultado final */
+.summary-card .summary-label [data-partial-group]{font-style:italic}
+.score-scroller{scrollbar-color:#94a3b8 #e2e8f0}
+.score-scroller:focus-within{border-color:#2563A8}
+@media(max-width:480px){.score-scroller{box-shadow:inset -8px 0 8px -9px #1A3A6B}.hero-title-line .hero-icon{width:25px;height:25px;flex-basis:25px}}
+@media(prefers-reduced-motion:reduce){.score > div,.summary-value,.reference-score{transition:none!important}}
+
+/* Setas exclusivas após o resultado e junto à assinatura. */
+.result-return-top{max-width:1480px;margin:8px auto 12px;padding:0 12px;justify-content:flex-end}
+.signature-with-arrow{position:relative;display:flex;align-items:center;justify-content:center;min-height:46px;padding:0 62px}
+.signature-with-arrow .signature-text{text-align:center}
+.signature-with-arrow .top-arrow{position:absolute;right:4px;top:50%;transform:translateY(-50%)}
+
+/* Auditoria 30/10/2026 — itens P1 P2 P3 P5 I2; preservar tabelas e cálculos. */
+.hero{padding:20px;background:linear-gradient(135deg,#f8fbff,#dbeafe);border:1px solid #CBD5E1;border-radius:22px;box-shadow:0 16px 34px rgba(18,44,73,.10);text-align:center}
+.hero h1{display:flex;flex-wrap:nowrap;justify-content:center;align-items:center;gap:8px;margin:0;color:#1A3A6B;font-size:clamp(1.35rem,3.5vw,2.05rem);font-weight:700;letter-spacing:-.5px;line-height:1.15;text-align:center}
+.hero-title-line .hero-icon{width:auto;height:auto;flex:0 0 auto;font-size:1em;line-height:1}
+.hero #appHeadingText{min-width:0;overflow-wrap:normal}
+.hero p{margin:4px 0 0;color:#61778f;font-size:.92rem;line-height:1.55;text-align:center}
+.header-actions{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap}
+.header-actions .clean-btn{min-height:44px;border:1.5px solid #CBD5E1;background:#EEF3F8;color:#264764}
+.language-control select{min-height:44px;width:110px;min-width:0;box-sizing:border-box;border:1.5px solid #CBD5E1;border-radius:10px;background-color:#EEF3F8;color:#264764;font:inherit;padding:8px 6px;color-scheme:light;cursor:pointer}
+.language-control select:focus-visible{outline:2px solid #2563A8;outline-offset:2px}
+.return-top .top-arrow{width:48px;min-width:48px;height:48px;min-height:48px;padding:0;border:1px solid #CBD5E1;background:#EEF3F8;color:#1A3A6B;box-shadow:none}
+.return-top .top-arrow svg{width:22px;height:22px;stroke-width:2.5}
+.result-return-top{margin-top:-4px;margin-bottom:-4px}
+.signature-with-arrow{min-height:48px;margin-top:0;padding:0 54px}
+.signature-with-arrow .top-arrow{right:0}
+.signature-with-arrow .signature-text{width:100%;text-align:center;color:#64748B;font-size:14px;line-height:1.5}
+/* I2: selected score remains blue even when focused; focus does not whiten it. */
+.score-table td.score-cell.is-selected:not(.negative-cell),
+.score-table td.score-cell.is-selected:not(.negative-cell):focus-within{background:#BFDBFE!important}
+.negative-options .score-option.is-selected,
+.negative-options .score-option.is-selected:focus{background:#DBEAFE}
+@media(max-width:640px){.hero h1{font-size:clamp(1.3rem,5.5vw,1.6rem)}}
+@media(max-width:370px){.header-actions{gap:7px}.header-actions .clean-btn{font-size:.86rem;padding:9px}.language-control{gap:4px}.language-control label{font-size:.84rem}.language-control select{width:104px;font-size:.86rem;padding:8px 4px}}
+
+/* Ajuste autorizado: espaçamento do rodapé, sem faixa vazia artificial. */
+#ballardReferences{margin-top:12px}
+#ballardReferences + .legal-disclaimer{margin-top:12px}
+.signature-with-arrow{margin-top:12px;margin-bottom:0}
+body{padding-bottom:max(16px,env(safe-area-inset-bottom))}
+/* P1: seletor legível e responsivo, sem códigos visíveis. */
+.language-control select{width:auto;min-width:112px;max-width:100%;padding:8px 9px;background-color:#fff;font-weight:400}
+@media(max-width:370px){.language-control select{width:auto;min-width:112px;padding:8px 6px;font-size:.86rem}}
+/* I1: indicação discreta de rolagem horizontal apenas quando a tabela é rolável. */
+@media(max-width:480px){
+  .score-scroller::before{content:"← Deslize a tabela para os lados →";display:block;position:sticky;left:0;width:max-content;max-width:100%;padding:5px 9px;margin:0 0 4px;background:#eff6ff;color:#1A3A6B;border-radius:5px;font-size:12px;font-weight:600;z-index:5}
+  html[lang="en-US"] .score-scroller::before{content:"← Swipe table sideways →"}
 }
 </style>
 <script>
@@ -372,7 +522,7 @@ button.clean-btn{min-width:44px;min-height:44px;font-size:1rem}
       window.localStorage.setItem(APP_STATE_KEY, JSON.stringify({
         schemaVersion: APP_STATE_SCHEMA_VERSION,
         selected,
-        scrollY: Math.max(0, Math.floor(window.scrollY))
+        // Saved selections do not retain scroll position
       }));
     } catch (error) {
       console.warn('Estado local indisponível; os cálculos permanecem funcionais.');
@@ -412,10 +562,7 @@ button.clean-btn{min-width:44px;min-height:44px;font-size:1rem}
     });
     if (restored) {
       render({allowFlash: false, announce: false});
-      const y = snapshot.scrollY;
-      if (Number.isFinite(y) && y >= 0) {
-        window.requestAnimationFrame(() => window.scrollTo(0, Math.min(y, document.documentElement.scrollHeight)));
-      }
+      updateRecoveryNotice(true);
     }
   }
   function storeScrollWithoutLosingScores() {
@@ -471,11 +618,12 @@ button.clean-btn{min-width:44px;min-height:44px;font-size:1rem}
       return null;
     }
 
-    const completedWeeks = Math.floor(weeks + 1e-9);
-    const proportionalDays = Math.min(
-      6,
-      Math.floor((((weeks - completedWeeks) + 1e-9) * 7))
-    );
+    // Arredondar os dias para o inteiro mais próximo, sem truncar a fração.
+    // Se o arredondamento completar 7 dias, incorporar uma semana inteira.
+    const wholeWeeks = Math.floor(weeks);
+    const roundedDays = Math.round((weeks - wholeWeeks) * 7);
+    const completedWeeks = wholeWeeks + Math.floor(roundedDays / 7);
+    const proportionalDays = roundedDays % 7;
 
     return {
       exactWeeks: weeks,
@@ -557,6 +705,10 @@ button.clean-btn{min-width:44px;min-height:44px;font-size:1rem}
     weeksFromTotalScore
   });
 
+  // Language applies only to presentation; the scoring model is unchanged.
+  let CURRENT_LANGUAGE = 'pt-BR';
+  const isEnglish = () => CURRENT_LANGUAGE === 'en-US';
+
   // formatters
   function formatWeeksExact(totalScore) {
     const weeks = weeksFromTotalScore(totalScore);
@@ -564,10 +716,18 @@ button.clean-btn{min-width:44px;min-height:44px;font-size:1rem}
       return EMPTY;
     }
 
-    return weeks.toLocaleString('pt-BR', {
+    return weeks.toLocaleString(isEnglish() ? 'en-US' : 'pt-BR', {
       minimumFractionDigits: 1,
       maximumFractionDigits: 1
     });
+  }
+
+  function formatWeeksAndDays(parts) {
+    const days = parts.proportionalDays;
+    if (isEnglish()) {
+      return `${parts.completedWeeks} weeks and ${days} ${days === 1 ? 'day' : 'days'}`;
+    }
+    return `${parts.completedWeeks} semanas e ${days} ${days === 1 ? 'dia' : 'dias'}`;
   }
 
   function formatWeeksDetailed(totalScore) {
@@ -576,12 +736,13 @@ button.clean-btn{min-width:44px;min-height:44px;font-size:1rem}
       return EMPTY;
     }
 
-    const exactWeeksLabel = parts.exactWeeks.toLocaleString('pt-BR', {
+    const exactWeeksLabel = parts.exactWeeks.toLocaleString(isEnglish() ? 'en-US' : 'pt-BR', {
       minimumFractionDigits: 1,
       maximumFractionDigits: 1
     });
 
-    return `${exactWeeksLabel} semanas<br><span class="summary-subvalue">${parts.completedWeeks} semanas e ${parts.proportionalDays} dias</span>`;
+    const weeksUnit = isEnglish() ? 'weeks' : 'semanas';
+    return `${exactWeeksLabel} ${weeksUnit}<br><span class="summary-subvalue">${formatWeeksAndDays(parts)}</span>`;
   }
 
   // Interface: seleção, navegação e apresentação dos resultados.
@@ -639,31 +800,55 @@ button.clean-btn{min-width:44px;min-height:44px;font-size:1rem}
     });
   }
 
-  function focusOption(option) {
+  // Controlled vertical animation for progression between Ballard criteria.
+  // Horizontal score-table positions are never changed by this helper.
+  let verticalScrollAnimation = null;
+  function scrollVerticallySlowly(destination) {
+    const root = document.scrollingElement || document.documentElement;
+    const reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (verticalScrollAnimation !== null) {
+      window.cancelAnimationFrame(verticalScrollAnimation);
+      verticalScrollAnimation = null;
+    }
+    const start = root.scrollTop;
+    const maxScroll = Math.max(0, root.scrollHeight - root.clientHeight);
+    const end = Math.max(0, Math.min(maxScroll, destination));
+    if (reducedMotion || Math.abs(end - start) < 2) {
+      root.scrollTop = end;
+      return;
+    }
+    const duration = 850;
+    let started = null;
+    function frame(now) {
+      if (started === null) started = now;
+      const t = Math.min(1, (now - started) / duration);
+      const eased = t * t * (3 - 2 * t);
+      root.scrollTop = start + (end - start) * eased;
+      if (t < 1) verticalScrollAnimation = window.requestAnimationFrame(frame);
+      else verticalScrollAnimation = null;
+    }
+    verticalScrollAnimation = window.requestAnimationFrame(frame);
+  }
+
+  function focusOption(option, { preserveHorizontalScroll = false } = {}) {
     if (!option) return;
     setRovingOption(option);
     option.focus({ preventScroll: true });
-    option.scrollIntoView({ block: 'nearest', inline: 'nearest' });
-  }
-
-  function scrollToNextSelection(currentGroup) {
-    const currentIndex = NAVIGATION_GROUPS.indexOf(currentGroup);
-    if (currentIndex < 0) return;
-    const orderedGroups = NAVIGATION_GROUPS.slice(currentIndex + 1)
-      .concat(NAVIGATION_GROUPS.slice(0, currentIndex + 1));
-    const nextGroup = orderedGroups.find((group) => group === 'genital'
-      ? !isFiniteScore(UI_STATE.selected.male) && !isFiniteScore(UI_STATE.selected.female)
-      : !isFiniteScore(UI_STATE.selected[group]));
-    if (!nextGroup) return;
-    const row = getOptions(nextGroup)[0]?.closest('tr');
-    if (!row) return;
-    updateSummaryHeight();
-    const bounds = row.getBoundingClientRect();
-    const visibleTop = Math.max(0, getElement('resultsSummary').getBoundingClientRect().bottom);
-    const visibleCenter = (visibleTop + window.innerHeight) / 2;
-    const isForward = NAVIGATION_GROUPS.indexOf(nextGroup) > currentIndex;
-    if (isForward && bounds.top >= visibleTop && bounds.top + bounds.height / 2 <= visibleCenter) return;
-    row.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+    const rect = option.getBoundingClientRect();
+    const sticky = getElement('resultsSummary')?.getBoundingClientRect().height || 0;
+    const available = Math.max(120, window.innerHeight - sticky);
+    const targetY = sticky + Math.min(available * 0.32, 200);
+    if (rect.top < sticky + 8 || rect.bottom > window.innerHeight - 8 || Math.abs(rect.top - targetY) > available * 0.35) {
+      scrollVerticallySlowly((document.scrollingElement || document.documentElement).scrollTop + rect.top - targetY);
+    }
+    const scroller = option.closest('.score-scroller');
+    if (!preserveHorizontalScroll && scroller && scroller.scrollWidth > scroller.clientWidth) {
+      const cellRect = option.getBoundingClientRect();
+      const scrollRect = scroller.getBoundingClientRect();
+      if (cellRect.left < scrollRect.left + 65 || cellRect.right > scrollRect.right - 8) {
+        scroller.scrollLeft += cellRect.left - scrollRect.left - Math.max(65,(scroller.clientWidth-cellRect.width)/3);
+      }
+    }
   }
 
   function clearGroupHighlights(group) {
@@ -706,11 +891,13 @@ button.clean-btn{min-width:44px;min-height:44px;font-size:1rem}
     const neu = NEUROMUSCULAR_GROUPS.filter((group) => isFiniteScore(scores[group])).length;
     const phy = PHYSICAL_GROUPS.filter((group) => isFiniteScore(scores[group])).length
       + (getSelectedSexScore(scores) == null ? 0 : 1);
-    setText('neuProgress', `${neu} de 6 critérios`);
-    setText('phyProgress', `${phy} de 6 critérios`);
+    const progressLabel = (count) => isEnglish() ? `${count} of 6 criteria` : `${count} de 6 critérios`;
+    setText('neuProgress', progressLabel(neu));
+    setText('phyProgress', progressLabel(phy));
+    setText('overallProgress', isEnglish() ? `${neu + phy} of 12 criteria completed` : `${neu + phy} de 12 critérios preenchidos`);
     [['neu', neu], ['phy', phy]].forEach(([group, count]) => {
       document.querySelectorAll(`[data-partial-group="${group}"]`).forEach((label) => {
-        const text = count > 0 && count < 6 ? ' (parcial)' : '';
+        const text = count > 0 && count < 6 ? (isEnglish() ? ' (partial)' : ' (parcial)') : '';
         if (label.textContent !== text) label.textContent = text;
       });
     });
@@ -718,14 +905,22 @@ button.clean-btn{min-width:44px;min-height:44px;font-size:1rem}
   }
 
   function announceResults(neu, phy, total, counts, shouldAnnounce) {
-    const scoreLabel = (value) => value == null ? 'sem resultado' : String(value);
+    const scoreLabel = (value) => value == null ? (isEnglish() ? 'unavailable' : 'sem resultado') : String(value);
     const parts = splitWeeksAndDays(total);
-    const messages = [
-      ['neu', `Neuromuscular: ${scoreLabel(neu)}; ${counts.neu} de 6 critérios`],
-      ['phy', `Física: ${scoreLabel(phy)}; ${counts.phy} de 6 critérios`],
+    const progressLabel = (count) => isEnglish() ? `${count} of 6 criteria` : `${count} de 6 critérios`;
+    const messages = isEnglish() ? [
+      ['neu', `Neuromuscular: ${scoreLabel(neu)}; ${progressLabel(counts.neu)}`],
+      ['phy', `Physical: ${scoreLabel(phy)}; ${progressLabel(counts.phy)}`],
       ['total', `Total: ${scoreLabel(total)}`],
       ['weeks', parts
-        ? `IG estimada: ${formatWeeksExact(total)} semanas; ${parts.completedWeeks} semanas e ${parts.proportionalDays} dias`
+        ? `Estimated GA: ${formatWeeksExact(total)} weeks; ${formatWeeksAndDays(parts)}`
+        : 'Estimated GA: unavailable']
+    ] : [
+      ['neu', `Neuromuscular: ${scoreLabel(neu)}; ${progressLabel(counts.neu)}`],
+      ['phy', `Física: ${scoreLabel(phy)}; ${progressLabel(counts.phy)}`],
+      ['total', `Total: ${scoreLabel(total)}`],
+      ['weeks', parts
+        ? `IG estimada: ${formatWeeksExact(total)} semanas; ${formatWeeksAndDays(parts)}`
         : 'IG estimada: sem resultado']
     ];
     const changed = [];
@@ -747,9 +942,55 @@ button.clean-btn{min-width:44px;min-height:44px;font-size:1rem}
       .forEach(([id, value]) => setComputedOutput(id, value, allowFlash));
     setComputedOutput('topWeeks', total == null ? null : formatWeeksDetailed(total), allowFlash, true);
     const counts = updateProgress(scores);
+    updateResultStatus(counts, total);
     highlightIndexRow(total, allowFlash);
     announceResults(neu, phy, total, counts, announce);
   }
+
+  let recoveredSession = false;
+  function updateRecoveryNotice(recovered) {
+    if (recovered) recoveredSession = true;
+    const notice = getElement('recoveryNotice');
+    if (!notice) return;
+    const scores = getCurrentScores();
+    const count = NEUROMUSCULAR_GROUPS.filter(g => isFiniteScore(scores[g])).length + PHYSICAL_GROUPS.filter(g => isFiniteScore(scores[g])).length + (getSelectedSexScore(scores) == null ? 0 : 1);
+    if (!count) { recoveredSession = false; notice.hidden = true; return; }
+    if (!recoveredSession) { notice.hidden = true; return; }
+    const complete = count === 12;
+    const title = isEnglish() ? (complete ? 'Previous results' : 'Recovered data') : (complete ? 'Resultados anteriores' : 'Dados recuperados');
+    const sentences = isEnglish()
+      ? (complete ? ['Previous data and results were recovered.', 'Confirm the information before using the results.'] : ['Data from the previous session were recovered.', 'Check the information before continuing.'])
+      : (complete ? ['Dados e resultados anteriores foram recuperados.', 'Confirme as informações antes de utilizar os resultados.'] : ['Dados da sessão anterior recuperados.', 'Confira as informações antes de continuar.']);
+    notice.replaceChildren();
+    const icon = document.createElementNS('http://www.w3.org/2000/svg','svg');
+    icon.setAttribute('class','notice-icon'); icon.setAttribute('viewBox','0 0 24 24');
+    icon.setAttribute('fill','none'); icon.setAttribute('stroke','currentColor');
+    icon.setAttribute('stroke-width','2'); icon.setAttribute('aria-hidden','true');
+    const circle = document.createElementNS('http://www.w3.org/2000/svg','circle');
+    circle.setAttribute('cx','12');circle.setAttribute('cy','12');circle.setAttribute('r','10');
+    const line = document.createElementNS('http://www.w3.org/2000/svg','path');
+    line.setAttribute('d','M12 11v5m0-8h.01');
+    icon.append(circle,line);
+    const content = document.createElement('div'); content.className = 'notice-content';
+    const heading = document.createElement('div'); heading.className = 'notice-title'; heading.textContent = title;
+    const message = document.createElement('div'); message.className = 'notice-message';
+    sentences.forEach(sentence => { const paragraph = document.createElement('p'); paragraph.textContent = sentence; message.append(paragraph); });
+    content.append(heading,message); notice.append(icon,content);
+    notice.hidden = false;
+  }
+  function updateResultStatus(counts, total) {
+    const label = getElement('resultCompleteness');
+    if (!label) return;
+    const complete = counts.neu === 6 && counts.phy === 6;
+    label.textContent = isEnglish() ? (complete ? 'Complete assessment: 12 of 12 criteria. Estimated gestational age available.' : `Incomplete assessment: ${counts.neu + counts.phy} of 12 criteria. Partial scores are not a gestational age estimate.`) : (complete ? 'Avaliação completa: 12 de 12 critérios. Idade gestacional estimada disponível.' : `Avaliação incompleta: ${counts.neu + counts.phy} de 12 critérios. Escores parciais não representam estimativa da idade gestacional.`);
+    label.classList.toggle('complete', complete);
+  }
+  function highlightNextUnfilled() {
+    document.querySelectorAll('.score-table tbody tr.next-unfilled').forEach(row => row.classList.remove('next-unfilled'));
+    const next = NAVIGATION_GROUPS.find(group => group === 'genital' ? getSelectedSexScore(UI_STATE.selected) == null : !isFiniteScore(UI_STATE.selected[group]));
+    getOptions(next || '')[0]?.closest('tr')?.classList.add('next-unfilled');
+  }
+  function goToTop() { scrollVerticallySlowly(0); }
 
   function selectGroupScore(group, score, sourceOption) {
     if (!isScoringGroup(group) || !isFiniteScore(score)) return;
@@ -768,7 +1009,34 @@ button.clean-btn{min-width:44px;min-height:44px;font-size:1rem}
     setRovingOption(sourceOption);
     render();
     persistScoreSelections();
-    scrollToNextSelection(sourceOption.dataset.navGroup);
+    highlightNextUnfilled();
+    updateRecoveryNotice(false);
+    // Advance to the first unanswered criterion, including across assessment
+    // sections. Keep each table's horizontal scroll position unchanged.
+    const nextGroup = NAVIGATION_GROUPS.find(nav => nav === 'genital'
+      ? getSelectedSexScore(UI_STATE.selected) == null
+      : !isFiniteScore(UI_STATE.selected[nav]));
+    if (nextGroup) {
+      const nextRow = getOptions(nextGroup)[0]?.closest('tr');
+      if (nextRow) {
+        // Defer until the selected state and sticky summary have settled.
+        // Scroll the document vertically, never the score table horizontally.
+        const scrollers = Array.from(document.querySelectorAll('.score-scroller'));
+        const horizontalPositions = scrollers.map(el => el.scrollLeft);
+        window.requestAnimationFrame(() => {
+          const summary = getElement('resultsSummary');
+          const stickyHeight = summary ? summary.getBoundingClientRect().height : 0;
+          const usableHeight = Math.max(0, window.innerHeight - stickyHeight);
+          const targetTop = stickyHeight + usableHeight * 0.27;
+          const currentTop = nextRow.getBoundingClientRect().top;
+          const scrollElement = document.scrollingElement || document.documentElement;
+          const maxScroll = Math.max(0, scrollElement.scrollHeight - scrollElement.clientHeight);
+          const destination = Math.min(maxScroll, Math.max(0, scrollElement.scrollTop + currentTop - targetTop));
+          scrollVerticallySlowly(destination);
+          scrollers.forEach((el, index) => { el.scrollLeft = horizontalPositions[index]; });
+        });
+      }
+    }
   }
 
   function bindScoreOptions() {
@@ -815,7 +1083,9 @@ button.clean-btn{min-width:44px;min-height:44px;font-size:1rem}
       if (first) setRovingOption(first);
     });
     render({ allowFlash: false, announce: !initial });
-    focusOption(getElement('option-posture0'));
+    if (!initial) { focusOption(getElement('option-posture0')); window.scrollTo(0,0); }
+    updateRecoveryNotice(false);
+    highlightNextUnfilled();
   }
 
   function updateSummaryHeight() {
@@ -823,9 +1093,355 @@ button.clean-btn{min-width:44px;min-height:44px;font-size:1rem}
     if (summary) document.documentElement.style.setProperty('--results-height', `${Math.ceil(summary.getBoundingClientRect().height)}px`);
   }
 
+
+  // Portuguese is the authoritative source text; English is a presentation layer.
+  const EN_STATIC = [
+  [
+    "title",
+    [
+      "Gestational Age Estimation Using the New Ballard Score"
+    ]
+  ],
+  [
+    "#sectionHero h1",
+    [
+      "Gestational Age Estimation Using the New Ballard Score"
+    ]
+  ],
+  [
+    "#sectionHero p",
+    [
+      "Tap an image or description to select the score for each criterion."
+    ]
+  ],
+  [
+    "#resetBtn",
+    [
+      "Clear data"
+    ]
+  ],
+  [
+    ".summary-card .summary-label",
+    [
+      "Neuromuscular",
+      "Physical",
+      "Total",
+      "Estimated GA"
+    ]
+  ],
+  [
+    "#neuTitle",
+    [
+      "Neuromuscular maturity"
+    ]
+  ],
+  [
+    "#phyTitle",
+    [
+      "Physical maturity"
+    ]
+  ],
+  [
+    ".score-table thead tr:first-child th",
+    [
+      "Criterion",
+      "Score",
+      "Result",
+      "Criterion",
+      "Score",
+      "Result"
+    ]
+  ],
+  [
+    ".score-table tbody th[scope=\"row\"]",
+    [
+      "Posture",
+      "Square window (wrist)",
+      "Arm recoil",
+      "Popliteal angle",
+      "Scarf sign",
+      "Heel-to-ear maneuver",
+      "Skin texture",
+      "Lanugo",
+      "Plantar surface",
+      "Breast",
+      "Eyes / ears",
+      "Male genitalia",
+      "Female genitalia"
+    ]
+  ],
+  [
+    ".score-table .score-total-label",
+    [
+      "Neuromuscular score",
+      "Physical score"
+    ]
+  ],
+  [
+    ".negative-caption",
+    [
+      "Heel-to-toe length",
+      "Closed palpebral fissure"
+    ]
+  ],
+  [
+    "#referenceTitle",
+    [
+      "Scores"
+    ]
+  ],
+  [
+    "#indexTitle",
+    [
+      "Maturity index"
+    ]
+  ],
+  [
+    "#referencePanel table:first-of-type td[align=\"right\"]",
+    [
+      "Neuromuscular",
+      "Physical",
+      "Total:"
+    ]
+  ],
+  [
+    ".reference-table th",
+    [
+      "Score",
+      "Weeks"
+    ]
+  ],
+  [
+    ".legal-disclaimer > summary",
+    [
+      "References",
+      "Legal Notice and Disclaimer"
+    ]
+  ],
+  [
+    ".signature-block strong",
+    [
+      "Developed by Adão L. L. Couto"
+    ]
+  ]
+];
+  const EN_SCORE_DESCRIPTIONS = {
+  "posture": {
+    "0": "Arms and legs extended",
+    "1": "Arms extended to the sides and legs extended",
+    "2": "Arms extended to the sides and legs partially flexed",
+    "3": "Arms and legs flexed",
+    "4": "Arms and legs markedly flexed"
+  },
+  "square": {
+    "-1": "Wrist flexion angle greater than 90 degrees",
+    "0": "Wrist flexion angle of 90 degrees",
+    "1": "Wrist flexion angle of 60 degrees",
+    "2": "Wrist flexion angle of 45 degrees",
+    "3": "Wrist flexion angle of 30 degrees",
+    "4": "Wrist flexion angle of 0 degrees"
+  },
+  "arm": {
+    "0": "Arm recoil angle of 180 degrees",
+    "1": "Arm recoil angle of 140 to 180 degrees",
+    "2": "Arm recoil angle of 110 to 140 degrees",
+    "3": "Arm recoil angle of 90 to 110 degrees",
+    "4": "Arm recoil angle less than 90 degrees"
+  },
+  "pop": {
+    "-1": "Popliteal angle of 180 degrees with leg extension",
+    "0": "Popliteal angle of 160 degrees with leg extension",
+    "1": "Popliteal angle of 140 degrees with leg extension",
+    "2": "Popliteal angle of 120 degrees with leg extension",
+    "3": "Popliteal angle of 100 degrees with leg extension",
+    "4": "Popliteal angle of 90 degrees with leg extension",
+    "5": "Popliteal angle less than 90 degrees with leg extension"
+  },
+  "scarf": {
+    "-1": "Arm position across the chest in the illustrated maneuver",
+    "0": "Arm position across the chest in the illustrated maneuver",
+    "1": "Arm position across the chest in the illustrated maneuver",
+    "2": "Arm position across the chest in the illustrated maneuver",
+    "3": "Arm position across the chest in the illustrated maneuver",
+    "4": "Arm position across the chest in the illustrated maneuver"
+  },
+  "heel": {
+    "-1": "Foot position relative to the head in the illustrated heel-to-ear maneuver",
+    "0": "Foot position relative to the head in the illustrated heel-to-ear maneuver",
+    "1": "Foot position relative to the head in the illustrated heel-to-ear maneuver",
+    "2": "Foot position relative to the head in the illustrated heel-to-ear maneuver",
+    "3": "Foot position relative to the head in the illustrated heel-to-ear maneuver",
+    "4": "Foot position relative to the head in the illustrated heel-to-ear maneuver"
+  },
+  "skin": {
+    "-1": "Moist, friable, transparent",
+    "0": "Red, gelatinous, translucent",
+    "1": "Smooth, pink, visible veins",
+    "2": "Superficial peeling and/or rash, few veins",
+    "3": "Grooves in limited areas, few veins",
+    "4": "Parchment-like, deep grooves, no visible vessels",
+    "5": "Thick with fissures, wrinkled"
+  },
+  "lanugo": {
+    "-1": "Absent",
+    "0": "Sparse",
+    "1": "Abundant",
+    "2": "Fine",
+    "3": "Few hairless areas",
+    "4": "Many hairless areas"
+  },
+  "plantar": {
+    "-2": "<40 mm: -2",
+    "-1": "40–50 mm: -1",
+    "0": ">50 mm, no creases",
+    "1": "Faint red marks",
+    "2": "Transverse creases over anterior one-third only",
+    "3": "Creases over anterior two-thirds",
+    "4": "Creases over the entire plantar surface"
+  },
+  "breast": {
+    "-1": "Imperceptible",
+    "0": "Rudimentary, barely perceptible",
+    "1": "Flat areola, no breast bud",
+    "2": "Pigmented areola, 1–2 mm breast bud",
+    "3": "Raised areolar edges, 3–4 mm breast bud",
+    "4": "Fully developed areola, 5–10 mm breast bud"
+  },
+  "eye": {
+    "-2": "Firm: -2",
+    "-1": "Loose: -1",
+    "0": "Open palpebral fissure; flat pinna remains folded",
+    "1": "Slightly curved, soft pinna; unfolds slowly",
+    "2": "Well-curved, soft pinna; unfolds rapidly",
+    "3": "Fully curved, firm pinna; unfolds easily",
+    "4": "Thick cartilage, stiff ears"
+  },
+  "male": {
+    "-1": "Empty scrotum, flat and smooth",
+    "0": "Empty scrotum, few rugae",
+    "1": "Testes in upper inguinal canal, few rugae",
+    "2": "Testes in lower inguinal canal, few rugae",
+    "3": "Testes in scrotum, many rugae",
+    "4": "Pendulous testes, deep rugae"
+  },
+  "female": {
+    "-1": "Prominent clitoris and flat labia",
+    "0": "Prominent clitoris, small labia minora",
+    "1": "Prominent clitoris, well-defined labia minora",
+    "2": "Labia majora and minora of equal size, prominent",
+    "3": "Labia majora larger than labia minora",
+    "4": "Labia majora cover clitoris and labia minora"
+  }
+};
+  const EN_SCORE_GROUPS = {
+  "posture": "Posture",
+  "square": "Square window (wrist)",
+  "arm": "Arm recoil",
+  "pop": "Popliteal angle",
+  "scarf": "Scarf sign",
+  "heel": "Heel-to-ear maneuver",
+  "skin": "Skin texture",
+  "lanugo": "Lanugo",
+  "plantar": "Plantar surface",
+  "breast": "Breast",
+  "eye": "Eyes / ears",
+  "male": "Male genitalia",
+  "female": "Female genitalia"
+};
+  const EN_LEGAL_NOTICE = "This software and all information it contains are provided solely for educational purposes and as an aid to medical reference. THIS SYSTEM DOES NOT REPLACE INDIVIDUAL CLINICAL JUDGMENT, MEDICAL HISTORY TAKING, OR PHYSICAL EXAMINATION. The information presented here must not be used in isolation for patient diagnosis, management, or treatment. Final responsibility for any clinical decision, prescription, or intervention rests exclusively with the appropriately licensed healthcare professional providing care. The developers do not guarantee the absolute accuracy of all data and disclaim liability for any direct, indirect, material, or non-material harm resulting from improper use, misinterpretation, or exclusive reliance on the information in this system. Patients and non-professional users of this software should always seek advice from a qualified physician before making any decision about their health.";
+  const ORIGINAL_STATIC_TEXT = new WeakMap();
+  const ORIGINAL_SCORE_HTML = new WeakMap();
+  const ORIGINAL_SCORE_ARIA = new WeakMap();
+  const ORIGINAL_IMAGE_ALT = new WeakMap();
+  let originalLegalNoticeHTML = null;
+  const LANGUAGE_PREFERENCE_KEY = 'ballard.language.v1';
+
+  function localizeStaticText() {
+    EN_STATIC.forEach(([selector, englishValues]) => {
+      const elements = document.querySelectorAll(selector);
+      elements.forEach((element, index) => {
+        // Replace only the first text node. Preserve nested live values and spans.
+        let original = ORIGINAL_STATIC_TEXT.get(element);
+        if (!original) {
+          const node = Array.from(element.childNodes).find(child => child.nodeType === 3);
+          if (!node) return;
+          original = { node, text: node.nodeValue };
+          ORIGINAL_STATIC_TEXT.set(element, original);
+        }
+        original.node.nodeValue = isEnglish() ? englishValues[index] : original.text;
+      });
+    });
+
+    // Localize bibliographic labels while preserving authors, journal, DOI and URLs.
+    document.querySelectorAll('#ballardReferences [data-ref-pt][data-ref-en]').forEach(element => {
+      element.textContent = isEnglish() ? element.dataset.refEn : element.dataset.refPt;
+    });
+
+    const summary = getElement('resultsSummary');
+    summary.setAttribute('aria-label', isEnglish() ? 'Results summary' : 'Resumo dos resultados');
+    const languageLabel = getElement('languageLabel');
+    languageLabel.textContent = isEnglish() ? 'Language' : 'Idioma';
+    const select = getElement('languageSelect');
+    select.setAttribute('aria-label', isEnglish() ? 'Select language' : 'Selecionar idioma');
+    document.documentElement.lang = isEnglish() ? 'en-US' : 'pt-BR';
+
+    const legal = document.querySelectorAll('.legal-disclaimer-content')[1];
+    document.querySelectorAll('[data-i18n-pt][data-i18n-en]').forEach(el => { el.textContent = isEnglish() ? el.dataset.i18nEn : el.dataset.i18nPt; });
+    if (originalLegalNoticeHTML === null) originalLegalNoticeHTML = legal.innerHTML;
+    legal.innerHTML = isEnglish() ? EN_LEGAL_NOTICE : originalLegalNoticeHTML;
+  }
+
+  function localizeScoreOptions() {
+    document.querySelectorAll('button.score-option').forEach(option => {
+      const group = option.dataset.group;
+      const score = option.dataset.score;
+      const english = EN_SCORE_DESCRIPTIONS[group][score];
+      const translatedAria = `${EN_SCORE_GROUPS[group]}. Score ${score}. ${group === 'eye' && Number(score) < 0 ? 'Closed palpebral fissure. ' : ''}${group === 'plantar' && Number(score) < 0 ? 'Heel-to-toe length. ' : ''}${english}.`;
+      if (!ORIGINAL_SCORE_ARIA.has(option)) ORIGINAL_SCORE_ARIA.set(option, option.getAttribute('aria-label'));
+      option.setAttribute('aria-label', isEnglish() ? translatedAria : ORIGINAL_SCORE_ARIA.get(option));
+
+      const image = option.querySelector('img');
+      if (image) {
+        if (!ORIGINAL_IMAGE_ALT.has(image)) ORIGINAL_IMAGE_ALT.set(image, image.getAttribute('alt'));
+        image.alt = isEnglish()
+          ? `${EN_SCORE_GROUPS[group]}, score ${score}. ${english}.`
+          : ORIGINAL_IMAGE_ALT.get(image);
+      } else {
+        if (!ORIGINAL_SCORE_HTML.has(option)) ORIGINAL_SCORE_HTML.set(option, option.innerHTML);
+        if (isEnglish()) option.textContent = english;
+        else option.innerHTML = ORIGINAL_SCORE_HTML.get(option);
+      }
+    });
+  }
+
+  function setLanguage(nextLanguage, { persist = true } = {}) {
+    CURRENT_LANGUAGE = (nextLanguage === 'en-US' || nextLanguage === 'en') ? 'en-US' : 'pt-BR';
+    getElement('languageSelect').value = CURRENT_LANGUAGE;
+    localizeStaticText();
+    localizeScoreOptions();
+    document.querySelectorAll('[data-top-label-pt]').forEach(button => { const label = isEnglish() ? button.dataset.topLabelEn : button.dataset.topLabelPt; button.setAttribute('aria-label', label); button.title = label; });
+    STATUS_VALUES.clear();
+    render({ allowFlash: false, announce: true });
+    updateRecoveryNotice(false);
+    updateSummaryHeight();
+    if (persist) {
+      try { window.localStorage.setItem(LANGUAGE_PREFERENCE_KEY, CURRENT_LANGUAGE); }
+      catch (error) { /* The language selector still works without local storage. */ }
+    }
+  }
+
+  function initializeLanguageSelector() {
+    let saved = 'pt-BR';
+    try { saved = window.localStorage.getItem(LANGUAGE_PREFERENCE_KEY) || 'pt-BR'; }
+    catch (error) { /* Default to Portuguese. */ }
+    setLanguage(saved, { persist: false });
+    getElement('languageSelect').addEventListener('change', event => setLanguage(event.target.value));
+  }
+
   function init() {
     bindScoreOptions();
-    DOM.resetButton()?.addEventListener('click', () => { discardSavedSelections(); resetAll(); });
+    const handleReset = () => { discardSavedSelections(); recoveredSession = false; resetAll(); };
+    DOM.resetButton()?.addEventListener('click', handleReset);
     updateSummaryHeight();
     if (typeof window.ResizeObserver === 'function') {
       const observer = new window.ResizeObserver(updateSummaryHeight);
@@ -835,6 +1451,11 @@ button.clean-btn{min-width:44px;min-height:44px;font-size:1rem}
     }
     resetAll({ initial: true });
     restoreScoreSelections();
+    initializeLanguageSelector();
+    highlightNextUnfilled();
+    document.querySelectorAll('[data-go-top]').forEach(button => button.addEventListener('click', goToTop));
+    window.history.scrollRestoration = 'manual';
+    window.requestAnimationFrame(() => window.scrollTo(0, 0));
     document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') storeScrollWithoutLosingScores(); });
     window.addEventListener('pagehide', storeScrollWithoutLosingScores);
   }
@@ -848,13 +1469,14 @@ button.clean-btn{min-width:44px;min-height:44px;font-size:1rem}
 <header class="app-header">
 <div class="espaco-antes-caixa-titulo" aria-hidden="true"></div>
 <section class="hero" id="sectionHero">
-      <h1>Estimativa de idade gestacional pelo método New Ballard</h1>
+      <div class="hero-title-line"><h1><span class="hero-icon" aria-hidden="true">🍼</span><span id="appHeadingText">Estimativa de idade gestacional pelo método New Ballard</span></h1></div>
       <p>Toque nas imagens ou descrições para selecionar cada escore.</p>
     </section>
 
-<div class="header-actions"><button class="clean-btn" id="resetBtn" type="button">Limpar dados</button></div>
+<div class="header-actions"><button class="clean-btn" id="resetBtn" type="button">Limpar dados</button><div class="language-control"><label for="languageSelect" id="languageLabel">Idioma</label><select id="languageSelect" aria-label="Selecionar idioma"><option value="pt-BR">Português</option><option value="en-US">English</option></select></div></div>
 </header>
 
+<div id="recoveryNotice" class="recovery-notice" role="status" hidden></div>
 <div id="resultsSummary" class="app-results-sticky" aria-label="Resumo dos resultados">
   <div class="app-results-sticky-inner">
 <div class="app-header-row">
@@ -862,18 +1484,20 @@ button.clean-btn{min-width:44px;min-height:44px;font-size:1rem}
 <div class="summary-card"><span class="summary-label">Neuromuscular<span id="topNeuPartial" data-partial-group="neu"></span></span><span class="summary-value" id="topNeu">—</span></div>
 <div class="summary-card"><span class="summary-label">Física<span id="topPhyPartial" data-partial-group="phy"></span></span><span class="summary-value" id="topPhy">—</span></div>
 <div class="summary-card"><span class="summary-label">Total</span><span class="summary-value" id="topTot">—</span></div>
-<div class="summary-card"><span class="summary-label">IG estimada</span><span class="summary-value" id="topWeeks">—</span></div>
+<div class="summary-card clinical-primary"><span class="summary-label">IG estimada</span><span class="summary-value" id="topWeeks">—</span></div>
 </div>
 </div>
   </div>
 </div>
+<div class="result-status" id="resultCompleteness" aria-live="polite"></div>
+<div class="overall-progress" id="overallProgress" aria-live="polite"></div>
 
 <div class="app-shell">
 <main class="ballard-layout">
 <div class="assessment-stack">
 <section class="assessment-section" aria-labelledby="neuTitle">
-<div class="section-heading"><h2 id="neuTitle">Maturidade neuromuscular</h2><span class="criterion-progress" id="neuProgress">0 de 6 critérios</span></div>
-<div class="score-scroller"><table class="score-table" aria-labelledby="neuTitle"><colgroup><col class="criterion-column"/><col class="score-column"/><col class="score-column"/><col class="score-column"/><col class="score-column"/><col class="score-column"/><col class="score-column"/><col class="score-column"/><col class="result-column"/></colgroup><thead><tr><th scope="col" rowspan="2" class="criterion-heading">Cri­té­rio</th><th scope="colgroup" colspan="7">Es­co­re</th><th scope="col" rowspan="2">Re­sul­ta­do</th></tr><tr><th scope="col">-1</th><th scope="col">0</th><th scope="col">1</th><th scope="col">2</th><th scope="col">3</th><th scope="col">4</th><th scope="col">5</th></tr></thead><tbody><tr>
+<div class="section-heading"><h2 id="neuTitle">Maturidade neuromuscular</h2><span class="criterion-progress" id="neuProgress">0 de 6 critérios</span><button class="section-top" data-go-top type="button" data-i18n-pt="↑ Início" data-i18n-en="↑ Top">↑ Início</button></div>
+<div class="score-scroller" tabindex="0" role="region" aria-label="Tabela de pontuação com rolagem horizontal"><table class="score-table" aria-labelledby="neuTitle"><colgroup><col class="criterion-column"/><col class="score-column"/><col class="score-column"/><col class="score-column"/><col class="score-column"/><col class="score-column"/><col class="score-column"/><col class="score-column"/><col class="result-column"/></colgroup><thead><tr><th scope="col" rowspan="2" class="criterion-heading">Cri­té­rio</th><th scope="colgroup" colspan="7">Es­co­re</th><th scope="col" rowspan="2">Re­sul­ta­do</th></tr><tr><th scope="col">-1</th><th scope="col">0</th><th scope="col">1</th><th scope="col">2</th><th scope="col">3</th><th scope="col">4</th><th scope="col">5</th></tr></thead><tbody><tr>
 <th scope="row" id="criterion-posture">Pos­tu­ra</th>
 <td> </td>
 <td id="posture0" class="score-cell"><button type="button" class="score-option" id="option-posture0" data-group="posture" data-score="0" data-nav-group="posture" tabindex="-1" aria-pressed="false" aria-label="Postura. Pontuação 0. Braços e pernas estendidos."><img alt="Postura, pontuação 0. Braços e pernas estendidos." height="45" src="data:image/gif;base64,R0lGODlhQgAtAKIFAP///3l5eZubmwAAALe3t////wAAAAAAACH5BAEAAAUALAAAAABCAC0AAAP/WLrc/jDKSau9OOvNu/9gKI5kaZ5oqq6sCLwtCAjDAMQcQARDQNw4zKsWgAUXLyBEVxMojy8e8YdkTpOvH9bo4SJr2uFAIJDWzuazGv3MAAaExrsoJ4DD23yeRuj7/wJ9gYEEZHwONG0LiR52a4+QPHFyNhFvkx0BTnpbBUmeDzsTb4pClSBkDJ9fpRekIT6qpwqvHbUfqapPtxu8trMPZa0WoiG+ssMVbzZ/zc5+pceePHmucwHY2draZdrAi9/LkdiG5eVSyaPfnjSEMz1YaWTb9D7pFH1LM2RUcu/2R2wtK3Iv4BJHdAxqiNKjn0IhOwo+nEixosWLGDNq3MixBqPHjx8SAAA7"/></button></td>
@@ -959,8 +1583,8 @@ button.clean-btn{min-width:44px;min-height:44px;font-size:1rem}
 </td>
 </tr></tfoot></table></div></section>
 <section class="assessment-section" aria-labelledby="phyTitle">
-<div class="section-heading"><h2 id="phyTitle">Maturidade física</h2><span class="criterion-progress" id="phyProgress">0 de 6 critérios</span></div>
-<div class="score-scroller"><table class="score-table" aria-labelledby="phyTitle"><colgroup><col class="criterion-column"/><col class="score-column"/><col class="score-column"/><col class="score-column"/><col class="score-column"/><col class="score-column"/><col class="score-column"/><col class="score-column"/><col class="result-column"/></colgroup><thead><tr><th scope="col" rowspan="2" class="criterion-heading">Cri­té­rio</th><th scope="colgroup" colspan="7">Es­co­re</th><th scope="col" rowspan="2">Re­sul­ta­do</th></tr><tr><th scope="col">-1</th><th scope="col">0</th><th scope="col">1</th><th scope="col">2</th><th scope="col">3</th><th scope="col">4</th><th scope="col">5</th></tr></thead><tbody><tr>
+<div class="section-heading"><h2 id="phyTitle">Maturidade física</h2><span class="criterion-progress" id="phyProgress">0 de 6 critérios</span><button class="section-top" data-go-top type="button" data-i18n-pt="↑ Início" data-i18n-en="↑ Top">↑ Início</button></div>
+<div class="score-scroller" tabindex="0" role="region" aria-label="Tabela de pontuação com rolagem horizontal"><table class="score-table" aria-labelledby="phyTitle"><colgroup><col class="criterion-column"/><col class="score-column"/><col class="score-column"/><col class="score-column"/><col class="score-column"/><col class="score-column"/><col class="score-column"/><col class="score-column"/><col class="result-column"/></colgroup><thead><tr><th scope="col" rowspan="2" class="criterion-heading">Cri­té­rio</th><th scope="colgroup" colspan="7">Es­co­re</th><th scope="col" rowspan="2">Re­sul­ta­do</th></tr><tr><th scope="col">-1</th><th scope="col">0</th><th scope="col">1</th><th scope="col">2</th><th scope="col">3</th><th scope="col">4</th><th scope="col">5</th></tr></thead><tbody><tr>
 <th scope="row" id="criterion-skin">Tex­tu­ra da pe­le</th>
 <td id="skinneg1" class="score-cell"><button type="button" class="score-option" id="option-skinneg1" data-group="skin" data-score="-1" data-nav-group="skin" tabindex="-1" aria-pressed="false" aria-label="Textura da pele. Pontuação -1. úmida, friável, transparente">úmi­da, fri­á­vel, trans­pa­ren­te</button></td>
 <td id="skin0" class="score-cell"><button type="button" class="score-option" id="option-skin0" data-group="skin" data-score="0" data-nav-group="skin" tabindex="-1" aria-pressed="false" aria-label="Textura da pele. Pontuação 0. vermelha, gelatinosa, translúcida">ver­me­lha, ge­la­ti­no­sa, trans­lú­ci­da</button></td>
@@ -1124,15 +1748,27 @@ button.clean-btn{min-width:44px;min-height:44px;font-size:1rem}
 <tr height="22" id="btwn13" style="display:none"><td class="smCtr" id="bScore13"></td><td class="smCtr" id="bWeeks13"></td></tr>
 </table></aside>
 </main>
+<div class="return-top result-return-top"><button class="top-arrow" data-go-top type="button" aria-label="Voltar ao início" title="Voltar ao início" data-top-label-pt="Voltar ao início" data-top-label-en="Back to top"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button></div>
 <div class="sr-only" id="ballardStatus" role="status" aria-live="polite" aria-atomic="true"></div>
-<div class="references"><span class="small"><b>Referência:</b><br/>
-Ballard JL, Khoury JC, Wedig K, <i>et al</i>: New Ballard Score, expanded to 
-include extremely premature<br/>
-infants. <i>J Pediatrics</i> 1991; 119:417-423.<br/>
-</span></div>
-<br>
-
-
+<div class="clinical-guidance" id="clinicalGuidance"><strong data-i18n-pt="Orientação clínica" data-i18n-en="Clinical guidance">Orientação clínica</strong><p data-i18n-pt="O New Ballard é uma estimativa clínica complementar, não substitui a datação obstétrica confiável. Em recém-nascidos com menos de 26 semanas, prefira avaliação nas primeiras 12 horas; a acurácia diminui após o primeiro dia. Interprete com cautela em situações que alteram o tônus ou a avaliação física. Os valores decimais exibidos são aproximações matemáticas e não indicam precisão clínica de décimos de semana." data-i18n-en="The New Ballard is a complementary clinical estimate and does not replace reliable obstetric dating. For infants below 26 weeks, assessment within the first 12 hours is preferred; accuracy decreases after the first day. Interpret cautiously when muscle tone or physical assessment is affected. Displayed decimal values are mathematical approximations, not clinical precision to tenths of a week.">O New Ballard é uma estimativa clínica complementar, não substitui a datação obstétrica confiável. Em recém-nascidos com menos de 26 semanas, prefira avaliação nas primeiras 12 horas; a acurácia diminui após o primeiro dia. Interprete com cautela em situações que alteram o tônus ou a avaliação física. Os valores decimais exibidos são aproximações matemáticas e não indicam precisão clínica de décimos de semana.</p></div>
+<details class="legal-disclaimer legal-disclaimer-collapsible" id="ballardReferences">
+  <summary>Referências</summary>
+  <div class="legal-disclaimer-content">
+    <ol class="bibliographic-references">
+      <li>BALLARD, Jeanne L. et al. New Ballard Score, expanded to include extremely premature infants. <em>The Journal of Pediatrics</em>, v. 119, n. 3, p. 417–423, set. 1991. DOI: <a href="https://doi.org/10.1016/S0022-3476(05)82056-6" target="_blank" rel="noopener noreferrer">10.1016/S0022-3476(05)82056-6</a>. <span data-ref-pt="Disponível em:" data-ref-en="Available at:">Disponível em:</span> <a href="https://pubmed.ncbi.nlm.nih.gov/1880657/" target="_blank" rel="noopener noreferrer">https://pubmed.ncbi.nlm.nih.gov/1880657/</a>. <span data-ref-pt="Acesso em: 28 out. 2026." data-ref-en="Accessed on: October 28, 2026.">Acesso em: 28 out. 2026.</span></li>
+      <li>BALLARD SCORE. <em>Score Sheet</em>. [S. l.]: Ballard Score, [s. d.]. <span data-ref-pt="Disponível em:" data-ref-en="Available at:">Disponível em:</span> <a href="https://www.ballardscore.com/ScoreSheet/ScoreSheet" target="_blank" rel="noopener noreferrer">https://www.ballardscore.com/ScoreSheet/ScoreSheet</a>. <span data-ref-pt="Acesso em: 28 out. 2026." data-ref-en="Accessed on: October 28, 2026.">Acesso em: 28 out. 2026.</span></li>
+      <li>BALLARD SCORE. <em>Frequently Asked Questions</em>. [S. l.]: Ballard Score, [s. d.]. <span data-ref-pt="Disponível em:" data-ref-en="Available at:">Disponível em:</span> <a href="https://www.ballardscore.com/CatalogView/FAQ" target="_blank" rel="noopener noreferrer">https://www.ballardscore.com/CatalogView/FAQ</a>. <span data-ref-pt="Acesso em: 28 out. 2026." data-ref-en="Accessed on: October 28, 2026.">Acesso em: 28 out. 2026.</span></li>
+      <li>BALLARD SCORE. <em>Ballard Score Training: Neuromuscular Maturity</em>. [S. l.]: Ballard Score, [s. d.]. <span data-ref-pt="Disponível em:" data-ref-en="Available at:">Disponível em:</span> <a href="https://www.ballardscore.com/CatalogView/Category/neuromuscular-maturity" target="_blank" rel="noopener noreferrer">https://www.ballardscore.com/CatalogView/Category/neuromuscular-maturity</a>. <span data-ref-pt="Acesso em: 28 out. 2026." data-ref-en="Accessed on: October 28, 2026.">Acesso em: 28 out. 2026.</span></li>
+      <li>BALLARD SCORE. <em>Ballard Score Training: Physical Maturity</em>. [S. l.]: Ballard Score, [s. d.]. <span data-ref-pt="Disponível em:" data-ref-en="Available at:">Disponível em:</span> <a href="https://www.ballardscore.com/CatalogView/Category/physical-maturity" target="_blank" rel="noopener noreferrer">https://www.ballardscore.com/CatalogView/Category/physical-maturity</a>. <span data-ref-pt="Acesso em: 28 out. 2026." data-ref-en="Accessed on: October 28, 2026.">Acesso em: 28 out. 2026.</span></li>
+      <li>BALLARD SCORE. <em>Ballard Score Training: 1. Skin</em>. [S. l.]: Ballard Score, [s. d.]. <span data-ref-pt="Disponível em:" data-ref-en="Available at:">Disponível em:</span> <a href="https://www.ballardscore.com/CatalogView/Article/physical-maturity/1-skin" target="_blank" rel="noopener noreferrer">https://www.ballardscore.com/CatalogView/Article/physical-maturity/1-skin</a>. <span data-ref-pt="Acesso em: 28 out. 2026." data-ref-en="Accessed on: October 28, 2026.">Acesso em: 28 out. 2026.</span></li>
+      <li>BALLARD SCORE. <em>Ballard Score Training: 2. Lanugo</em>. [S. l.]: Ballard Score, [s. d.]. <span data-ref-pt="Disponível em:" data-ref-en="Available at:">Disponível em:</span> <a href="https://www.ballardscore.com/CatalogView/Article/physical-maturity/2-lanugo" target="_blank" rel="noopener noreferrer">https://www.ballardscore.com/CatalogView/Article/physical-maturity/2-lanugo</a>. <span data-ref-pt="Acesso em: 28 out. 2026." data-ref-en="Accessed on: October 28, 2026.">Acesso em: 28 out. 2026.</span></li>
+      <li>BALLARD SCORE. <em>Ballard Score Training: 4. Breast</em>. [S. l.]: Ballard Score, [s. d.]. <span data-ref-pt="Disponível em:" data-ref-en="Available at:">Disponível em:</span> <a href="https://www.ballardscore.com/CatalogView/Article/physical-maturity/4-breast" target="_blank" rel="noopener noreferrer">https://www.ballardscore.com/CatalogView/Article/physical-maturity/4-breast</a>. <span data-ref-pt="Acesso em: 28 out. 2026." data-ref-en="Accessed on: October 28, 2026.">Acesso em: 28 out. 2026.</span></li>
+      <li>BALLARD SCORE. <em>Ballard Score Training: 5. Eye/Ear</em>. [S. l.]: Ballard Score, [s. d.]. <span data-ref-pt="Disponível em:" data-ref-en="Available at:">Disponível em:</span> <a href="https://www.ballardscore.com/CatalogView/Article/physical-maturity/5-eye-ear" target="_blank" rel="noopener noreferrer">https://www.ballardscore.com/CatalogView/Article/physical-maturity/5-eye-ear</a>. <span data-ref-pt="Acesso em: 28 out. 2026." data-ref-en="Accessed on: October 28, 2026.">Acesso em: 28 out. 2026.</span></li>
+      <li>BALLARD, J. L.; NOVAK, K. K.; DRIVER, M. A simplified score for assessment of fetal maturation of newly born infants. <em>J Pediatr.</em> 1979;95(5 Pt 1):769–774. DOI: <a href="https://doi.org/10.1016/S0022-3476(79)80734-9" target="_blank" rel="noopener noreferrer">10.1016/S0022-3476(79)80734-9</a>.</li>
+      <li>MORAES, C. L.; REICHENHEIM, M. E. Validade da avaliação clínica neonatal para estimativa da idade gestacional: comparação do New Ballard com data da última menstruação e ultrassonografia. <em>Cad Saúde Pública.</em> 2000;16(1):83–94. DOI: <a href="https://doi.org/10.1590/S0102-311X2000000100009" target="_blank" rel="noopener noreferrer">10.1590/S0102-311X2000000100009</a>.</li>
+    </ol>
+  </div>
+</details>
 
 <details class="legal-disclaimer legal-disclaimer-collapsible">
       <summary>Aviso Legal e Isenção de Responsabilidade</summary>
@@ -1140,8 +1776,7 @@ infants. <i>J Pediatrics</i> 1991; 119:417-423.<br/>
         Este software e todas as informações nele contidas são fornecidos exclusivamente com propósitos educacionais e de auxílio à referência médica. ESTE SISTEMA NÃO SUBSTITUI O JULGAMENTO CLÍNICO INDIVIDUAL, A ANAMNESE E O EXAME FÍSICO. As informações aqui apresentadas não devem ser utilizadas isoladamente para o diagnóstico, conduta ou tratamento de pacientes. A responsabilidade final por qualquer decisão clínica, prescrição ou intervenção é exclusiva do profissional de saúde assistente, devidamente habilitado. Os desenvolvedores não garantem a precisão absoluta de todos os dados e isentam-se de responsabilidade por quaisquer danos diretos, indiretos, materiais ou morais que resultem do uso inadequado, interpretação equivocada ou confiança exclusiva nas informações deste sistema. Pacientes e indivíduos leigos que utilizarem este software devem sempre buscar a orientação de um médico qualificado antes de tomar qualquer decisão sobre sua saúde.
       </div>
     </details>
-<div class="signature-block"><strong>Desenvolvido por Adão L. L. Couto</strong><br><span class="version-name">1.012.10.20</span></div>
-  <div class="spacer-lines"><br/><br/><br/></div>
+<div class="signature-block signature-with-arrow return-top"><div class="signature-text"><strong>Desenvolvido por Adão L. L. Couto</strong><br><span class="version-name">1.014.11.01</span></div><button class="top-arrow" data-go-top type="button" aria-label="Voltar ao início" title="Voltar ao início" data-top-label-pt="Voltar ao início" data-top-label-en="Back to top"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button></div>
 </div>
 </body>
 </html>
